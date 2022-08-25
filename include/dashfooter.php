@@ -11,50 +11,7 @@
         <!-- END PRELOADER -->
 
         <!-- ARCHIVES JS -->
-        <script src="js/jquery-3.5.1.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#allstate').change(function () {
-                    var stateid = document.getElementById('allstate').value;
-                    var test = "states_id=" + stateid;
-
-                    $('#citi').load('getcity.php', test);
-                });
-
-                if ($('#allstate').val()) {
-                    var city = $('div[city_info]').attr('city_info');
-                    var test = "states_id=" + $('#allstate').val()+"&city="+city;
-
-                    $('#citi').load('getcity.php', test);
-                }
-
-                $('#allstate').change(function () {
-                    var pick = $('#allsate').val();
-                    var data = "put=" + pick;
-                    $.ajax({
-                        url: 'getcity.php',
-                        data: data,
-                        type: 'post',
-                        dataType: 'json',
-                        success: function (msg) {
-                            setTimeout(function () {
-                                $('#chose').html(msg.message);
-                                // $('#btn').html('Register');
-
-                            }, 10);
-
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        },
-                    })
-                })
-
-                $('#btn').click(function () {
-                    // $('#note').html('<h2>Button Selected</h2>');
-                })
-            })
-        </script>
+        <script src="js/jquery-3.5.1.min.js"></script>        
         <script src="js/popper.min.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/tether.min.js"></script>
@@ -63,6 +20,7 @@
         <script src="js/mmenu.min.js"></script>
         <script src="js/mmenu.js"></script>
         <script src="js/swiper.min.js"></script>
+        <script src="js/main.js"></script>
         <script src="js/swiper.js"></script>
         <script src="js/slick.min.js"></script>
         <script src="js/slick2.js"></script>
@@ -88,17 +46,6 @@
 
         <!-- MAIN JS -->
         <script src="js/script.js"></script>
-        <script>
-            $(".dropzone").dropzone({
-                dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Click here or drop files to upload",
-            });
-        </script>
-        <script>
-            $(".header-user-name").on("click", function () {
-                $(".header-user-menu ul").toggleClass("hu-menu-vis");
-                $(this).toggleClass("hu-menu-visdec");
-            });
-        </script>
 
     </div>
     <!-- Wrapper / End -->

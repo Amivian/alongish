@@ -70,7 +70,7 @@ else{
                             <div class="col-md-12">
                                 <p>
                                     <label for="title">Property Title</label>
-                                    <input type="text" name="title" id="title" required
+                                    <input type="text" name="title" id="title" 
                                         value="<?php echo isset($property['property_title']) ? $property['property_title'] : ''; ?>">
                                 </p>
                             </div>
@@ -79,7 +79,7 @@ else{
                             <div class="col-md-12">
                                 <p>
                                     <label for="description">Property Description</label>
-                                    <textarea id="description" name="pro-desc"  required><?php echo isset($property['property_description']) ? $property['property_description'] : ''; ?></textarea>
+                                    <textarea id="description" name="pro-desc"  ><?php echo isset($property['property_description']) ? $property['property_description'] : ''; ?></textarea>
                                 </p>
                             </div>
                         </div>
@@ -103,7 +103,7 @@ else{
                             <div class="col-lg-4 col-md-4">
                                 <p>
                                     <label for="address">Address</label>
-                                    <input type="text" name="address" required
+                                    <input type="text" name="address" 
                                         value="<?php echo isset($property['property_address']) ? $property['property_address'] : ''; ?>">
                                 </p>
                             </div>
@@ -147,12 +147,14 @@ else{
                             </div>
                             <div class="col-lg-4 col-md-4 dropdown faq-drop">
                                 <div class="form-group categories">
-                                    <?php $prop->getPropertytype(); ?>
+                                <?php $propertytypeID = isset($property['ptype_id']) ? $property['ptype_id'] : 0; ?> 
+                                    <?php $prop->getPropertytype($propertytypeID ); ?>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
-                                    <?php $prop->getBedroom(); ?>
+                                <?php $bedroomID = isset($property['bedroom_id']) ? $property['bedroom_id'] : 0; ?> 
+                                    <?php $prop->getBedroom($bedroomID); ?>
 
                                 </div>
                             </div>
@@ -160,7 +162,8 @@ else{
                         <div class="row">
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
-                                    <?php $prop->getBathroom(); ?>
+                                <?php $bathroomID = isset($property['bathroom_id']) ? $property['bathroom_id'] : 0; ?> 
+                                    <?php $prop->getBathroom($bathroomID ); ?>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
@@ -177,7 +180,7 @@ else{
                                     <select name="service" id="" class="form-control wide">
                                         <option value="">-- Serviced --</option>
                                         <option value="Yes" <?php if (isset($property['serviced']) && strtolower($property['serviced']) == 'yes') echo 'selected'; ?>>Yes</option>
-                                        <option value="No" <?php if (isset($property['serviced']) && strtolower($property['serviced']) == 'yes') echo 'selected'; ?>>No</option>
+                                        <option value="No" <?php if (isset($property['serviced']) && strtolower($property['serviced']) == 'no') echo 'selected'; ?>>No</option>
                                     </select>
                                 </div>
                             </div>
@@ -186,155 +189,36 @@ else{
                                     <select name="share" id="" class="form-control wide">
                                         <option value="">-- Shared --</option>
                                         <option value="Yes" <?php if (isset($property['shared']) && strtolower($property['shared']) == 'yes') echo 'selected'; ?>>Yes</option>
-                                        <option value="No" <?php if (isset($property['shared']) && strtolower($property['shared']) == 'yes') echo 'selected'; ?>>No</option>
+                                        <option value="No" <?php if (isset($property['shared']) && strtolower($property['shared']) == 'no') echo 'selected'; ?>>No</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="row">
                             <div class="col-md-12">
-                                <ul class="pro-feature-add pl-0">
-
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-a" type="checkbox" name="extra[]"
-                                                    value="Air Condition">
-                                                <label for="check-a">Air Condition</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-b" type="checkbox" name="extra[]"
-                                                    value="Swimming Pool">
-                                                <label for="check-b">Swimming Pool</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-c" type="checkbox" name="extra[]"
-                                                    value="Central Heating">
-                                                <label for="check-c">Central Heating</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-d" type="checkbox" name="extra[]" value="Laundry Room">
-                                                <label for="check-d">Laundry Room</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-e" type="checkbox" name="extra[]" value="Gym">
-                                                <label for="check-e">Gym Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-f" type="checkbox" name="extra[]"
-                                                    value="Parking Space">
-                                                <label for="check-f">Parking Space</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-g" type="checkbox" name="extra[]"
-                                                    value="Gas / Fuel station Nearby">
-                                                <label for="check-g">Gas / Fuel station Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-h" type="checkbox" name="extra[]"
-                                                    value="Supermarket Nearby">
-                                                <label for="check-h">Supermarket Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-i" type="checkbox" name="extra[]"
-                                                    value="24 Hours Security">
-                                                <label for="check-i">24 Hours Security</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-j" type="checkbox" name="extra[]"
-                                                    value="Mosques Nearby">
-                                                <label for="check-j">Mosques Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-k" type="checkbox" name="extra[]"
-                                                    value="Stable Electricity">
-                                                <label for="check-k">Stable Electricity</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-l" type="checkbox" name="extra[]"
-                                                    value="Church Nearby">
-                                                <label for="check-l">Church Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-m" type="checkbox" name="extra[]" value="Alarm">
-                                                <label for="check-m">Alarm</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-n" type="checkbox" name="extra[]"
-                                                    value="Window Covering">
-                                                <label for="check-n">Window Covering</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-o" type="checkbox" name="extra[]" value="Lister">
-                                                <label for="check-o">Lister</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-p" type="checkbox" name="extra[]"
-                                                    value="TV Cable & WIFI">
-                                                <label for="check-p">TV Cable & WIFI</label>
-                                            </div>
-                                        </div>
-                                    </li>
+                                <ul class="pro-feature-add pl-0">      
+                                    <?php                                    
+                                            $amenitiesValue = $prop->getAllFeatures(); 
+                                            echo "<pre>";
+                                            echo var_dump($amenitiesValue);
+                                            echo"</pre>";
+                                            exit();
+                                            foreach($amenitiesValue as $amenities) { 
+                                                $arrayOfPropertyAmenities[] = $prop->propertyAmenities($amenities['property_id']);    
+                                                                                    
+                                                ?>  
+                                                               
+                                            <li class="fl-wrap filter-tags clearfix">
+                                                <div class="checkboxes float-left">
+                                                    <div class="filter-tags-wrap">                                                      
+                                                <input type="checkbox" <?php if (in_array($amenities['pfeature_id'] , $arrayOfPropertyAmenities['property_id'])) echo 'checked'; ?> id="<?php echo $amenities['pfeature_name'] ?>" > <?php ?>
+                                                    <label for="<?php echo $amenities['pfeature_name'] ?>"><?php echo $amenities['pfeature_name'] ?></label>
+                                                    </div>
+                                                </div>     
+                                            </li>    
+                                       <?php }?>
                                 </ul>
                             </div>
                         </div>
@@ -346,13 +230,13 @@ else{
                             <div class="col-lg-6 col-md-6 form-group">
                                 <p>
                                     <label for="address">Price</label>
-                                    <input required type="text" name="price" value="<?php echo isset($property['property_price']) ? $property['property_price'] : ''; ?>" id="price">
+                                    <input  type="text" name="price" value="<?php echo isset($property['property_price']) ? $property['property_price'] : ''; ?>" id="price">
                                 </p>
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <p class="no-mb last">
                                     <label for="area">Area</label>
-                                    <input required type="text" name="area" value="<?php echo isset($property['property_area']) ? $property['property_area'] : ''; ?>" id="area">
+                                    <input  type="text" name="area" value="<?php echo isset($property['property_area']) ? $property['property_area'] : ''; ?>" id="area">
                                 </p>
                             </div>
                         </div>

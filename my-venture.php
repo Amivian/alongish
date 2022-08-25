@@ -44,6 +44,14 @@ if (empty($_SESSION['id'])) {
                     <?php
                         require('include/mobile-dashboard.php');
                         ?>
+                        
+                        <?php
+                            if(isset($_SESSION['message'])) {
+                                echo "<h5 class='alert alert-success text-center'>". $_SESSION['message'] ."</h5>";
+                                unset($_SESSION['message']);
+                            }
+                        ?>
+
                          <?php
                             if(isset($_GET['msg'])) {
                                 echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
@@ -92,9 +100,9 @@ if (empty($_SESSION['id'])) {
                                         <td class="actions">
                                          <div class="row">
                                                <div class="col-6">
-                                                        <form action="manage-venture.php" method="POST">
-                                                <input type="text" name="edit_id" class="d-none" value="<?php echo $props['jointventure_id']?>">
-                                               <button type="submit" name="edit_data" class="btn btn-success btn-sm">Edit</button></form></div>
+                                               <a href="manage-venture.php?edit_id=<?php echo $props['jointventure_id']?>" class="btn p-2 text-white btn-success btn-sm">
+                                                  Edit
+                                                </a></div>
                                              <div class="col-6">
                                         <a href='deleteventure.php?id=<?php echo $props['jointventure_id']?>' name='delete' onclick="return confirm('You are about to delete <?php echo $props['joint_title']?>')"><i class="far fa-trash-alt"></i></a></div>
                                                 </div> 

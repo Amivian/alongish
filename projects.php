@@ -91,7 +91,12 @@ require('include/header002.php');
               <div class="homes">
                 <!-- homes img -->
                 <a href="property-details.php?id=<?php echo $property['property_id'] ?>" class="homes-img">
-                                            <div class="homes-tag button alt featured">Featured</div>
+                                            <?php 
+                                                if($property['feature'] == 'featured'){
+                                                    ?>
+                                                    <div class="homes-tag button alt featured">                                             
+                                                    <?php  echo $property['feature'] ?></div>
+                                                    <?php }?>
                                             <div class="homes-tag button alt sale"><?php echo $property['pstatus_name'] ?></div>
                                             <!-- <div class="homes-price">₦<?php echo $property['property_price'] ?></div> -->
                                             <img src="images/property/<?php echo  $img; ?>" alt="<?php echo $property['property_title'] ?>"

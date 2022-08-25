@@ -117,7 +117,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                             <a href="sponsorship-details.php?id=<?php echo $list['jointventure_id'] ?>"
                                                 class="homes-img"><img src="images/sponsor/<?php echo $img?>"
                                                     alt="<?php echo $list['joint_title'] ?>"
-                                                    style="width:720px ! important;height:280px!important"
+                                                    style="width:720px !important; height:280px !important"
                                                     class="img-responsive"></a>
                                         </div>
                                         <div class="button-effect"><a
@@ -131,7 +131,6 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                             <!-- < !-- homes content -->
                             <div class="col-lg-8 col-md-12 homes-content pb-0 mb-44 aos-init aos-animate"
                                 data-aos="fade-up">
-                                <div class="homes-content">
                                     <!-- < !-- homes address -->
                                     <h3><a
                                             href="sponsorship-details.php?id=<?php echo $list['jointventure_id'] ?>"><?php echo $list['joint_title'] ?></a>
@@ -163,7 +162,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                                     echo date('F j, Y', strtotime($list['date_posted']));
                                                     ?></span>
                                     </div>
-                                </div>
+                              
                             </div>
                         </div>
                     </div>

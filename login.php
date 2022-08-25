@@ -104,7 +104,14 @@ require('include/header002.php');
                 ?>
                             
                 <form id="user-form" action="loginprocess.php" method="post">
-                    <div class="alert text-center"><font color="#FF0000"><?php echo $_SESSION['action1']; ?><?php echo $_SESSION['action1']="";?></font></div>
+                    <div class="alert text-center">
+                        <font color="#FF0000">
+                        <?php
+                            if(isset($_SESSION['action1'])) {
+                                echo "<h6 class='alert alert-success text-center'>". $_SESSION['action1'] ."</h6>";
+                                unset($_SESSION['action1']);
+                            }
+                        ?></font></div>
                     <div class="form-group">
                         <label>Email or Username</label>
                         <input type="text" class="form-control  form-control-lg" name="email" id="email" placeholder="name@example.com or username" required value="">

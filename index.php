@@ -2,7 +2,7 @@
 session_start();
 require('property.php');
 $prop = new Property;
-$output = $prop->showFeaturedProperties();
+$featured = $prop->showFeaturedProperties();
 $recent = $prop->showRecentProperties();
 
 
@@ -334,11 +334,10 @@ $output=$prop->newsLetter( $email);
                     <div class="col-xl-3 col-lg-6 col-sm-6" data-aos="fade-up" data-aos-delay="150">
                         <div class="small-category-2">
                             <div class="small-category-2-thumb img-1">
-                                <a href="properties-full-grid-1.php"><img src="images/popular-places/12.jpg" alt=""></a>
+                                <a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=514&rent="><img src="images/popular-places/12.jpg" alt=""></a>
                             </div>
                             <div class="sc-2-detail">
-                                <h4 class="sc-jb-title"><a href="properties-full-grid-1.php">Lekki Phase I</a></h4>
-                                <span>203 Properties</span>
+                                <h4 class="sc-jb-title"><a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=514&rent=">Lekki </a></h4>
                             </div>
                         </div>
                     </div>
@@ -346,11 +345,11 @@ $output=$prop->newsLetter( $email);
                     <div class="col-xl-3 col-lg-6 col-sm-6" data-aos="fade-up" data-aos-delay="250">
                         <div class="small-category-2">
                             <div class="small-category-2-thumb img-2">
-                                <a href="properties-full-grid-1.php"><img src="images/popular-places/13.jpg" alt=""></a>
+                            <a href="http://localhost/homes/property-for-sale.php?search=&status=&type=property_name&type=&city=city&city=520&sale="></a></h4><img src="images/popular-places/13.jpg" alt=""></a>
                             </div>
                             <div class="sc-2-detail">
-                                <h4 class="sc-jb-title"><a href="properties-full-grid-1.php">Lekki Phase II</a></h4>
-                                <span>307 Properties</span>
+                                <h4 class="sc-jb-title">
+                                    <a href="http://localhost/homes/property-for-sale.php?search=&status=&type=property_name&type=&city=city&city=520&sale=">Mainland</a></h4>
                             </div>
                         </div>
                     </div>
@@ -358,11 +357,10 @@ $output=$prop->newsLetter( $email);
                     <div class="col-xl-3 col-lg-6 col-sm-6" data-aos="fade-up" data-aos-delay="350">
                         <div class="small-category-2">
                             <div class="small-category-2-thumb img-3">
-                                <a href="properties-full-grid-1.php"><img src="images/popular-places/14.jpg" alt=""></a>
+                                <a href="http://localhost/homes/property-for-sale.php?search=&status=&type=property_name&type=&city=city&city=516&sale="><img src="images/popular-places/14.jpg" alt=""></a>
                             </div>
                             <div class="sc-2-detail">
-                                <h4 class="sc-jb-title"><a href="properties-full-grid-1.php">Gbagada</a></h4>
-                                <span>409 Properties</span>
+                                <h4 class="sc-jb-title"><a href="http://localhost/homes/property-for-sale.php?search=&status=&type=property_name&type=&city=city&city=516&sale=">Ikeja</a></h4>
                             </div>
                         </div>
                     </div>
@@ -370,11 +368,11 @@ $output=$prop->newsLetter( $email);
                     <div class="col-xl-3 col-lg-6 col-sm-6" data-aos="fade-up" data-aos-delay="450">
                         <div class="small-category-2">
                             <div class="small-category-2-thumb img-3">
-                                <a href="properties-full-grid-1.php"><img src="images/popular-places/9.jpg" alt=""></a>
+                                <a href="http://localhost/homes/property-for-sale.php?search=&status=&type=property_name&type=&city=city&city=512&sale=">
+                                    <img src="images/popular-places/9.jpg" alt=""></a>
                             </div>
                             <div class="sc-2-detail">
-                                <h4 class="sc-jb-title"><a href="properties-full-grid-1.php">Ogba</a></h4>
-                                <span>409 Properties</span>
+                                <h4 class="sc-jb-title"><a href="http://localhost/homes/property-for-sale.php?search=&status=&type=property_name&type=&city=city&city=512&sale=">Epe</a></h4>
                             </div>
                         </div>
                     </div>
@@ -382,11 +380,14 @@ $output=$prop->newsLetter( $email);
                     <div class="col-xl-3 col-lg-6 col-sm-6" data-aos="fade-up" data-aos-delay="150">
                         <div class="small-category-2 mob-mt">
                             <div class="small-category-2-thumb img-8">
-                                <a href="properties-full-grid-1.php"><img src="images/popular-places/15.jpg" alt=""></a>
+                                <a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=&rent=">
+                                    <img src="images/popular-places/15.jpg" alt=""></a>
                             </div>
                             <div class="sc-2-detail">
-                                <h4 class="sc-jb-title"><a href="properties-full-grid-1.php">Ikeja GRA</a></h4>
-                                <span>145 Properties</span>
+                                <h4 class="sc-jb-title">
+                                <a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=&rent=">Eti Osa</a>
+                               </h4>
+                         
                             </div>
                         </div>
                     </div>
@@ -394,11 +395,10 @@ $output=$prop->newsLetter( $email);
                     <div class="col-xl-3 col-lg-6 col-sm-6" data-aos="fade-up" data-aos-delay="250">
                         <div class="small-category-2">
                             <div class="small-category-2-thumb img-10">
-                                <a href="properties-full-grid-1.php"><img src="images/popular-places/10.jpg" alt=""></a>
+                                <a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=519&rent="><img src="images/popular-places/10.jpg" alt=""></a>
                             </div>
                             <div class="sc-2-detail">
-                                <h4 class="sc-jb-title"><a href="properties-full-grid-1.php">Ajah</a></h4>
-                                <span>112 Properties</span>
+                                <h4 class="sc-jb-title"><a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=519&rent=">Ajah</a></h4>
                             </div>
                         </div>
                     </div>
@@ -409,8 +409,7 @@ $output=$prop->newsLetter( $email);
                                 <a href="properties-full-grid-1.php"><img src="images/popular-places/5.jpg" alt=""></a>
                             </div>
                             <div class="sc-2-detail">
-                                <h4 class="sc-jb-title"><a href="properties-full-grid-1.php">Festac</a></h4>
-                                <span>254 Properties</span>
+                                <h4 class="sc-jb-title"><a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=509&rent=">Festac</a></h4>
                             </div>
                         </div>
                     </div>
@@ -418,11 +417,10 @@ $output=$prop->newsLetter( $email);
                     <div class="col-xl-3 col-lg-6 col-sm-6" data-aos="fade-up" data-aos-delay="450">
                         <div class="small-category-2 no-mb si-mt">
                             <div class="small-category-2-thumb img-11">
-                                <a href="properties-full-grid-1.php"><img src="images/popular-places/6.jpg" alt=""></a>
+                                <a href="http://localhost/homes/property-for-sale.php?search=&status=&type=property_name&type=&city=city&city=511&sale="><img src="images/popular-places/6.jpg" alt=""></a>
                             </div>
                             <div class="sc-2-detail">
-                                <h4 class="sc-jb-title"><a href="properties-full-grid-1.php">Badagry</a></h4>
-                                <span>254 Properties</span>
+                                <h4 class="sc-jb-title"><a href="http://localhost/homes/property-for-sale.php?search=&status=&type=property_name&type=&city=city&city=511&sale=">Badagry</a></h4>
                             </div>
                         </div>
                     </div>
@@ -441,7 +439,7 @@ $output=$prop->newsLetter( $email);
                 </div>
                 <div class="row portfolio-items">
                     <?php
-                                            foreach($output as $property){
+                                            foreach($featured as $property){
                                                         $img = $prop-> getSingleImage($property['property_id']);
                                                 ?>
                     <div class="item col-xl-6 col-lg-12 col-md-12 col-xs-12 landscapes sale">
@@ -451,7 +449,7 @@ $output=$prop->newsLetter( $email);
                                     <!-- homes img -->
                                     <a href="property-details.php?id=<?php echo $property['property_id'] ?>"
                                         class="homes-img">
-                                        <div class="homes-tag button alt featured">Featured</div>
+                                        <div class="homes-tag button alt featured"><?php echo $property['feature'] ?></div>
                                         <div class="homes-tag button alt sale"><?php echo $property['pstatus_name'] ?>
                                         </div>
                                         <img src="images//property/<?php echo  $img; ?>" alt="home-1"
@@ -663,8 +661,13 @@ foreach ($recent as $new) {
                                         <div class="homes">
                                             <!-- homes img -->
                                             <a href="property-details.php?id=<?php echo $new['property_id'] ?>"
-                                                class="homes-img">
-                                                <div class="homes-tag button alt featured">Featured</div>
+                                                class="homes-img">                                                
+                                               <?php 
+                                                if($new['feature'] == 'featured'){
+                                                    ?>
+                                                    <div class="homes-tag button alt featured">                                             
+                                                    <?php  echo $new['feature'] ?></div>
+                                                    <?php }?>
                                                 <div class="homes-tag button alt sale">
                                                     <?php echo $new['pstatus_name'] ?></div>
                                                 <img src="images/property/<?php echo $img;?>" alt="home-1"

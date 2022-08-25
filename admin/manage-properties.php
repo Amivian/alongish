@@ -46,6 +46,12 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                     <?php
                         require('include/mobile-dashboard.php');
                         ?>
+                        <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                         ?>
                          <?php
                             if(isset($_GET['msg'])) {
                                 echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
@@ -60,7 +66,8 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                         <th>Type</th>
                                         <th>Purpose</th>
                                         <th>Posted</th>                                        
-                                        <th>Status</th>          
+                                        <th>Status</th>  
+                                        <th>Featured</th>        
                                         <th>Actions</th>       
                                     </tr>
                                 </thead>  <tbody>
@@ -97,7 +104,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                             </div>
                                         </td>
                                         <td><?php echo $props['ptype_name']?></td>
-                                        <td><?php echo $props['pstatus_name']?></td>
+                                        <td><?php echo $props['pstatus_name']?></td>                                 
                                         <td><?php echo date('F j, Y', strtotime($props['date_posted']));?></td>
                                         <td> <div class="row">
                                             <div class="col-12">
@@ -131,16 +138,50 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 
                                             </div>
                                         </div></td>
-                                        <!-- <td> <?php echo $props['featured']?>  </td> -->
+                                          
+                                    <td><div class="row">
+                                            <div class="col-12">
+                                                <?php
+                                                $feature = $props["feature"];
+
+                                                if($props['feature'] == "0"){                    
+                                                    
+                                                    echo "<form  action='featuredproperty.php' method='POST'>
+                                                     <input value='$idd' name='idd' hidden>
+                                                     <input value='$feature' name='feature' hidden>";
+                                                    echo "<button type='submit' style='background:red; color: white; border: teal !important; font-size: 12px;border-radius:5px; padding: 10px;' class='btn btn-sm' name='featurebtn'>";
+                                                    echo "Not Featured";
+                                                    echo "</button>";
+                                                    echo "</form>";
+                                                    
+                                                }elseif(($props['feature'] == "featured")){
+                                                    //  echo '$idd = $props["property_id"]';
+
+                                                    echo "<form  action='featuredproperty.php' method='POST'>";
+                                                    echo "<input value='$idd' name='idd' hidden>";
+                                                    echo "<input value='$feature' name='feature' hidden>";
+                                                    echo "<button type='submit' style='background: green; color: white; border: green !important; font-size: 12px;border-radius:5px;  padding: 10px;' class='btn btn-sm' name='featurebtn'></i>";
+                                                    echo " Featured";
+                                                    echo "</button>";
+                                                    echo "</form>";
+                                                }
+                                                
+                                                ?>
+
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <!-- <a href='featuredproperty.php?id=<?php echo $props['property_id']?>' name='feature' ><?php echo $props['featured']?><i class="fa fa-check-square-o" aria-hidden="true"></i></i> -->
+                                    </a></td>
                                      <td class='actions'>
                                         <div class='row'>
                                             <div class='col-7'>
-                                                <form action='edit-agent-listing.php' method='POST'>
-                                                    <input type='text' name='edit_id' class='d-none'
-                                                        value="<?php echo $props['property_id']?>">
-                                                    <button type='submit' name='edit_data'
-                                                        class='btn btn-success btn-sm'>Edit</button>
-                                                </form>
+                                                <a href="edit-agent-listing.php?edit_id=<?php echo $props['property_id']?>" class="btn p-2 text-white btn-success btn-sm">
+                                                  Edit
+                                                </a>
                                             </div>
                                             <div class='col-3'>
                                                 <a href='deleteagent-listing.php?id=<?php echo $props['property_id']?>' name='delete' onclick="return confirm('You are about to delete <?php echo ucwords($props['property_title']);?> by <?php echo ucwords($props['a_username']) ?>')"><i class="far fa-trash-alt"></i>

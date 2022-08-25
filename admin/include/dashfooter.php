@@ -13,13 +13,20 @@
         <!-- ARCHIVES JS -->
         <script src="../js/jquery-3.5.1.min.js"></script>
         <script type="text/javascript">
-            $(document).ready(function () {
+                     $(document).ready(function () {
                 $('#allstate').change(function () {
                     var stateid = document.getElementById('allstate').value;
                     var test = "states_id=" + stateid;
 
                     $('#citi').load('getcity.php', test);
-                })
+                });
+
+                if ($('#allstate').val()) {
+                    var city = $('div[city_info]').attr('city_info');
+                    var test = "states_id=" + $('#allstate').val()+"&city="+city;
+
+                    $('#citi').load('getcity.php', test);
+                }
 
                 $('#allstate').change(function () {
                     var pick = $('#allsate').val();
@@ -32,8 +39,6 @@
                         success: function (msg) {
                             setTimeout(function () {
                                 $('#chose').html(msg.message);
-                                // $('#btn').html('Register');
-
                             }, 10);
 
                         },
@@ -44,9 +49,9 @@
                 })
 
                 $('#btn').click(function () {
-                    // $('#note').html('<h2>Button Selected</h2>');
                 })
             })
+
         </script>
         <script src="../js/popper.min.js"></script>
         <script src="../js/jquery-ui.js"></script>

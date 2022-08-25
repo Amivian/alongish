@@ -79,7 +79,7 @@ require('include/header002.php');
                     </div>
                 </section>
                 <!-- Search Form -->
-                <div class="col-12 px-0 parallax-searchs">
+                <!-- <div class="col-12 px-0 parallax-searchs">
                     <div class="banner-search-wrap">
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="tabs_1">
@@ -101,7 +101,7 @@ require('include/header002.php');
                                                                 <input name="state" value="state" type="hidden"
                                                                     class="form-control">
                                                                 <?php 
-                                                                                $prop->get_state();
+                                                                                $prop->city();;
                                                                                 ?>
                                                             </div>
                                             <div class="col-xl-2 col-lg-2 col-md-4 pl-0">
@@ -113,7 +113,7 @@ require('include/header002.php');
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!--/ End Search Form -->
                 <section class="headings-2 pt-0">
                     <div class="pro-wrapper">
@@ -156,8 +156,13 @@ require('include/header002.php');
                                     <div class="home">
                                         <!-- homes img -->
                                         <a href="property-details.php?id=<?php echo $property['property_id'] ?>"
-                                            class="homes-img">
-                                            <div class="homes-tag button alt featured">Featured</div>
+                                            class="homes-img"> 
+                                            <?php 
+                                                if($property['feature'] == 'featured'){
+                                                    ?>
+                                                    <div class="homes-tag button alt featured">                                             
+                                                    <?php  echo $property['feature'] ?></div>
+                                           <?php }?>
                                             <div class="homes-tag button alt sale">
                                                 <?php echo $property['pstatus_name'] ?></div>
                                             <div class="homes-price">₦<?php echo $property['property_price'] ?></div>

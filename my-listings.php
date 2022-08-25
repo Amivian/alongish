@@ -40,10 +40,15 @@ if (empty($_SESSION['id'])) {
                         <?php require('include/mobile-dashboard.php'); ?>
                         <?php
                             if(isset($_SESSION['message'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_SESSION['message'] ."</h4>";
+                                echo "<h5 class='alert alert-success text-center'>". $_SESSION['message'] ."</h5>";
                                 unset($_SESSION['message']);
                             }
                         ?>
+                       <?php
+                    if(isset($_GET['msg'])){
+                        echo "<h5 class='alert alert-info text-center'>".base64_decode(urldecode($_GET['msg'])) . '</h5>';
+                    }
+                    ?>  
                         <div class="my-properties">
                             <table class="table-responsive">
                                 <thead>
@@ -69,7 +74,7 @@ if (empty($_SESSION['id'])) {
                             </td>
                             <td>
                                 <div class='inner'>
-                                    <a href='property-details.php?id=<?php echo $props[' property_id']?>'>
+                                    <a href='property-details.php?id=<?php echo $props['property_id']?>'>
                                         <h2><b><?php echo ucwords($props['property_title'])?></b></h2>
                                     </a>
                                     <figure class='mb-1'>
@@ -94,12 +99,6 @@ if (empty($_SESSION['id'])) {
                             <td class='actions'>
                                 <div class='row'>
                                     <div class='col-7'>
-                                        <!-- <form action='manage-listings.php' method='POST'>
-                                            <input type='text' name='edit_id' class='d-none'
-                                                value="<?php echo $props['property_id']?>">
-                                            <button type='submit' name='edit_data'
-                                                class='btn btn-success btn-sm'>Edit</button> -->
-                                        </form>
                                         <a href="manage-listings.php?edit_id=<?php echo $props['property_id']?>" class="btn p-2 text-white btn-success btn-sm">
                                             Edit
                                         </a>

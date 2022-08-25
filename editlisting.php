@@ -17,11 +17,6 @@ if (isset($_POST['btn'])) {
   $state =  $_POST['state'];
   $city = $_POST['city'];
   $bathrooms =$_POST['bath'];
-
-  // $data = [
-  //   'title' => $title,
-  // ];
-
   $images = $_FILES['images'];
 
   if (isset($_POST['extra'])) {

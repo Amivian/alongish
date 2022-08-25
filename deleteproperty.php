@@ -5,11 +5,11 @@ $obj = new Property;
 $output = $obj->deleteProperty($id);
 
   if ($output) {
-            $msg= "Listing deleted Successfully";
-            header("location:my-listings.php?msg=".$msg);
+            $msg= "Property deleted Successfully";
+            header("location:my-listings.php?msg=".urlencode(base64_encode($msg)));
         }else{
-            $mssg= "Error deleting record, try again";
-            header("location:my-listings.php?mssg=".$mssg);
+            $msg= "Error deleting record, try again";
+            header("location:my-listings.php?mssg=".urlencode(base64_encode($msg)));
         }
 
  ?>

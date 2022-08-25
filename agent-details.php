@@ -89,7 +89,7 @@ require('include/header002.php');
                                 <div class="news-item news-item-sm">
                                     <a href="#agent" class="news-img-link">
                                         <div class="news-item-img homes">
-                                            <div class="homes-tag button alt featured"><?php echo $count;?> Listings
+                                            <div class="homes-tag button alt featured"> <small style="font-color:white;font-weight:bold"><?php echo $count;?> Listings</small>
                                            </div>
                                             <img class="resp-img" src="images/users/<?php echo $property['a_pix'] ?>" alt="blog image">
                                         </div>
@@ -165,7 +165,9 @@ require('include/header002.php');
                                                     <div class="homes">
                                                         <!-- homes img -->
                                                         <a href="property-details.php?id=<?php echo $list['property_id'] ?>" class="homes-img">
-                                                            <div class="homes-tag button alt featured">Featured</div>
+                                                             <?php if($list['feature'] == 'featured'){ ?>
+                                                              <div class="homes-tag button alt featured"> <?php  echo $list['feature'] ?></div>
+                                                                <?php }?>
                                                             <div class="homes-tag button alt sale"><?php echo $list['pstatus_name'] ?></div>
                                                             <div class="homes-price">₦<?php echo $list['property_price'] ?></div>
                                                             <img src="images/property/<?php echo $img?>" alt="<?php echo $list['property_title'] ?>" class="img-responsive">

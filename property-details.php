@@ -20,7 +20,7 @@ require('property.php');
 $id = $_GET['id'];
 $prop = new Property;
 $property = $prop->showPropertyDetails($id);
-$extra = $prop->getAllFeatures($id);
+// $extra = $prop->getAllFeatures($id);
 $images = $prop->getAllImages($id);
 $recent = $prop->showRecentProperties();
 $swap = $prop->showSwaps();
@@ -106,13 +106,10 @@ $mail=$prop->newsLetter( $email);
                                 <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                     <h5 class="mb-4">Gallery</h5>
                                     <div class="w3-content w3-display-container" style="max-width:800px">
-                                        <?php
-                                                                        foreach($images as $img){
-                                                                            // $count = 0;
-                                                                                    
-                                                                            ?>
+                                        <?php  foreach($images as $img){ ?>
+
                                         <img class="mySlides" src="images/property/<?php echo $img['image_url'] ?>"
-                                            style="width:100%">
+                                            style="width:100%" width="683px" height="455px">
 
                                         <?php }?>
 
@@ -145,7 +142,7 @@ $mail=$prop->newsLetter( $email);
 
                                         <div class="active item carousel-item" data-slide-number="0">
                                             <img src="images/property/<?php echo $img['image_url'] ?>" class="img-fluid"
-                                                alt="slider-listing">
+                                                alt="slider-listing" width="683px" height="455px">
                                         </div>
 
                                         <?php
@@ -156,7 +153,7 @@ $mail=$prop->newsLetter( $email);
 
                                         <div class="item carousel-item" data-slide-number="1">
                                             <img src="images/property/<?php echo $img['image_url'] ?>" class="img-fluid"
-                                                alt="slider-listing">
+                                                alt="slider-listing" width="683px" height="455px">
                                         </div>
 
                                         <a class="carousel-control left" href="#listingDetailsSlider"
@@ -408,7 +405,13 @@ $mail=$prop->newsLetter( $email);
                                             <!-- homes img -->
                                             <a href="property-details.php" class="homes-img">
 
-                                                <div class="homes-tag button alt featured">Featured</div>
+                                               
+                                            <?php 
+                                                if($new['feature'] == 'featured'){
+                                                    ?>
+                                                    <div class="homes-tag button alt featured">                                             
+                                                    <?php  echo $new['feature'] ?></div>
+                                           <?php }?>
                                                 <div class="homes-tag button alt sale">
                                                     <?php echo $new['pstatus_name'] ?></div>
                                                 <div class="homes-price">₦<?php echo $new['property_price'] ?></div>

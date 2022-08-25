@@ -43,6 +43,12 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                     <?php
                         require('include/mobile-dashboard.php');
                         ?>
+                          <?php
+                            if(isset($_SESSION['message'])) {
+                                echo "<h5 class='alert alert-success text-center'>". $_SESSION['message'] ."</h5>";
+                                unset($_SESSION['message']);
+                            }
+                        ?>
                          <?php
                             if(isset($_GET['msg'])) {
                                 echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
@@ -93,18 +99,15 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                         </div>
                                     </td>
                                     <td><?php echo $props['ptype_name']?></td>
-                                    <td><?php echo $props['pstatus_name']?>
-                                    <td><?php echo $props['pstatus']?>
+                                    <td><?php echo $props['pstatus_name']?></td> 
+                                    <td><?php echo $props['pstatus']?></td>
                                     <td><?php echo date('F j, Y', strtotime($props['date_posted']))?></td>
                                     <td class='actions'>
                                         <div class='row'>
                                             <div class='col-7'>
-                                                <form action='manage-listings.php' method='POST'>
-                                                    <input type='text' name='edit_id' class='d-none'
-                                                        value="<?php echo $props['property_id']?>">
-                                                    <button type='submit' name='edit_data'
-                                                        class='btn btn-success btn-sm'>Edit</button>
-                                                </form>
+                                                <a href="manage-listings.php?edit_id=<?php echo $props['property_id']?>" class="btn p-2 text-white btn-success btn-sm">
+                                                  Edit
+                                                </a>
                                             </div>
                                             <div class='col-3'>
                                                 <a href='deleteproperty.php?id=<?php echo $props['property_id']?>' name='delete'

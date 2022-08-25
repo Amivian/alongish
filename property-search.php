@@ -36,13 +36,22 @@ $output=$prop->newsLetter( $email);
 }
 ?>
 
+
+<?php 
+if(isset($_POST['btn'])) {
+	$email = htmlentities(strip_tags($_POST['email']));
+$output=$prop->newsLetter( $email);
+}
+?>
+
+
 <?php
 if(isset($_GET)){
-    if (isset($_GET['state'])) {
-      $state = htmlspecialchars(strip_tags($_GET['state']));
+    if (isset($_GET['city'])) {
+      $city = htmlspecialchars(strip_tags($_GET['city']));
   } else {
-      $_GET['state'] = '';
-      $state = '';
+      $_GET['city'] = '';
+      $city = '';
   
   }
   if (isset($_GET['type'])) {
@@ -51,8 +60,8 @@ if(isset($_GET)){
     $_GET['type'] = '';
     $type = '';
   
-  }
-  
+  } 
+
   if (isset($_GET['search'])) {
     $search=htmlspecialchars(strip_tags($_GET['search']));
   }else {
@@ -60,13 +69,12 @@ if(isset($_GET)){
     $search = '';
   
   }
-    $propsale = new Property;  
-  $obj1 = $propsale->salesProperties($search,$type, $state);
+  $obj1 = $prop->alongishProperties($search,$type,$city);
+  if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
   }
   
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -106,7 +114,7 @@ require('include/header002.php');
                         <div class="detail-wrapper-body">
                             <div class="listing-title-bar">
                                 <div class="text-heading text-left">
-                                    <p><a href="index.php">Home </a> &nbsp;/&nbsp; <span> Sale</span></p>
+                                    <p><a href="index.php">Home </a> &nbsp;/&nbsp; <span> Alongish Property Listing Search</span></p>
                                 </div>
                                 <h3></h3>
                             </div>
@@ -133,12 +141,17 @@ require('include/header002.php');
                                         <!-- homes img -->
                                         <a href="property-details.php?id=<?php echo $p_id ?>"
                                             class="homes-img">
-                                            <div class="homes-tag button alt featured">Featured</div>
+                                            <?php 
+                                                if($data['feature'] == 'featured'){
+                                                    ?>
+                                                    <div class="homes-tag button alt featured">                                             
+                                                    <?php  echo $data['feature'] ?></div>
+                                                    <?php }?>
                                             <div class="homes-tag button alt sale">
                                                 <?php echo $data['pstatus_name'] ?></div>
                                             <div class="homes-price">₦<?php echo $data['property_price'] ?></div>
                                             <img src="images/property/<?php echo  $img; ?>" alt="home-1"
-                                                class="img-fluid" >
+                                            class="img-responsive" style="width:720px ! important;height:280px!important" >
                                         </a>
                                     </div>
                                     <div class="button-effect">
@@ -199,27 +212,14 @@ require('include/header002.php');
         <h4 class="text-danger text-center">We're sorry, but no property matched your search.  </h4>
         <?php   }       
             ?>
-                <nav aria-label="..." class="pt-4">
-                    <ul class="pagination lis-view">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-             </nav> 
-            
-
-            </div>
-        </section>
+                 <nav aria-label="..." class="pt-4">
+            <ul class="pagination lis-view">
+                <?php 
+                 $get = $prop->pagination_adminlistings('property-search.php',$page);?>
+            </ul>
+        </nav>
+    </div>
+</section>
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
 
