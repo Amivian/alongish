@@ -1,5 +1,6 @@
     <!-- ARCHIVES JS -->
-    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/jquery-3.5.1.min.js"></script>    
+    <script src="js/contact.js"></script>
     <script src="js/tether.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -17,7 +18,9 @@
     <script src="js/ajaxchimp.min.js"></script>
     <script src="js/newsletter.js"></script>
     <script src="js/color-switcher.js"></script>
-    <script src="js/inner.js"></script>
+    <script src="js/inner.js"></script>    
+    <script src="js/main.js"></script> 
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script type="text/javascript">
 
 $(document).ready(function(){

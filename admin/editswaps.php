@@ -22,13 +22,13 @@ $extra =array();
 $obj = new Property;
 $output= $obj->editSwaps($name,$title,$prodesc,$need,$swapdec,$address,$state,$city, $images,$extra,$id);
 if($output === TRUE) {    
-  $msg = "Swap Item edited Successfully";
-      header("Location: manageswaps.php?msg=".$msg);
+ $_SESSION['message']= "Swap Item edited Successfully";
+      header("Location: manageswaps.php");
     exit();
   }
   else{
-    $msg = "Failed to add Property, Try again";
-      header("Location:edit-agent-swap.php?msg=".$msg);
+   $_SESSION['message']= "Failed to add Property, Try again";
+      header("Location:edit-agent-swap.php");
     exit();
   }
 

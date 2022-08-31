@@ -222,11 +222,21 @@ public function uploadpix($pic_array){
            }
         }
 
-        public function updateAgent($id,$fname,$lname,$phone, $business, $about, $pix){
-       $sql="UPDATE agents SET a_fname='$fname',a_lname='$lname', a_phone='$phone',businessname='$business', about = '$about' WHERE agent_id = '$id' ";
+        public function updateAgent($id,$fname,$lname,$phone,$state,$city, $business, $about, $mission, $vision, $pix ){
+       $sql="UPDATE agents SET 
+       a_fname='$fname',
+       a_lname='$lname', 
+       a_phone='$phone',
+       states_id ='$state',
+       city_id ='$city',
+       businessname='$business', 
+       about = '$about',
+       mission='$mission',
+       vision='$vision'
+       WHERE agent_id = '$id' ";
   
+// die($sql);
    $result= $this->con->query($sql);
-//   
       if($result === true) {
         $filename = $pix['name'];
         $tmp_name = $pix['tmp_name'];
@@ -237,7 +247,7 @@ public function uploadpix($pic_array){
             $newfilename = time(). ".$ext";
         if ($ext=='jpg' || $ext=='jpeg' || $ext == 'png' || $ext == 'gif' || $ext == 'jfif') {
             echo "Uploaded successfully";
-            move_uploaded_file($tmp_name, "images/users/$newfilename"); 
+            move_uploaded_file($tmp_name, "../images/users/$newfilename"); 
             $sql2 = "UPDATE agents SET a_pix = '$newfilename' WHERE agent_id='$id'";
             // die($sql2);
             $this->con->query($sql2);  

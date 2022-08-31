@@ -17,7 +17,7 @@ if (empty($_SESSION['id'])) {
 require('property.php');
 $prop= new Property;
 $obj1 = $prop->agentPropertyCount($agent_id);
-$property = $prop->getAgentProperties($agent_id);
+$property = $prop->getagentlistings($agent_id);
 $chat= $prop->agentMessageCount($agent_id);
 $swap= $prop->agentSwapCount($agent_id);
 $msg = $prop->showAgentjointMessage($agent_id);
@@ -57,6 +57,13 @@ $contact = $prop->showAgentContactMessage($agent_id);
                             if(isset($_GET['msg'])) {
                                 echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
                             }?>
+                            
+                          <?php
+                            if(isset($_SESSION['message'])) {
+                                echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                                unset($_SESSION['message']);
+                            }
+                        ?>
                             <div class="section-body">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-6 col-xs-12 dar pro mr-3">
@@ -188,7 +195,7 @@ $contact = $prop->showAgentContactMessage($agent_id);
                                             
                                             <div class="controller">
                                                 <ul>
-                                                    <li><a href='delete.php?id=<?php echo $mail['message_id']?>' name='delete' onclick="return confirm('You are about to delete a Sponsorship message sent from <?php echo ucwords($mail['fname']);?>')"><i class="far fa-trash-alt"></i></a></li>
+                                                    <li><a href='deletecontactmessage.php?id=<?php echo $mail['message_id']?>' name='delete' onclick="return confirm('You are about to delete a Sponsorship message sent from <?php echo ucwords($mail['fname']);?>')"><i class="far fa-trash-alt"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>

@@ -17,7 +17,8 @@ if(isset($_SESSION['id'])){
 }
 require('property.php');
 $prop = new Property;
-$output = $prop->showAgents();
+$output = $prop->getRegUsers();
+if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 ?>
 
 <?php 
@@ -106,7 +107,7 @@ require('include/header002.php');
                                     </a>
                                     <div class="news-item-text">
                                         <a href="agent-details.php?id=<?php echo $agent['agent_id']?>"><h3><?php  echo ucwords($agent['a_fname'] );?>  <?php  echo ucfirst($agent['a_lname']) ;?></h3></a>
-                                        <p class="my-0"><i class="fa fa-map-marker x2" aria-hidden="true" style="color: #ff385c;"></i> ,  <?php  echo $agent['city_name'] ;?> , <?php  echo $agent['states_name'] ;?></p>
+                                        <p class="my-0"><i class="fa fa-map-marker x2" aria-hidden="true" style="color: #ff385c;"></i>  <?php  echo $agent['city_name'] ;?> , <?php  echo $agent['states_name'] ;?></p>
                                         <p><i class="fa fa-phone" aria-hidden="true" style="color: #ff385c;"></i>  <a href="tel:<?php  echo $agent['a_phone'] ;?> " style="color:#666666"> &nbsp; <?php  echo $agent['a_phone'] ;?> &nbsp; | &nbsp; <i class="fa fa-envelope" aria-hidden="true" style="color: #ff385c;"></i> &nbsp; <a href="mailto:<?php  echo $agent['a_email'] ;?>" style="color:#666666">  &nbsp;<?php  echo $agent['a_email'] ;?></a></p>
                                         <small class="mt-1">Registered  <?php  echo date('F  j , Y', strtotime($agent['datereg'])) ;?></small>
                                         <div class="row">
@@ -121,22 +122,12 @@ require('include/header002.php');
                         </div>
                     </div>
                 </div>
-                <nav aria-label="..." class="pt-0 mt-5">
-                    <ul class="pagination disabled">
-                        <li class="page-item">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
+            
+                <nav aria-label="..." class="pt-4">
+                <ul class="pagination lis-view">
+                <?php 
+                 $get = $prop->pagination_agents('agent-listing.php', $page);?>
+            </ul>
                 </nav>
             </div>
         </section>

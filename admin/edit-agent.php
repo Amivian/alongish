@@ -54,13 +54,12 @@ $k = $obj1->showAgentDetails($id);
                 <div class="col-md-8 offset-2">
                     <div id="login" class="mb-5">
                         <div class="login">
-                            <?php
-                                                                if(isset($_GET['msg']))
-                                                                {
-                                                                    echo '<div class="alert alert-info text-center">' .base64_decode(urldecode($_GET['msg'])) . '</div>';
-                                                                }
-                                                            
-                                                      ?>
+                        <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
 
 <div class="container">
             <form action="editagentprocess.php"  enctype="multipart/form-data" method="POST" id="picture">

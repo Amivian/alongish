@@ -22,7 +22,7 @@
                 <li><a href="request.php">Request</a></li>
                 <li><a href="sponsorship.php">Joint Venture</a></li>
                 <li><a href="affiliates.php">Affiliates</a></li>
-                <li><a href="swaps.php">Swaps</a></li>
+                <li><a href="swap-properties.php">Swaps</a></li>
                 <li><a href="contact-us.php">Contact</a></li>
             </ul>
         </nav>

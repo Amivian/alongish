@@ -1,13 +1,11 @@
 <?php 	
 session_start();
-require('admin.php');
- 
- $obj= new Admin;
+if (empty($_SESSION['uname'])) {
+    header('location:index.php');
+}else{
 
- if (empty($_SESSION['uname'])) {
- 	header('location:login.php');
- }
-
+  require('admin.php'); 
+  $obj = new Admin;
  $k = $obj->getAdmin($_SESSION['id']);
  $agent_id = $_SESSION['id'];
  
@@ -15,12 +13,16 @@ $pix= $k['a_pix'];
 if (empty($pix)) {
     $pix = 'avatar.png';
 } 
+
 require('property.php');
-$obj = new Property;
-if(isset($_POST['edit_data'])) {
-$id= $_POST['edit_id'];
-$property= $obj->showSwapsDetails($id);
+$prop = new Property;
+
+if(isset($_GET['edit_id'])) {
+$id= $_GET['edit_id'];
+$property = $prop->showSwapsDetails($id);
+$images=$prop->getSwapImages($id);
 }
+ }
  ?>
 
 
@@ -51,11 +53,12 @@ $property= $obj->showSwapsDetails($id);
         <div class="container">
       <form action="editswap.php" method="POST" enctype="multipart/form-data">
         <div class="single-add-property">
-          <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-danger'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+          <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
           <h3>Edit Swap Item</h3>
           <div class="property-form-group">
           <input type="text" name="edit_id" class="d-none" value="<?php echo $id ?>">
@@ -63,8 +66,7 @@ $property= $obj->showSwapsDetails($id);
               <div class="col-md-8">
                 <p>
                   <label for="address">Swap Item</label>
-                  <input required type="text" name="swap_name" 
-                 id="address" value="<?php echo $property['swap_name'] ?>">
+                  <input required type="text" name="swap_name" id="address"  value="<?php echo isset($property['swap_name']) ? $property['swap_name'] : ''; ?>">
                 </p>
               </div>
               <div class="col-md-2">
@@ -72,9 +74,9 @@ $property= $obj->showSwapsDetails($id);
                   <label for="address"></label>
                   <select name="swap_item" id="">
                     <option value="">Select Type</option>
-                  <option value="Car">Car</option>
-                  <option value="House">House</option>
-                  <option value="Land">Land</option>
+                  <option value="Car" <?php if (isset($property['swap_item']) && strtolower($property['swap_item']) == 'car') echo 'selected'; ?>>Car</option>
+                  <option value="House"  <?php if (isset($property['swap_item']) && strtolower($property['swap_item']) == 'house') echo 'selected'; ?>>House</option>
+                  <option value="Land" <?php if (isset($property['swap_item']) && strtolower($property['swap_item']) == 'land') echo 'selected'; ?>>Land</option>
                   </select>
                 </p>
               </div>
@@ -83,7 +85,7 @@ $property= $obj->showSwapsDetails($id);
               <div class="col-md-12">
                 <p>
                   <label for="description">Swap Item Description</label>
-                  <textarea id="description" name="swap_description" value="<?php echo $property['swap_description']?>" required><?php echo $property['swap_description']?></textarea>
+                  <textarea id="description" name="swap_description"  required><?php echo isset($property['swap_description']) ? $property['swap_description'] : ''; ?></textarea>
                     <small >If you pick car for swap, Kindly indicate the following: YEAR, CAR BRAND, CAR MODEL, NEW/USED</small>
                 </p>
               </div>
@@ -92,9 +94,9 @@ $property= $obj->showSwapsDetails($id);
               <div class="col-md-12 mb-4">
                 <select name="swap_need" id="">
                   <option value="">Swap Need</option>
-                  <option value="Car">Car</option>
-                  <option value="House">House</option>
-                  <option value="Land">Land</option>
+                  <option value="Car" <?php if (isset($property['swap_need']) && strtolower($property['swap_need']) == 'car') echo 'selected'; ?>>Car</option>
+                  <option value="House" <?php if (isset($property['swap_need']) && strtolower($property['swap_need']) == 'house') echo 'selected'; ?>>House</option>
+                  <option value="Land" <?php if (isset($property['swap_need']) && strtolower($property['swap_need']) == 'land') echo 'selected'; ?>>Land</option>
                 </select>
               </div>
             </div>
@@ -102,7 +104,7 @@ $property= $obj->showSwapsDetails($id);
               <div class="col-md-12">
                 <p>
                   <label for="description">Swap Need Description</label>
-                  <textarea id="description" name="sneed_description" value="<?php echo $property['sitem_description']?>" required><?php echo $property['sitem_description']?></textarea>
+                  <textarea id="description" name="sneed_description"  required><?php echo isset($property['sitem_description']) ? $property['sitem_description'] : ''; ?></textarea>
                 </p>
               </div>
             </div>
@@ -164,38 +166,48 @@ $property= $obj->showSwapsDetails($id);
         <div class="single-add-property mb-5">
           <h3>property Location</h3>
           <div class="property-form-group">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 form-group">
-                <label for="state">State</label>
-                <?php
-                                                    $obj->get_state();
-                                                     ?>
-              </div>
-              <div class="col-lg-4 col-md-4 form-group">
-
-                <label for="city">City</label>
-                <div type="text" name="city" id="citi"></div>
-
-              </div>
-              <div class="col-lg-4 col-md-4">
-                <p>
-                  <label for="address">Address</label>
-                  <input required type="text" name="address"  id="address" value="<?php echo $property['swap_address']?>">
-                </p>
-              </div>
-            </div>
-          </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 form-group">
+                                <label for="state">State</label>
+                                <?php $stateID = isset($property['states_id']) ? $property['states_id'] : 0; ?> 
+                                <?php $prop->get_state($stateID); ?>
+                            </div>
+                            <div class="col-lg-4 col-md-4 form-group">
+                                <label for="city">City</label>
+                                <?php $cityID = isset($property['city_id']) ? $property['city_id'] : 0; ?> 
+                                <div type="text" name="city" city_info ="<?php echo $cityID ?>" id="citi"></div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <p>
+                                    <label for="address">Address</label>
+                                    <input type="text" name="address" 
+                                        value="<?php echo isset($property['swap_address']) ? $property['swap_address'] : ''; ?>">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
         </div>
         <div class="single-add-property">
           <h3>Property Media</h3>
           <div class="property-form-group">
-            <div class="row">
-              <div class="col-md-12">
-                <i class='fa fa-cloud-upload'></i> Click here to upload Swap images. <br> Press down on the ctrl key to
-                select multiple images <br>
-                <input required class="mt-2" type="file" name="images[]" multiple>
-              </div>
-            </div>
+          <div class="row">
+                            <?php $imagesCount = count($images); $totalImages =  5; ?>
+                            <?php foreach ($images as $img) { ?>
+                                <div class="col-md-4">
+                                    <img src="../images/swaps/<?php echo $img['image_url'] ?>" class="img-fluid" alt="<?php echo $img['image_url'] ?>" width="200px">
+                                    <input class="mt-2" type="file" name="images[<?php echo $img['image_id']; ?>]">
+                                </div>
+                            <?php } ?>
+
+                            <?php if (($totalImages - $imagesCount) > 0) { ?>
+                                <?php for ($a=0; $a < ($totalImages - $imagesCount); $a++) { ?>
+                                    <div class="col-md-4 mt-3">
+                                        <img src="" class="img-fluid" alt="property" width="200px">
+                                        <input class="mt-2" type="file" name="images[]">
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
           </div>
         </div>
         <div class="single-add-property">

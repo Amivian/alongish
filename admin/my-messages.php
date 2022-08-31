@@ -40,11 +40,12 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
     <div class="col-lg-9 col-md-12 col-xs-12 pl-0 user-dash2">
         <?php
                         require('include/mobile-dashboard.php');
-                        ?>
-        <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
-                            }?>
+                        ?>  <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
         <div class="my-properties">
             <table class="table-responsive">
                 <thead>
@@ -75,7 +76,8 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                               <td><div class='inner'><figure class='mb-1'> <em> <a href='mailto:<?php echo $msg['email'] ?>'><?php echo $msg['email'] ?></a></em> <br> <a href='tel:<?php echo $msg['phone'] ?> '><?php echo $msg['phone'] ?> </a> 
                                               </figure></div></td>
                                 		   	  <td><?php echo date('F j, Y', strtotime($msg['date_posted']))?></td>
-                                              <td class='actions' style='text-align: center;padding-right:20px'>     <a href='deletemgs.php?id=<?php echo $msg['message_id']?>' name='delete'
+                                              <td class='actions' style='text-align: center;padding-right:20px'>     
+                                              <a href='deletemsg.php?id=<?php echo $msg['message_id']?>' name='delete'
                                         onclick="return confirm('You are about to delete this <?php echo ucwords($msg['fname'])?>')">
                                         <i class='far fa-trash-alt'></i>
                                     </a>

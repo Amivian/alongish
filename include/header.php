@@ -42,6 +42,7 @@ if(isset($_SESSION['id'])){
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/menu.css">
   <link rel="stylesheet" href="css/slick.css">
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/colors/pink.css"> 
   <link rel="stylesheet" id="color" href="css/default.css">
@@ -78,7 +79,7 @@ if(isset($_SESSION['id'])){
                                         <li><a href="projects.php">Projects</a></li>
                                         <li><a href="sponsorship.php">Joint Venture</a></li>
                                  <li><a href="affiliates.php">Affiliates</a></li>
-                          <li><a href="swaps.php">Swaps</a></li>
+                          <li><a href="swap-properties.php">Swaps</a></li>
                                 <li><a href="contact-us.php">Contact</a></li>
                             </ul>
                         </nav>

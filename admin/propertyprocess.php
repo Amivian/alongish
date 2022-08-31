@@ -31,12 +31,12 @@ $obj = new Property;
 $output= $obj->addProperty($userid,$staff,$title,$prodesc,$price,$area,$address,$status,$type,$bedrooms,$bathrooms,$furnished,$serviced,$shared,$state,$city,$extra, $images);
 
 if($output) {
-  $msg = "Property added successfully";
-      header("Location: my-listings.php?msg=".$msg);
+  $_SESSION['message'] = "Property added successfully";
+      header("Location: my-listings.php");
     exit();
   }else{
-    $msg = "Failed to add Property, Try again";
-      header("Location: add-property.php?msg=".$msg);
+    $_SESSION['message'] = "Failed to add Property, Try again";
+      header("Location: add-property.php");
     exit();
   }
 

@@ -48,11 +48,12 @@ $prop= new Property;
                 <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">               
                 <input type="text" name="staff" class="d-none" value="staff">
                 <div class="single-add-property">
-                    <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-danger'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+                <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                     <h3>Create Swap Item</h3>
           <div class="property-form-group">
             <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">        
@@ -136,63 +137,40 @@ $prop= new Property;
         <div class="single-add-property">
           <h3 class="my-3">Documents</h3>
           <div class="property-form-group mt-4">
-            <div class="row">
-              <div class="col-md-12">
-                <ul class="pro-feature-add pl-0">
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-a" type="checkbox" name="extra[]" value="Survey">
-                        <label for="check-a">Survey</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-b" type="checkbox" name="extra[]" value="Purchase Receipt">
-                        <label for="check-b">Purchase Receipt</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-c" type="checkbox" name="extra[]" value="Family Conveyance">
-                        <label for="check-c">Family Conveyance</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-d" type="checkbox" name="extra[]" value="Executed Deed of Assignment">
-                        <label for="check-d">Executed Deed of Assignment</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-e" type="checkbox" name="extra[]" value="Excision">
-                        <label for="check-e">Excision </label>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+          <div class="row">
+                            <div class="col-md-12">
+                                <ul class="pro-feature-add pl-2">
+                                    <li class="fl-wrap filter-tags clearfix">
+                                        <div class="checkboxes float-left">
+                                            <div class="filter-tags-wrap">
+                                                <?php $feature=$prop->getSwapDocument();?>
+                                            </div>
+                                        </div>
+                                    </li>
+                                 
+                                </ul>
+                            </div>
+                        </div>
             </div>
           </div>
 
         </div>
                 <div class="single-add-property">
                     <h3>Property Media</h3>
-                    <div class="property-form-group">
+                    <div class="property-form-group">                        
+                    <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br>
                         <div class="row">
-                            <div class="col-md-12">
-                                <i class='fa fa-cloud-upload'></i> Click here to upload Swap images. <br> Press down on the ctrl key to select multiple images <br>
-                                <input required class="mt-2" type="file" name="images[]" multiple>
+                            <div class="col-md-3 filediv">
+                                <input class="mt-2" type="file" name="images[]">
                             </div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
                         </div>
                     </div>
                 </div>

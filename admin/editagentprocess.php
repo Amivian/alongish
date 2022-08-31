@@ -13,11 +13,13 @@ $obj = new Admin;
 // $output=$obj->updateAgent( $id,$fname,$lname,$phone,$tstate, $tcity, $business, $pix );
 $output=$obj->updateAgent( $id,$fname,$lname,$phone, $business, $about, $pix );
 if($output){
-	$msg = "Profile Updated Successfully";
-	header("Location:reguser.php?msg=". $msg);	
+	$_SESSION['message'] = "Profile Updated Successfully";
+	header("Location:reguser.php");	
+	exit();
 }else{
-	$msg ="OOps!! Update Failed, Try again";
-	header("Location:edit-agent.php?msg=". $msg);
+	$_SESSION['message'] ="OOps!! Update Failed, Try again";
+	header("Location:edit-agent.php");
+	exit();
 }
 }
 

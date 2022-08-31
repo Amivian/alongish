@@ -14,22 +14,23 @@ $address = htmlentities(strip_tags($_POST['address']));
 $images = $_FILES['images'];
 $state =  $_POST['state'];
 $city = $_POST['city'];
+
 if(isset($_POST['extra'])){
   $extra = $_POST['extra'];
   }else{
-$extra =array();
+$extra = array();
 }
 
 $obj = new Property;
-$output= $obj->createSwaps($userid,$staff,$name,$title,$prodesc,$need,$swapdec,$address,$state,$city,$images,$extra);
-if($output === TRUE) {    
-  $msg = "Property added successfully";
-      header("Location:my-swaps.php?msg=".$msg);
+$output= $obj->createSwaps($userid,$staff,$name,$title,$prodesc,$need,$swapdec,$address,$state,$city,$extra,$images);
+if($output) {    
+ $_SESSION['message'] = "Property added successfully";
+      header("Location:my-swaps.php");
     exit();
   }
   else{
-    $msg = "Failed to add Property, Try again";
-      header("Location: swaps.php?msg=".$msg);
+    $_SESSION['message'] = "Failed to add Property, Try again";
+      header("Location: swaps.php");
     exit();
   }
 

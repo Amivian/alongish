@@ -1,13 +1,11 @@
 <?php 	
 session_start();
-require('admin.php');
- 
- $obj= new Admin;
-
  if (empty($_SESSION['uname'])) {
- 	header('location:login.php');
- }
+ 	header('location:index.php');
+ }else{
 
+    require('admin.php'); 
+    $obj = new Admin;
  $k = $obj->getAdmin($_SESSION['id']);
  $agent_id = $_SESSION['id'];
  
@@ -15,15 +13,17 @@ $pix= $k['a_pix'];
 if (empty($pix)) {
     $pix = 'avatar.png';
 } 
-
 require('property.php');
+
 $obj1 = new Property;
-if(isset($_POST['edit_data'])) {
-$id= $_POST['edit_id'];
-$property = $obj1->showPropertyDetails($id);
-$images = $prop->getAllImages($id);
-$amenitiesValue = $prop->getAllAmenities($id);
+if(isset($_GET['edit_id'])) {
+    $id= $_GET['edit_id'];
+    $property = $obj1->showPropertyInfo($id);    
+    $images = $obj1->getAllImages($id);
 }
+
+}
+
  ?>
 
 
@@ -55,16 +55,13 @@ $amenitiesValue = $prop->getAllAmenities($id);
             <form action="editlisting.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="p_id" class="d-none" value="<?php echo $id; ?>">
                 <div class="single-add-property">
-                    <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-info'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+                <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                     <h3>Edit Property</h3>
-                    <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h2 class='alert alert-danger text-center'>". $_GET['msg'] ."</h2>";
-                            }?>
                     <div class="property-form-group">
                         <div class="row">
                             <div class="col-md-12">
@@ -89,11 +86,10 @@ $amenitiesValue = $prop->getAllAmenities($id);
                     <h3>property Location</h3>
                     <div class="property-form-group">
                         <div class="row">
-                        <div class="row">
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
                                 <?php $stateID = isset($property['states_id']) ? $property['states_id'] : 0; ?> 
-                                <?php $prop->get_state($stateID); ?>
+                                <?php $obj1->get_state($stateID); ?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="city">City</label>
@@ -142,19 +138,19 @@ $amenitiesValue = $prop->getAllAmenities($id);
                             <div class="col-lg-4 col-md-4 dropdown faq-drop">
                             <div class="form-group categories">                                    
                                 <?php $statusID = isset($property['pstatus_id']) ? $property['pstatus_id'] : 0; ?> 
-                                    <?php $prop->getStatus($statusID); ?>
+                                    <?php $obj1->getStatus($statusID); ?>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 dropdown faq-drop">
                             <div class="form-group categories">
                                 <?php $propertytypeID = isset($property['ptype_id']) ? $property['ptype_id'] : 0; ?> 
-                                    <?php $prop->getPropertytype($propertytypeID ); ?>
+                                    <?php $obj1->getPropertytype($propertytypeID ); ?>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
                                 <?php $bedroomID = isset($property['bedroom_id']) ? $property['bedroom_id'] : 0; ?> 
-                                    <?php $prop->getBedroom($bedroomID); ?>
+                                    <?php $obj1->getBedroom($bedroomID); ?>
 
                                 </div>
                             </div>
@@ -163,7 +159,7 @@ $amenitiesValue = $prop->getAllAmenities($id);
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
                                 <?php $bathroomID = isset($property['bathroom_id']) ? $property['bathroom_id'] : 0; ?> 
-                                    <?php $prop->getBathroom($bathroomID ); ?>
+                                    <?php $obj1->getBathroom($bathroomID ); ?>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
@@ -198,17 +194,27 @@ $amenitiesValue = $prop->getAllAmenities($id);
 
                         <div class="row">
                             <div class="col-md-12">
-                                <ul class="pro-feature-add pl-0">      
-                                    <?php foreach ($amenitiesValue as $amenities) { $arrayOfPropertyAmenities['pfeature_id']?>                  
+                            <ul class="pro-feature-add pl-0">      
+                                    <?php                                    
+                                            $amenitiesValue = $obj1>getAllFeatures(); 
+                                            echo "<pre>";
+                                            echo var_dump($amenitiesValue);
+                                            echo"</pre>";
+                                            exit();
+                                            foreach($amenitiesValue as $amenities) { 
+                                                $arrayOfPropertyAmenities[] = $obj1>propertyAmenities($amenities['property_id']);    
+                                                                                    
+                                                ?>  
+                                                               
                                             <li class="fl-wrap filter-tags clearfix">
                                                 <div class="checkboxes float-left">
                                                     <div class="filter-tags-wrap">                                                      
-                                                <input type="checkbox" <?php if (in_array($amenities['pfeature_id'] , $arrayOfPropertyAmenities['pfeature_id'])) echo 'checked'; ?> id="<?php echo $amenities['pfeature_name'] ?>" >
+                                                <input type="checkbox" <?php if (in_array($amenities['pfeature_id'] , $arrayOfPropertyAmenities['property_id'])) echo 'checked'; ?> id="<?php echo $amenities['pfeature_name'] ?>" > <?php ?>
                                                     <label for="<?php echo $amenities['pfeature_name'] ?>"><?php echo $amenities['pfeature_name'] ?></label>
                                                     </div>
                                                 </div>     
                                             </li>    
-                                       <?php } ?>
+                                       <?php }?>
                                 </ul>
                             </div>
                         </div>

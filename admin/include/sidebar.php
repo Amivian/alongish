@@ -41,6 +41,11 @@
                                             </a>
                                         </li>
                                         <li>
+                                            <a href="our-partner.php">
+                                                <i class="fa fa-users" aria-hidden="true"></i>Partners
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="my-team.php">
                                                 <i class="fa fa-users" aria-hidden="true"></i>My Team
                                             </a>
@@ -53,6 +58,11 @@
                                         <li>
                                             <a href="add-property.php">
                                                 <i class="fa fa-list" aria-hidden="true"></i>Add Property
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="partner.php">
+                                                <i class="fa fa-users" aria-hidden="true"></i>Add Partner
                                             </a>
                                         </li>
                                         <li>

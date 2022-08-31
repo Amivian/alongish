@@ -61,17 +61,13 @@ if(isset($_SESSION['id'])){
 					<div>	
 						<button type="submit" name="submit" class="btn btn-danger">Login</button>
 					</div>
-					<div class="mx-3">	
-						<input type="checkbox">
-						<label for=""> Remember Password</label>
-					</div>	
                     <div class="row mt-1">
-                    <div class="col-md-8 mx-2">	
-						<a href="#">Forgotten Password?</a>
-					</div>	
-                    <div class="col-md-2">
-                            <a href="../index.php">Home</a>	
-                        </div>
+						<div class="col-md-8 mx-2">	
+							<a href="#" style="text-decoration:none">Forgotten Password?</a>
+						</div>	
+						<div class="col-md-2">
+								<a href="../index.php" style="text-decoration:none">Home</a>	
+							</div>
                     </div>
 				</form>
 

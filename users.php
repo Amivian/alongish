@@ -46,29 +46,29 @@
 
 
 
-// email link verification confirmation
-public function emailVerification($code){
-    $sql= "SELECT * FROM agents WHERE activationcode='$code'";
-    $result = $this->con->query($sql);
-$num=mysqli_fetch_array($result);
-if($num>0)
-{
-$st='pending';
-$sql1 ="SELECT agent_id FROM agents WHERE activationcode='$code' and status='$st'";
-// die($sql1);
-$result1 = $this->con->query($sql1);
-$result4=mysqli_fetch_array($result1);
-if($result4>0)
- {
-$st='verified';
-$sql2="UPDATE agents SET status='$st' WHERE activationcode='$code'";
-// die($sql2);
-$result2 = $this->con->query($sql2);
-return true;
-}
-return 0;
-}
-}
+        // email link verification confirmation
+        public function emailVerification($code){
+            $sql= "SELECT * FROM agents WHERE activationcode='$code'";
+            $result = $this->con->query($sql);
+        $num=mysqli_fetch_array($result);
+        if($num>0)
+        {
+        $st='pending';
+        $sql1 ="SELECT agent_id FROM agents WHERE activationcode='$code' and status='$st'";
+        // die($sql1);
+        $result1 = $this->con->query($sql1);
+        $result4=mysqli_fetch_array($result1);
+        if($result4>0)
+        {
+        $st='verified';
+        $sql2="UPDATE agents SET status='$st' WHERE activationcode='$code'";
+        // die($sql2);
+        $result2 = $this->con->query($sql2);
+        return true;
+        }
+        return 0;
+        }
+        }
 
 
 // login verified user
@@ -159,13 +159,15 @@ public function get_city($state_id, $city_id){
 
 // get user details and display on the dashboard
 public function getUser($id){
-    $sql = "SELECT * FROM agents JOIN states ON agents.states_id = states.states_id JOIN city ON agents.city_id = city.city_id WHERE agent_id='$id'";
+    $sql = "SELECT * FROM agents 
+    LEFT JOIN states ON agents.states_id = states.states_id 
+    LEFT JOIN city ON agents.city_id = city.city_id 
+    WHERE agent_id='$id' 
+    AND agents.deleted='0'";
     $result = $this->con->query($sql);
     $row = $result->fetch_assoc();
     
     return $row;
-
-
 }
 
 
@@ -285,6 +287,17 @@ if($result->num_rows  > 0){
         }
 }
 
+public function getAdmin(){
+    $sql = "SELECT about, vision, mission FROM  agents 
+    LEFT JOIN states ON agents.states_id = states.states_id 
+    LEFT JOIN city ON agents.city_id = city.city_id 
+    WHERE role ='admin'
+    AND  deleted='0'";
+    $result = $this->con->query($sql);
+    $row = $result->fetch_assoc();
+    
+    return $row;
+}
 
 
 }

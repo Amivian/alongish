@@ -58,6 +58,12 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                     <?php
                         require('include/mobile-dashboard.php');
                         ?>
+                           <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                          <?php
                             if(isset($_GET['msg'])) {
                                 echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
@@ -71,8 +77,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                         <th class="p-0"></th>                                        
                                         <th>Type</th>
                                         <th>Need</th>
-                                        <th>Posted</th>                                        
-                                        <th>Status</th>
+                                        <th>Posted</th>  
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -117,15 +122,13 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                         <td><?php echo date('F j, Y', strtotime($props['date_posted']));?></td>
                                         <td class='actions'>
                                         <div class='row'>
-                                            <div class='col-7'>
-                                                <form action='edit-agent-swap.php' method='POST'>
-                                                    <input type='hidden' name='edit_id' class='d-none'
-                                                        value="<?php echo $props['swap_id']?>">
-                                                    <button type='submit' name='edit_data'
-                                                        class='btn btn-success btn-sm'>Edit</button>
-                                                </form>
+                                            <div class='col-5'>
+                                            <a href='edit-agent-swap.php?edit_id=<?php echo $props['swap_id']?>'
+                                        class="btn p-2 text-white btn-success btn-sm">
+                                            Edit
+                                        </a>
                                             </div>
-                                            <div class='col-3'><a href='delete-swaps.php?id=<?php echo $props['swap_id']?>' name='delete' onclick="return confirm('You are about to delete this <?php echo $props['swap_name']?>')"><i class="far fa-trash-alt"></i></a></div>
+                                            <div class='col-7'><a href='delete-swaps.php?id=<?php echo $props['swap_id']?>' name='delete' onclick="return confirm('You are about to delete this <?php echo $props['swap_name']?>')"><i class="far fa-trash-alt"></i></a></div>
                                         </td>
                                     </tr>
                                     <?php

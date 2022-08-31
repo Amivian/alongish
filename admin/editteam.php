@@ -19,12 +19,12 @@ $obj = new Property;
 $output= $obj->editTeam($name,$position,$email,$tid,$image);
 
 if($output) {
-  $msg = "Team Member Edited successfully";
-      header("Location: my-team.php?msg=".$msg);
+  $_SESSION['message']= "Team Member Edited successfully";
+      header("Location: my-team.php");
     exit();
   }else{
-    $msg = "Failed to edit Team Member, Try again";
-      header("Location: editteam.php?msg=".$msg);
+    $_SESSION['message']= "Failed to edit Team Member, Try again";
+      header("Location: editteam.php");
     exit();
   }
 

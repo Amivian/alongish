@@ -14,12 +14,4 @@ if($output) {
       exit();
     }
 
-  if ($output) {
-            $msg= "Listing deleted Successfully";
-            header("?msg=".$msg);
-        }else{
-            $mssg= "Error deleting record, try again";
-            header("location:my-venture.php?mssg=".$mssg);
-        }
-
  ?>

@@ -18,6 +18,7 @@ if(isset($_SESSION['id'])){
 require('property.php');
 $prop = new Property;
 $output = $prop->property();
+
 if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 
 // do your query results

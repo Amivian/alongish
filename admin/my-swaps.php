@@ -19,7 +19,7 @@ $output = $prop->getAgentSwaps($agent_id);
 if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
   ?>
 
-  
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -30,36 +30,39 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>My Swaps</title>
-  
-        <?php
+
+    <?php
                  require('include/dashheaders.php');
                   ?>
- 
- 
-                     <?php
+
+
+    <?php
                  require('include/sidebar.php');
                   ?>
-                    <div class="col-lg-9 col-md-12 col-xs-12 pl-0 user-dash2">
-                    <?php
+    <div class="col-lg-9 col-md-12 col-xs-12 pl-0 user-dash2">
+        <?php
                         require('include/mobile-dashboard.php');
                         ?>
                          <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";}?>
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
 
-                        <div class="my-properties">
-                            <table class="table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th class="pl-2">My Swaps</th>
-                                        <th class="p-0"></th>                                        
-                                        <th>Type</th>
-                                        <th>Description</th>                                       
-                                        <th>Posted</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+        <div class="my-properties">
+            <table class="table-responsive">
+                <thead>
+                    <tr>
+                        <th class="pl-2">My Swaps</th>
+                        <th class="p-0"></th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Posted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <?php
                                 foreach($output as $props) {
                                             $img = $prop-> getSwapImage($props['swap_id']);
@@ -103,16 +106,14 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                         <td><?php echo date('F j, Y', strtotime($props['date_posted']))?></td>
                         <td class='actions'>
                             <div class='row'>
-                                <div class='col-6'>
-                                    <form action='manage-swap.php' method='POST'>
-                                        <input type='text' name='edit_id' class='d-none'
-                                            value="<?php echo $props['swap_id']?>">
-                                        <button type='submit' name='edit_data'
-                                            class='btn btn-success btn-sm'>Edit</button>
-                                    </form>
+                                <div class='col-5'>
+                                    <a href='manage-swap.php?edit_id=<?php echo $props['swap_id']?>'
+                                        class="btn p-2 text-white btn-success btn-sm">
+                                        Edit
+                                    </a>
                                 </div>
-                                <div class='col-6'>
-                                    <a href='delete-swaps.php?id=<?php echo $props['swap_id']?>' name='delete'
+                                <div class='col-2'>
+                                    <a href='deleteswap.php?id=<?php echo $props['swap_id']?>' name='delete'
                                         onclick="return confirm('You are about to delete this <?php echo ucwords($props['swap_name'])?>')">
                                         <i class='far fa-trash-alt'></i>
                                     </a>
@@ -142,6 +143,6 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
     </div>
     </div>
     </section>
-        <?php
+    <?php
 				require('include/dashfooter.php');
 				 ?>

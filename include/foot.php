@@ -38,10 +38,10 @@
                                 <div class="nav-footer">
                                     <ul>
                                          <li><a href="http://localhost/homes/property-for-sale.php?search=&status=&type=property_name&type=&city=city&city=511&sale=">Badagry</a></li>
-                                        <li><a href="properties-full-list.php">Lekki</a></li>
-                                        <li><a href="properties-full-list.php">Igando</a></li>
-                                         <li><a href="properties-full-list.php">Gbagada</a></li>
-                                        <li><a href="properties-full-list.php">Ogba</a></li>
+                                        <li><a href="http://localhost/homes/property-for-sale.php?search=&type=property_name&status=&type=&city=city&city=514&sale=">Lekki</a></li>
+                                        <li><a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=509&rent=">Igando</a></li>
+                                         <li><a href="http://localhost/homes/property-for-rent.php?search=&status=&type=property_name&type=&city=city&city=520&rent=">Gbagada</a></li>
+                                        <li><a href="http://localhost/homes/property-for-rent.php?search=&status=&type=property_name&type=&city=city&city=516&rent=">Ogba</a></li>
                                        
                                     </ul>
                                 </div>
@@ -53,10 +53,10 @@
                                 <div class="nav-footer">
                                     <ul>
                                         <li><a href="agent-listing.php">Agents</a></li>
-                                        <li><a href="properties.php">Properties</a></li>
+                                        <li><a href="properties.php">Featured Properties</a></li>
                                          <li><a href="affiliates.php">Affiliates</a></li>
                                         <li><a href="contact-us.php">Contact Us</a></li>
-                                        <li><a href="swaps.php">Swap</a></li>          
+                                        <li><a href="swap-properties.php">Swap</a></li>          
                                     </ul>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                     </div>
                     <button class="log-submit-btn" name="login">Login</button>
                 </form>
-            </d  iv>
+            </div>
                   <div class="text-right mt-5 ">New to Alongish? <strong><a href="register.html">Sign up!</a></strong></div>
                  </div>
               </div>

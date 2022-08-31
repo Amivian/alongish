@@ -41,9 +41,9 @@ $property = $prop->getAgentProperties($agent_id);
 				 ?>
                         <div class="col-lg-9 col-md-9 col-xs-6 widget-boxed mt-33 mt-0 ">
                         <?php
-                                                                                        
-                            if(isset($_GET['msg'])) {
-                               echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
+                            if(isset($_SESSION['message'])) {
+                                echo "<h5 class='alert alert-success text-center'>". $_SESSION['message'] ."</h5>";
+                                unset($_SESSION['message']);
                             }
                         ?>
                         <?php
@@ -122,26 +122,11 @@ $property = $prop->getAgentProperties($agent_id);
                                                 aria-hidden="true"></i></span><a href="#">
                                             <?php echo $k['a_email']?></a></li>
                                 </ul>
-                                <div class="agent-contact-form-sidebar">
-                                    <h4>Request Inquiry</h4>
-                                    <form name="contact_form" method="post" action="functions.php">
-                                        <input type="text" id="fname" name="full_name" placeholder="Full Name"
-                                            required />
-                                        <input type="number" id="pnumber" name="phone_number" placeholder="Phone Number"
-                                            required />
-                                        <input type="email" id="emailid" name="email_address"
-                                            placeholder="Email Address" required />
-                                        <textarea placeholder="Message" name="message" required></textarea>
-                                        <input type="submit" name="sendmessage" class="multiple-send-message"
-                                            value="Submit Request" />
-                                    </form>
-                                </div>
-                            </div>
                             <div class="container-fluid mt-5">
                                 <div class="widget-boxed-header pb-0">
                                     <div class="row">
                                         <div class="col-md-10">
-                                            <h4 class="mb-">Company Information</h4>
+                                            <h4 class="mb-0 ">Company Information</h4>
                                         </div>
                                         <div class="col-md-2"><a href="details.php#businessname"><i class="fas fa-edit"></i></a>
                                         </div>
@@ -149,12 +134,31 @@ $property = $prop->getAgentProperties($agent_id);
                                 </div>
                                 <div class="sidebar-widget author-widget2">
                                     <div class="author-box clearfix">
-                                        <div class="row">
-                                            <div class="col-md-6 mt-3">
-                                                <p>Business Name:  <?php echo $k['businessname']?> </p>
+                                        <div class="row  my-3">
+                                            <div class="col-md-6 my-3">
+                                                <h4>Business Name</h4>
+                                              <p> <?php echo $k['businessname']?> </p>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h4>About Us</h4>
+                                                <p style="border:1px solid #eee; padding:15px"> <?php echo $k['about']?></p>
+                                            </div>
+                                        </div>
+                                        <div class="row  my-3">
+                                            <div class="col-md-12 mt-3">
+                                                <h4>Mission</h4>
+                                              <p  style="border:1px solid #eee; padding:15px"> <?php echo $k['mission']?> </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mt-3">
+                                                <h4>Vision</h4>
+                                              <p style="border:1px solid #eee; padding:15px"> <?php echo $k['vision']?> </p>
+                                            </div>
+                                        </div>
+                                    </div>  
                                 </div>
                             </div>
                         </div>

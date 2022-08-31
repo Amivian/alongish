@@ -21,12 +21,12 @@ $obj = new Property;
 $output= $obj->propertyRequest($other,$address,$status,$type,$bed,$furnished,$serviced,$shared,$state,$city,$fname, $phone,$email);
 
 if($output) {
-  $msg = "Request sent successfully, we will get back to you.";
-      header("Location: request.php?msg=".$msg);
+  $_SESSION['message'] = "Request sent successfully, we will get back to you.";
+      header("Location: request.php");
     exit();
   }else{
-    $msg = "Request failed, Try again";
-      header("Location: request.php?msg=".$msg);
+    $_SESSION['message']  = "Request failed, Try again";
+      header("Location: request.php");
     exit();
   }
 

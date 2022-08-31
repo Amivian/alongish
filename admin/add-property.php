@@ -82,9 +82,7 @@ $prop= new Property;
                         <div class="row">
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
-                                <?php
-                                                    $obj->get_state();
-                                                     ?>
+                                <?php $prop->get_state();?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
 
@@ -104,12 +102,20 @@ $prop= new Property;
                 </div>
                 <div class="single-add-property">
                     <h3>Property Media</h3>
-                    <div class="property-form-group">
+                    <div class="property-form-group">                        
+                    <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br>
                         <div class="row">
-                            <div class="col-md-12">
-                                <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br>
-                                <input required class="mt-2" type="file" name="images[]" multiple>
+                            <div class="col-md-3 filediv">
+                                <input class="mt-2" type="file" name="images[]">
                             </div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
                         </div>
                     </div>
                 </div>
@@ -176,151 +182,18 @@ $prop= new Property;
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                         <div class="row">
                             <div class="col-md-12">
-                                <ul class="pro-feature-add pl-0">
-
+                                <ul class="pro-feature-add pl-2">
                                     <li class="fl-wrap filter-tags clearfix">
                                         <div class="checkboxes float-left">
                                             <div class="filter-tags-wrap">
-                                                <input id="check-a" type="checkbox" name="extra[]"
-                                                    value="Air Condition">
-                                                <label for="check-a">Air Condition</label>
+                                                <?php $feature=$prop->getAllFeatures();?>
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-b" type="checkbox" name="extra[]"
-                                                    value="Swimming Pool">
-                                                <label for="check-b">Swimming Pool</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-c" type="checkbox" name="extra[]"
-                                                    value="Central Heating">
-                                                <label for="check-c">Central Heating</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-d" type="checkbox" name="extra[]" value="Laundry Room">
-                                                <label for="check-d">Laundry Room</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-e" type="checkbox" name="extra[]" value="Gym">
-                                                <label for="check-e">Gym Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-f" type="checkbox" name="extra[]"
-                                                    value="Parking Space">
-                                                <label for="check-f">Parking Space</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-g" type="checkbox" name="extra[]"
-                                                    value="Gas / Fuel station Nearby">
-                                                <label for="check-g">Gas / Fuel station Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-h" type="checkbox" name="extra[]"
-                                                    value="Supermarket Nearby">
-                                                <label for="check-h">Supermarket Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-i" type="checkbox" name="extra[]"
-                                                    value="24 Hours Security">
-                                                <label for="check-i">24 Hours Security</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-j" type="checkbox" name="extra[]"
-                                                    value="Mosques Nearby">
-                                                <label for="check-j">Mosques Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-k" type="checkbox" name="extra[]"
-                                                    value="Stable Electricity">
-                                                <label for="check-k">Stable Electricity</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-l" type="checkbox" name="extra[]"
-                                                    value="Church Nearby">
-                                                <label for="check-l">Church Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-m" type="checkbox" name="extra[]" value="Alarm">
-                                                <label for="check-m">Alarm</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-n" type="checkbox" name="extra[]"
-                                                    value="Window Covering">
-                                                <label for="check-n">Window Covering</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-o" type="checkbox" name="extra[]" value="Lister">
-                                                <label for="check-o">Lister</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-p" type="checkbox" name="extra[]"
-                                                    value="TV Cable & WIFI">
-                                                <label for="check-p">TV Cable & WIFI</label>
-                                            </div>
-                                        </div>
-                                    </li>
+                                 
                                 </ul>
                             </div>
                         </div>

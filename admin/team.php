@@ -48,11 +48,12 @@ $prop= new Property;
                 <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">         
                 <input type="text" name="staff" class="d-none" value="staff">
                 <div class="single-add-property">
-                    <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-danger'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+                <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                     <h3>Add Team Member</h3>
                      <div class="property-form-group">
                         <div class="row">

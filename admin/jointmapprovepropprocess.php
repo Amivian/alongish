@@ -9,12 +9,12 @@ $obj = new Property;
 $output= $obj->statusVentureM($iddd,$staty);
 
 if($output) {
-  $msg = "Property Status Changed Successfully";
-      header("Location:managejointmessages.php?msg=".$msg);
+  $_SESSION['message'] = "Property Status Changed Successfully";
+      header("Location:managejointmessages.php");
     exit();
   }else{
-    $msg = "Failed to Approve Property, Try again";
-      header("Location: managejointmessages.php?msg=".$msg);
+    $_SESSION['message'] = "Failed to Approve Property, Try again";
+      header("Location: managejointmessages.php");
     exit();
   }
 

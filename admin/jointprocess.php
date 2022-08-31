@@ -22,12 +22,12 @@ $obj = new Property;
 $output= $obj->addJointVenture($userid,$staff,$title,$prodesc,$offer,$address,$joint,$state,$city,$extra,$images);
 
 if($output) {
-  $msg = "Property added successfully";
-      header("Location: my-venture.php?msg=".$msg);
+ $_SESSION['message']= "Property added successfully";
+      header("Location: my-venture.php");
     exit();
   }else{
-    $msg = "Failed to add Property, Try again";
-      header("Location: add-property.php?msg=".$msg);
+   $_SESSION['message']= "Failed to add Property, Try again";
+      header("Location:venture.php");
     exit();
   }
 

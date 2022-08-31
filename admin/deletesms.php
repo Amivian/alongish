@@ -1,16 +1,16 @@
 <?php 
+session_start();
 require('property.php');
 $id = $_GET['id'];
 $obj = new Property;
 $output = $obj->deletesms($id);
 if($output) {
-    $msg = "Message deleted successfully";
-      header("Location:my-contact-messages.php?msg=".$msg);
+  $_SESSION['message']= "Message deleted successfully";
+      header("Location:my-contact-messages.php");
   exit();
   }else{
-    $msg = "Failed to delete";
-      header("Location:my-contact-messages.php?msg=".$mg);
-      // echo $msg;
+    $_SESSION['message'] = "Failed to delete";
+      header("Location:my-contact-messages.php");
     exit();
   }
  ?>

@@ -1,21 +1,19 @@
 <?php 
+session_start();
 require('property.php');
 $id = $_GET['id'];
 $obj = new Property;
 $output = $obj->delete($id);
 
-$mg='';
-if(isset($_GET['delete'])) {
 if($output) {
-  $mg = "Deleted Successfully";
-    header("Location:dashboard.php?m=".$mg);
+  $_SESSION['message'] = "Deleted Successfully";
+    header("Location:dashboard.php");
 exit();
 }else{
-  $mg = "Failed to delete";
-    header("Location:dashboard.php?m=".$mg);
+  $_SESSION['message'] = "Failed to delete";
+    header("Location:dashboard.php");
     // echo $msg;
   exit();
-}
 }
 
  ?>

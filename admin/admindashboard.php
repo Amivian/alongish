@@ -50,6 +50,12 @@ $quest = $prop->agentjointVentureCount($agent_id);
         <div class="dashborad-box stat bg-white">
             <h4 class="title">Manage Dashboard</h4>
             <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
+            <?php
                             if(isset($_GET['msg'])) {
                                 echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
                             }?>

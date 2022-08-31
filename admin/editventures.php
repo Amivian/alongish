@@ -16,19 +16,19 @@ if (isset($_POST['btn'])) {
         $extra = $_POST['extra'];
     }
 
-$pid =$_POST['p_id'];
+   $pid =$_POST['p_id'];
     
     $obj = new Property;
     $output= $obj->editJointVenture($title,$prodesc,$offer,$address,$joint,$state,$city,$extra,$images,$pid);
     if($output) {
-  $msg = "Property Edited successfully";
-      header("Location: manage-ventures.php?msg=".$msg);
-    exit();
-  }else{
-    $msg = "Failed to edit Property, Try again";
-      header("Location:edit-agent-venture.php?msg=".$msg);
-    exit();
-  }
+    $_SESSION['message']= "Property Edited successfully";
+        header("Location: manage-ventures.php");
+      exit();
+    }else{
+      $_SESSION['message']= "Failed to edit Property, Try again";
+        header("Location:edit-agent-venture.php");
+      exit();
+    }
 
 }
 

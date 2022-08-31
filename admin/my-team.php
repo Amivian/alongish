@@ -44,14 +44,12 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
         <?php
                         require('include/mobile-dashboard.php');
                         ?>
-        <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
-                            }?>
-        <?php
-                            if(isset($_GET['mssg'])) {
-                                echo "<h4 class='alert alert-danger text-center'>". $_GET['mssg'] ."</h4>";
-                            }?>
+       <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
         <div class="my-properties">
             <table class="table-responsive">
                 <thead>
@@ -81,20 +79,17 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                         <td> <?php echo $team['email']?></td>
                         <td><?php echo date('F j, Y', strtotime($team['date_add']))?></td> <td class='actions'>
                             <div class='row'>
-                                <div class='col-6'>
-                                    <form action='manage-team.php' method='POST'>
-                                        <input type='text' name='edit_id' class='d-none'
-                                            value="<?php echo $team['swap_id']?>">
-                                        <button type='submit' name='edit_data'
-                                            class='btn btn-success btn-sm'>Edit</button>
-                                    </form>
-                                </div>
-                                <div class='col-6'>
-                                    <a href='deleteteam.php?id=<?php echo $team['team_id']?>' name='delete'
-                                        onclick="return confirm('You are about to delete this <?php echo ucwords($te['swap_name'])?>')">
-                                        <i class='far fa-trash-alt'></i>
+                                <div class='col-7'>
+                                    <a href='manage-team.php?edit_id=<?php echo $team['team_id']?>' class="btn p-2 text-white btn-success btn-sm">
+                                     Edit
                                     </a>
                                 </div>
+                                <div class='col-3'>
+                                   <a href='deleteteam.php?id=<?php echo $team['team_id']?>' name='delete'
+                                                    onclick="return confirm('You are about to delete this <?php echo ucwords($team['t_fname'])?>')">
+                                                    <i class='far fa-trash-alt'></i>
+                                                </a>
+                                            </div>
                             </div>
                         </td>
                     </tr>

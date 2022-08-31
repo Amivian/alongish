@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <!-- ARCHIVES CSS -->
     <link rel="stylesheet" href="../css/search.css">
+    <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/dashbord-mobile-menu.css">
     <link rel="stylesheet" href="../css/animate.css">
     <link rel="stylesheet" href="../css/swiper.min.css">

@@ -21,7 +21,7 @@ else{
     $prop = new Property;
     if(isset($_GET['edit_id'])) {
         $id= $_GET['edit_id'];
-        $property = $prop->showPropertyDetails($id);    
+        $property = $prop->showPropertyInfo($id);    
         $images = $prop->getAllImages($id);
     }
 }

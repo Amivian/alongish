@@ -231,16 +231,84 @@ class Property
         }echo "</select>";
     }
 
-    public function showAgents()
+
+    public function getRegUsers()
     {
-        $sql = "SELECT * FROM agents JOIN states ON agents.states_id = states.states_id JOIN city ON agents.city_id = city.city_id";
+        // get the pagenum.  If it doesn't exist, set it to 1
+        if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
+        // set the number of entries to appear on the page
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(agent_id)  AS total_records FROM agents WHERE agents.deleted='0' AND status='verified'");
+        $total_records = mysqli_fetch_array($sql1);
+        $total_records = $total_records['total_records'];
+        $entries_per_page = 10;
+        // total pages is rounded up to nearest integer
+        $total_pages = ceil($total_records / $entries_per_page);
+        // offset is used by SQL query in the LIMIT
+        $offset = (($page * $entries_per_page) - $entries_per_page);
+
+        $sql = "SELECT * FROM agents
+        LEFT JOIN states ON agents.states_id = states.states_id
+        LEFT JOIN city ON agents.city_id = city.city_id
+        WHERE agents.deleted='0'
+        AND status='verified'
+        ORDER BY datereg DESC
+        LIMIT $offset, $entries_per_page";
+        // die($sql);
         $result = $this->con->query($sql);
         $data = [];
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_array()) {
             $data[] = $row;
         }
         return $data;
+
     }
+
+    public function pagination_agents($webpage, $page)
+    {
+
+        if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(agent_id)  AS total_records FROM agents  WHERE agents.deleted='0'AND status='verified'");
+        $total_records = mysqli_fetch_array($sql1);
+        $total_records = $total_records['total_records'];
+        // set the number of entries to appear on the page
+        $entries_per_page = 10;
+        // total pages is rounded up to nearest integer
+        $total_pages = ceil($total_records / $entries_per_page);
+        // offset is used by SQL query in the LIMIT
+        $offset = (($page * $entries_per_page) - $entries_per_page);
+        // Maximum number of links per page.  If exceeded, google style pagination is generated
+        $max_links = 10;
+        $h = 1;
+        if ($page > $max_links) {
+            $h = (($h + $page) - $max_links);
+        }
+        if ($page >= 1) {
+            $max_links = $max_links + ($page - 1);
+        }
+        if ($max_links > $total_pages) {
+            $max_links = $total_pages + 1;
+        }
+        if ($page > 1) {
+            echo '<li class="page-item" disabled><a class=" btn text-white " href="' . $webpage . '?page=' . ($page - 1) . '" >Prev</a></li> ';
+        }
+
+        if ($total_pages != 1) {
+            for ($i = $h; $i < $max_links; $i++) {
+                if ($i == $page) {
+                    echo '<li class="active page-item "><a class="page-link">' . $i . '</a></li>';
+                } else {
+                    echo '<li class="page-item"><a href="' . $webpage . '?page=' . $i . '" class="page-link">' . $i . '</a> </li>';
+                }
+            }
+        }
+
+        if (($page >= 1) && ($page != $total_pages)) {
+            echo '<li class="page-item " disabled><a href="' . $webpage . '?page=' . ($page + 1) . '" class="btn text-white">Next</a></li>';
+        }
+    }
+
+
+
 
     public function getStatus($selected = '')
     {
@@ -411,7 +479,253 @@ class Property
             echo '<li class="page-item" disabled><a href="' . $webpage . '?page=' . ($page + 1) . '" class="page-link">Next</a></li>';
         }
     }
+
+
     
+    
+    public function showAdminJointVentures()
+    {
+                // get the pagenum.  If it doesn't exist, set it to 1
+        if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
+        // set the number of entries to appear on the page
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(jointventure_id) As total_records FROM joint_venture 
+        WHERE joint_venture.staff= 'staff' 
+        AND joint_venture.deleted='0' ");
+        $total_records = mysqli_fetch_array($sql1);
+        $total_records = $total_records['total_records'];
+        $entries_per_page = 10;
+        // total pages is rounded up to nearest integer
+        $total_pages = ceil($total_records / $entries_per_page);
+        // offset is used by SQL query in the LIMIT
+        $offset = (($page * $entries_per_page) - $entries_per_page);
+        $sql = "SELECT * FROM joint_venture 
+        LEFT JOIN agents ON joint_venture.agent_id = agents.agent_id 
+        LEFT JOIN states ON joint_venture.states_id = states.states_id 
+        LEFT JOIN city ON joint_venture.city_id = city.city_id  
+        WHERE joint_venture.staff= 'staff' 
+        AND joint_venture.deleted='0'
+        ORDER BY date_posted
+        DESC LIMIT $offset, $entries_per_page";
+        // die($sql);
+        $result = $this->con->query($sql);
+        $data = [];
+        while ($row = $result->fetch_array()) {
+            $data[] = $row;
+        }
+        return $data;
+
+    }
+
+    public function pagination_adminjoint($webpage, $page)
+    {
+
+        if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(jointventure_id) As total_records FROM joint_venture 
+        WHERE joint_venture.staff= 'staff' 
+        AND joint_venture.deleted='0' ");
+        $total_records = mysqli_fetch_array($sql1);
+        $total_records = $total_records['total_records'];
+        // set the number of entries to appear on the page
+        $entries_per_page = 10;
+        // total pages is rounded up to nearest integer
+        $total_pages = ceil($total_records / $entries_per_page);
+        // offset is used by SQL query in the LIMIT
+        $offset = (($page * $entries_per_page) - $entries_per_page);
+                // Maximum number of links per page.  If exceeded, google style pagination is generated
+        $max_links = 10;
+        $h = 1;
+        if ($page > $max_links) {
+            $h = (($h + $page) - $max_links);
+        }
+        if ($page >= 1) {
+            $max_links = $max_links + ($page - 1);
+        }
+        if ($max_links > $total_pages) {
+            $max_links = $total_pages + 1;
+        }
+        if ($page > 1) {
+            echo '<li class="page-item" disabled><a class="page-link" href="' . $webpage . '?page=' . ($page - 1) . '">Prev</a></li> ';
+        }
+
+        if ($total_pages != 1) {
+            for ($i = $h; $i < $max_links; $i++) {
+                if ($i == $page) {
+                    echo '<li class="active page-item"><a class="page-link">' . $i . '</a></li>';
+                } else {
+                    echo '<li class="page-item"><a href="' . $webpage . '?page=' . $i . '" class="page-link">' . $i . '</a> </li>';
+                }
+            }
+        }
+
+        if (($page >= 1) && ($page != $total_pages)) {
+            echo '<li class="page-item" disabled><a href="' . $webpage . '?page=' . ($page + 1) . '" class="page-link">Next</a></li>';
+        }
+    }
+
+
+    
+    
+    public function showAdminswaps()
+    {
+                // get the pagenum.  If it doesn't exist, set it to 1
+        if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
+        // set the number of entries to appear on the page
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(swap_id) As total_records FROM swaps 
+        WHERE swaps.staff= 'staff' 
+        AND swaps.deleted='0'");
+        $total_records = mysqli_fetch_array($sql1);
+        $total_records = $total_records['total_records'];
+        $entries_per_page = 10;
+        // total pages is rounded up to nearest integer
+        $total_pages = ceil($total_records / $entries_per_page);
+        // offset is used by SQL query in the LIMIT
+        $offset = (($page * $entries_per_page) - $entries_per_page);
+        $sql = "SELECT * FROM swaps 
+        LEFT JOIN agents ON swaps.agent_id = agents.agent_id 
+        LEFT JOIN states ON swaps.states_id = states.states_id 
+        LEFT JOIN city ON swaps.city_id = city.city_id  
+        WHERE swaps.staff= 'staff' 
+        AND swaps.deleted='0'
+        ORDER BY date_posted
+        DESC LIMIT $offset, $entries_per_page";
+        // die($sql);
+        $result = $this->con->query($sql);
+        $data = [];
+        while ($row = $result->fetch_array()) {
+            $data[] = $row;
+        }
+        return $data;
+
+    }
+
+    public function pagination_swap($webpage, $page)
+    {
+
+        if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(swap_id) As total_records FROM swaps
+         WHERE swaps.staff= 'staff' 
+        AND swaps.deleted='0'");
+        $total_records = mysqli_fetch_array($sql1);
+        $total_records = $total_records['total_records'];
+        // set the number of entries to appear on the page
+        $entries_per_page = 10;
+        // total pages is rounded up to nearest integer
+        $total_pages = ceil($total_records / $entries_per_page);
+        // offset is used by SQL query in the LIMIT
+        $offset = (($page * $entries_per_page) - $entries_per_page);
+                // Maximum number of links per page.  If exceeded, google style pagination is generated
+        $max_links = 10;
+        $h = 1;
+        if ($page > $max_links) {
+            $h = (($h + $page) - $max_links);
+        }
+        if ($page >= 1) {
+            $max_links = $max_links + ($page - 1);
+        }
+        if ($max_links > $total_pages) {
+            $max_links = $total_pages + 1;
+        }
+        if ($page > 1) {
+            echo '<li class="page-item" disabled><a class="page-link" href="' . $webpage . '?page=' . ($page - 1) . '">Prev</a></li> ';
+        }
+
+        if ($total_pages != 1) {
+            for ($i = $h; $i < $max_links; $i++) {
+                if ($i == $page) {
+                    echo '<li class="active page-item"><a class="page-link">' . $i . '</a></li>';
+                } else {
+                    echo '<li class="page-item"><a href="' . $webpage . '?page=' . $i . '" class="page-link">' . $i . '</a> </li>';
+                }
+            }
+        }
+
+        if (($page >= 1) && ($page != $total_pages)) {
+            echo '<li class="page-item" disabled><a href="' . $webpage . '?page=' . ($page + 1) . '" class="page-link">Next</a></li>';
+        }
+    }
+
+
+
+    
+    public function showAllswaps()
+    {
+                // get the pagenum.  If it doesn't exist, set it to 1
+        if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
+        // set the number of entries to appear on the page
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(swap_id) As total_records FROM swaps 
+        WHERE swaps.staff= 'staff' 
+        AND swaps.deleted='0'");
+        $total_records = mysqli_fetch_array($sql1);
+        $total_records = $total_records['total_records'];
+        $entries_per_page = 10;
+        // total pages is rounded up to nearest integer
+        $total_pages = ceil($total_records / $entries_per_page);
+        // offset is used by SQL query in the LIMIT
+        $offset = (($page * $entries_per_page) - $entries_per_page);
+        $sql = "SELECT * FROM swaps 
+        LEFT JOIN agents ON swaps.agent_id = agents.agent_id 
+        LEFT JOIN states ON swaps.states_id = states.states_id 
+        LEFT JOIN city ON swaps.city_id = city.city_id  
+        WHERE swaps.deleted='0'
+        ORDER BY date_posted
+        DESC LIMIT $offset, $entries_per_page";
+        // die($sql);
+        $result = $this->con->query($sql);
+        $data = [];
+        while ($row = $result->fetch_array()) {
+            $data[] = $row;
+        }
+        return $data;
+
+    }
+
+    public function pagination_allswap($webpage, $page)
+    {
+
+        if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(swap_id) As total_records FROM swaps
+         WHERE swaps.deleted='0'");
+        $total_records = mysqli_fetch_array($sql1);
+        $total_records = $total_records['total_records'];
+        // set the number of entries to appear on the page
+        $entries_per_page = 10;
+        // total pages is rounded up to nearest integer
+        $total_pages = ceil($total_records / $entries_per_page);
+        // offset is used by SQL query in the LIMIT
+        $offset = (($page * $entries_per_page) - $entries_per_page);
+                // Maximum number of links per page.  If exceeded, google style pagination is generated
+        $max_links = 10;
+        $h = 1;
+        if ($page > $max_links) {
+            $h = (($h + $page) - $max_links);
+        }
+        if ($page >= 1) {
+            $max_links = $max_links + ($page - 1);
+        }
+        if ($max_links > $total_pages) {
+            $max_links = $total_pages + 1;
+        }
+        if ($page > 1) {
+            echo '<li class="page-item" disabled><a class="page-link" href="' . $webpage . '?page=' . ($page - 1) . '">Prev</a></li> ';
+        }
+
+        if ($total_pages != 1) {
+            for ($i = $h; $i < $max_links; $i++) {
+                if ($i == $page) {
+                    echo '<li class="active page-item"><a class="page-link">' . $i . '</a></li>';
+                } else {
+                    echo '<li class="page-item"><a href="' . $webpage . '?page=' . $i . '" class="page-link">' . $i . '</a> </li>';
+                }
+            }
+        }
+
+        if (($page >= 1) && ($page != $total_pages)) {
+            echo '<li class="page-item" disabled><a href="' . $webpage . '?page=' . ($page + 1) . '" class="page-link">Next</a></li>';
+        }
+    }
+    
+
+
     public function showFeaturedProperties()
     {
         $sql = "SELECT * FROM property 
@@ -446,6 +760,24 @@ class Property
             return $singleImage;
         }
 
+    }
+
+    public function showPropertyinfo($id)
+    {   $sql = "SELECT *
+        FROM property
+        JOIN agents ON property.agent_id = agents.agent_id
+        LEFT JOIN states ON property.states_id = states.states_id
+        LEFT JOIN city ON property.city_id = city.city_id
+        LEFT JOIN bathroom ON property.bathroom_id = bathroom.bathroom_id
+        LEFT JOIN property_status ON property.pstatus_id = property_status.pstatus_id
+        LEFT JOIN property_type ON property.ptype_id=property_type.ptype_id
+        LEFT JOIN bedroom ON property.bedroom_id =bedroom.bedroom_id
+        WHERE property.property_id='$id'
+            AND property.deleted = '0'
+        ORDER BY date_posted DESC";
+        $result = $this->con->query($sql);
+        $row = $result->fetch_assoc();
+        return $row;
     }
 
     public function getAllImages($id)
@@ -591,12 +923,39 @@ class Property
         }
     }
 
+    public function getagentlistings($id){
+        $sql = "SELECT *
+        FROM property
+        JOIN states ON property.states_id = states.states_id
+        JOIN city ON property.city_id = city.city_id
+        LEFT JOIN bathroom ON property.bathroom_id = bathroom.bathroom_id
+        LEFT JOIN property_status ON property.pstatus_id = property_status.pstatus_id
+        LEFT JOIN property_type ON property.ptype_id=property_type.ptype_id
+        LEFT JOIN bedroom ON property.bedroom_id =bedroom.bedroom_id
+        WHERE property.agent_id ='$id'
+        AND property.deleted = '0'
+        ORDER BY date_posted DESC
+        LIMIT 3";
+        $result = $this->con->query($sql);
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
+
+    }
+
+
+
+
     public function getAgentProperties($id)
     {
                 // get the pagenum.  If it doesn't exist, set it to 1
         if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
         // set the number of entries to appear on the page
-        $sql1 = mysqli_query($this->con, "SELECT COUNT(property_id) As total_records FROM property WHERE property.agent_id = '$id'");
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(property_id) As total_records FROM property 
+        WHERE property.agent_id = '$id'
+        AND property.deleted = '0'");
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
         $entries_per_page = 10;
@@ -614,7 +973,7 @@ class Property
     LEFT JOIN property_type ON property.ptype_id=property_type.ptype_id
     LEFT JOIN bedroom ON property.bedroom_id =bedroom.bedroom_id
     WHERE property.agent_id ='$id'
-        AND deleted = '0'
+        AND property.deleted = '0'
     ORDER BY date_posted DESC
     LIMIT $offset, $entries_per_page";
 
@@ -632,7 +991,9 @@ class Property
     {
 
         if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
-        $sql1 = mysqli_query($this->con, "SELECT COUNT(property_id) As total_records FROM property WHERE property.agent_id = '$id'");
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(property_id) As total_records FROM property 
+        WHERE property.agent_id = '$id'
+        AND property.deleted = '0'");
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
                 // set the number of entries to appear on the page
@@ -674,7 +1035,8 @@ class Property
 
     public function agentPropertyCount($id)
     {
-        $sql = "SELECT COUNT(property_id) FROM property WHERE property.agent_id ='$id'";
+        $sql = "SELECT COUNT(property_id) FROM property WHERE property.agent_id ='$id'
+        AND property.deleted = '0'";
         $result = $this->con->query($sql);
                 //  die($sql);
         $row = mysqli_fetch_row($result);
@@ -683,7 +1045,8 @@ class Property
 
     public function agentSwapCount($id)
     {
-        $sql = "SELECT COUNT(swap_id) FROM swaps WHERE swaps.agent_id ='$id'";
+        $sql = "SELECT COUNT(swap_id) FROM swaps WHERE swaps.agent_id ='$id'
+        AND swaps.deleted = '0'";
         $result = $this->con->query($sql);
                 //  die($sql);
         $row = mysqli_fetch_row($result);
@@ -692,17 +1055,21 @@ class Property
 
     public function agentMessageCount($id)
     {
-        $sql = "SELECT COUNT(message_id) FROM jointventure_message WHERE jointventure_message.agent_id ='$id' AND jmstatus='approved'";
+        $sql = "SELECT COUNT(message_id) FROM jointventure_message 
+        WHERE jointventure_message.agent_id ='$id'
+         AND jointventure_message.jmstatus='approved'
+        AND jointventure_message.deleted = '0'";
         $result = $this->con->query($sql);
-                //  die($sql);
         $row = mysqli_fetch_row($result);
         return $row[0];
     }
     public function agentJointVentureCount($id)
     {
-        $sql = "SELECT COUNT(jointventure_id) FROM joint_venture WHERE joint_venture.agent_id ='$id' AND jstatus='approved'";
+        $sql = "SELECT COUNT(jointventure_id) FROM joint_venture 
+        WHERE joint_venture.agent_id ='$id' 
+        AND joint_venture.jstatus='approved'
+        AND joint_venture.deleted = '0'";
         $result = $this->con->query($sql);
-                //  die($sql);
         $row = mysqli_fetch_row($result);
         return $row[0];
     }
@@ -712,7 +1079,7 @@ class Property
                 // get the pagenum.  If it doesn't exist, set it to 1
         if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
         // set the number of entries to appear on the page
-        $sql1 = mysqli_query($this->con, "SELECT COUNT(swap_id) As total_records FROM swaps WHERE swaps.agent_id = '$id'");
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(swap_id) As total_records FROM swaps WHERE swaps.agent_id = '$id' AND swaps.deleted='0'");
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
         $entries_per_page = 10;
@@ -722,8 +1089,11 @@ class Property
         $offset = (($page * $entries_per_page) - $entries_per_page);
 
         $sql = "SELECT * FROM swaps 
-        JOIN states ON swaps.states_id = states.states_id 
-        JOIN city ON swaps.city_id = city.city_id  WHERE swaps.agent_id ='$id' ORDER BY date_posted DESC LIMIT $offset, $entries_per_page";
+        LEFT JOIN states ON swaps.states_id = states.states_id 
+        LEFT JOIN city ON swaps.city_id = city.city_id  
+        WHERE swaps.agent_id ='$id'  
+        AND swaps.deleted='0' 
+        ORDER BY date_posted DESC LIMIT $offset, $entries_per_page";
         // die($sql);
         $result = $this->con->query($sql);
         $data = [];
@@ -738,7 +1108,7 @@ class Property
     {
 
         if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
-        $sql1 = mysqli_query($this->con, "SELECT COUNT(swap_id) As total_records FROM swaps WHERE swaps.agent_id = '$id'");
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(swap_id) As total_records FROM swaps WHERE swaps.agent_id = '$id' AND swaps.deleted='0'");
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
         // set the number of entries to appear on the page
@@ -778,17 +1148,6 @@ class Property
         }
     }
 
-            // $sql = "SELECT * FROM swaps JOIN states ON swaps.states_id = states.states_id JOIN city ON swaps.city_id = city.city_id  WHERE swaps.agent_id ='$id' ORDER BY date_posted DESC";
-            //      // die($sql);
-            // $result=$this->con->query($sql);
-
-            // $data = [];
-            //      // die($sql);
-            // while($row = $result->fetch_assoc()) {
-            //     $data[] = $row;
-            // }
-            // return $data;
-            // }
 
     public function showAgentjointMessage($id)
     {
@@ -796,6 +1155,7 @@ class Property
         JOIN agents ON jointventure_message.agent_id = agents.agent_id 
         WHERE jointventure_message.agent_id ='$id' 
         AND jointventure_message.jmstatus='approved' 
+            AND jointventure_message.deleted='0'
         ORDER BY date_posted 
         DESC limit 3";
                 // die($sql);
@@ -813,10 +1173,9 @@ class Property
         $sql = "SELECT * FROM agent_message 
         JOIN agents ON agent_message.agent_id = agents.agent_id 
         WHERE agent_message.agent_id ='$id'
+        AND agent_message.deleted='0'
         ORDER BY date_posted
         DESC limit 3";
-        
-                // die($sql);
         $result = $this->con->query($sql);
         $data = [];
         while ($row = $result->fetch_assoc()) {
@@ -828,23 +1187,17 @@ class Property
 
     public function delete($id)
     {
-         $sql = "DELETE FROM jointventure_message 
-                 WHERE jointventure_message.message_id = '$id'";
+         $sql = "DELETE FROM jointventure_message WHERE jointventure_message.message_id = '$id'";        
+        $sql = "UPDATE jointventure_message SET deleted = '1' WHERE jointventure_message.message_id = '$id'";
         $detail = $this->con->query($sql);
-                // die($sql);
         return true;
     }
 
     public function deleteSwap($id)
     {
-        $sql = "DELETE FROM swaps WHERE swaps.swap_id = '$id'";
+        $sql = "DELETE FROM swaps WHERE swaps.swap_id = '$id'";        
+        $sql = "UPDATE swaps SET deleted = '1' WHERE swaps.swap_id = '$id'";
          $detail = $this->con->query($sql);
-                // die($sql);
-         if ($detail) {
-             $sql1 = "DELETE FROM images WHERE images.swap_id = '$id'";
-                    // die($sql1);
-             $detail2 = $this->con->query($sql);
-         }
         return true;
     }
 
@@ -872,30 +1225,31 @@ class Property
     public function deletejointVenture($id)
     {
         $sql = "DELETE FROM joint_venture WHERE joint_venture.jointventure_id = '$id'";
+        $sql = "UPDATE joint_venture SET deleted = '1' WHERE joint_venture.jointventure_id = '$id'";
         $detail = $this->con->query($sql);
-                // die($sql);
-         if ($detail) {
-             $sql1 = "DELETE FROM images WHERE images.jointventure_id = '$id'";
-                    // die($sql1);
-            $detail1 = $this->con->query($sql1);
-        }
-        if ($detail) {
-            $sql2 = "DELETE FROM  joint_type  WHERE  joint_type.jointventure_id = '$id'";
-            $detail2 = $this->con->query($sql2);
-        }
+        //         // die($sql);
+        //  if ($detail) {
+        //      $sql1 = "DELETE FROM images WHERE images.jointventure_id = '$id'";
+        //             // die($sql1);
+        //     $detail1 = $this->con->query($sql1);
+        // }
+        // if ($detail) {
+        //     $sql2 = "DELETE FROM  joint_type  WHERE  joint_type.jointventure_id = '$id'";
+        //     $detail2 = $this->con->query($sql2);
+        // }
         return true;
     }
 
     public function showRecentProperties()
     {
         $sql = "SELECT * FROM property 
-        JOIN agents ON property.agent_id = agents.agent_id 
-        JOIN states ON property.states_id = states.states_id 
-        JOIN city ON property.city_id = city.city_id 
-        JOIN bathroom ON property.bathroom_id = bathroom.bathroom_id 
-        JOIN property_status ON property.pstatus_id = property_status.pstatus_id 
-        JOIN property_type ON property.ptype_id=property_type.ptype_id 
-        JOIN bedroom ON property.bedroom_id =bedroom.bedroom_id
+        LEFT JOIN agents ON property.agent_id = agents.agent_id 
+        LEFT JOIN states ON property.states_id = states.states_id 
+        LEFT JOIN city ON property.city_id = city.city_id 
+        LEFT JOIN bathroom ON property.bathroom_id = bathroom.bathroom_id 
+        LEFT JOIN property_status ON property.pstatus_id = property_status.pstatus_id 
+        LEFT JOIN property_type ON property.ptype_id=property_type.ptype_id 
+        LEFT JOIN bedroom ON property.bedroom_id =bedroom.bedroom_id
         WHERE property.pstatus = 'approved'        
         AND property.deleted = '0'
         order by date_posted desc limit 3";
@@ -1177,13 +1531,13 @@ class Property
 
         $offset = (($page * $entries_per_page) - $entries_per_page);
         $sql = "SELECT * FROM property 
-        JOIN city ON property.city_id = city.city_id 
-        JOIN property_type ON property.ptype_id = property_type.ptype_id  
-        JOIN bedroom ON bedroom.bedroom_id=property.bedroom_id 
-        JOIN bathroom ON bathroom.bathroom_id=property.bathroom_id 
-        JOIN agents ON property.agent_id = agents.agent_id  
-        JOIN states ON property.states_id = states.states_id 
-        JOIN property_status ON property.pstatus_id=property_status.pstatus_id 
+        LEFT JOIN city ON property.city_id = city.city_id 
+        LEFT JOIN property_type ON property.ptype_id = property_type.ptype_id  
+        LEFT JOIN bedroom ON bedroom.bedroom_id=property.bedroom_id 
+        LEFT JOIN bathroom ON bathroom.bathroom_id=property.bathroom_id 
+        LEFT JOIN agents ON property.agent_id = agents.agent_id  
+        LEFT JOIN states ON property.states_id = states.states_id 
+        LEFT JOIN property_status ON property.pstatus_id=property_status.pstatus_id 
         $where property.pstatus_id = '1'
         AND property.pstatus='approved' 
         AND property.deleted ='0' 
@@ -1549,7 +1903,6 @@ class Property
                         $sql3 = "INSERT INTO swap_document 
                         SET swap_id= '$swap_id', document_name='$check'";
                         $result3 = $this->con->query($sql3);
-
                     }
                 }
 
@@ -1596,7 +1949,7 @@ class Property
         LEFT JOIN states ON swaps.states_id = states.states_id 
         LEFT JOIN city ON swaps.city_id = city.city_id 
         WHERE swaps.swap_id= '$id'
-        AND swap.deleted='0'";
+        AND swaps.deleted='0'";
         $result = $this->con->query($sql);
         $row = $result->fetch_assoc();
         return $row;
@@ -1605,7 +1958,6 @@ class Property
     public function getSwapImages($id)
     {
         $sql = "SELECT * FROM images WHERE swap_id = '$id'";
-                // die($sql);
         $result = $this->con->query($sql);
         $data = [];
         while ($row = $result->fetch_assoc()) {
@@ -1844,7 +2196,7 @@ class Property
        LEFT JOIN bedroom ON property.bedroom_id =bedroom.bedroom_id
         WHERE property.staff= 'staff'              
         AND property.deleted = '0'
-        order by date_posted desc limit 2";
+        order by date_posted desc limit 4";
 
                 // die($sql);
         $result = $this->con->query($sql);
@@ -1870,6 +2222,25 @@ class Property
             $data[] = $row;
         }
         return $data;
+    }
+
+    public function showAdminJointventure(){
+        $sql = "SELECT * FROM joint_venture 
+        LEFT JOIN agents ON joint_venture.agent_id = agents.agent_id 
+        LEFT JOIN states ON joint_venture.states_id = states.states_id 
+        LEFT JOIN city ON joint_venture.city_id = city.city_id  
+        WHERE joint_venture.staff= 'staff' 
+        AND joint_venture.deleted='0'
+        ORDER BY date_posted
+        DESC LIMIT 2";
+        // die($sql);
+        $result = $this->con->query($sql);
+        $data = [];
+        while ($row = $result->fetch_array()) {
+            $data[] = $row;
+        }
+        return $data;
+
     }
 
     public function showTeamMembers()
@@ -2027,9 +2398,9 @@ class Property
         $offset = (($page * $entries_per_page) - $entries_per_page);
 
         $sql = "SELECT * FROM joint_venture 
-        JOIN agents ON joint_venture.agent_id = agents.agent_id 
-        JOIN states ON joint_venture.states_id = states.states_id 
-        JOIN city ON joint_venture.city_id = city.city_id   
+        LEFT JOIN agents ON joint_venture.agent_id = agents.agent_id 
+        LEFT JOIN states ON joint_venture.states_id = states.states_id 
+        LEFT JOIN city ON joint_venture.city_id = city.city_id   
         WHERE joint_venture.agent_id ='$id'        
         AND joint_venture.deleted ='0'
         ORDER BY date_posted DESC LIMIT $offset, $entries_per_page";
@@ -2123,7 +2494,6 @@ class Property
         }
         return $data;
     }
-
 
     public function getSponsorshipMessage($id)
     {
@@ -2288,6 +2658,8 @@ class Property
     public function deletesms($id)
     {
         $sql = "DELETE FROM agent_message WHERE agent_message.message_id = '$id'";
+        $sql = "UPDATE agent_message SET deleted = '1' WHERE agent_message.message_id = '$id'";   
+            //  die($sql);     
         $detail = $this->con->query($sql);
                 // die($sql);
         return true;
@@ -2443,9 +2815,9 @@ class Property
     public function showRecentJoint()
     {
         $sql = "SELECT * FROM joint_venture 
-        JOIN agents ON joint_venture.agent_id = agents.agent_id 
-        JOIN states ON joint_venture.states_id = states.states_id 
-        JOIN city ON joint_venture.city_id = city.city_id   
+       LEFT  JOIN agents ON joint_venture.agent_id = agents.agent_id 
+       LEFT  JOIN states ON joint_venture.states_id = states.states_id 
+       LEFT  JOIN city ON joint_venture.city_id = city.city_id   
         WHERE joint_venture.deleted='0' 
         AND joint_venture.jstatus='approved'
         order by date_posted desc limit 3";
@@ -2456,6 +2828,17 @@ class Property
         }
         return $data;
 
+    }
+
+    
+    public function getPartnerImage()
+    {
+        $sql = "SELECT image_url FROM partners";
+        $result = $this->con->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
     }
 
 }

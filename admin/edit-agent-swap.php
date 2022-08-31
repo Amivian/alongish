@@ -51,11 +51,12 @@ $property= $obj->showSwapsDetails($id);
         <div class="container">
       <form action="editswaps.php" method="POST" enctype="multipart/form-data">
         <div class="single-add-property">
-          <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-danger'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+        <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
           <h3>Edit Swap Item</h3>
           <div class="property-form-group">
           <input type="text" name="edit_id" class="d-none" value="<?php echo $id ?>">

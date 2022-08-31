@@ -52,10 +52,6 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                             unset($_SESSION['message']);
                         }
                          ?>
-                         <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
-                            }?>
                         <div class="my-properties">
                             <table class="table-responsive">
                                 <thead>

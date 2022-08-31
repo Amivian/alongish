@@ -230,7 +230,7 @@ $mail=$prop->newsLetter( $email);
                             }?>
                             </ul>
                         </div>
-
+                        
                         <!-- Disclaimer -->
 
                         <div class="single homes-content details mb-30">
@@ -298,23 +298,6 @@ $mail=$prop->newsLetter( $email);
                                                     </button>
                                                 </li>
                                             </ul>
-                                            <!-- <div class="agent-contact-form-sidebar">
-                                                <h4>Request Inquiry</h4>
-                                               <form name="contact_form" method="post" action="property-details.php">
-                                                    <input type="hidden" name="a_id" value="<?php echo $property['agent_id'] ?>">
-                                                    <input type="text" id="fname" name="fname" placeholder="Enter Your Name" required  data-error="Enter Your Name"/>
-                                                        <div class="help-block with-errors"></div>
-                                                    <input type="number" id="pnumber" name="phone"  placeholder="+23412345678" required  data-error="Enter Your Phone Number"/>
-                                                        <div class="help-block with-errors"></div>
-                                                    <input type="email" id="emailid" name="email"
-                                                        placeholder="Enter Your Email Address" required  data-error="Enter Your Email Address"/>
-                                                        <div class="help-block with-errors"></div>
-                                                    <textarea placeholder="Enter Your Message" name="message" required  data-error="Enter Your Request"></textarea>
-                                                        <div class="help-block with-errors"></div>
-                                                    <input type="submit" name="sendmessage"
-                                                        class="multiple-send-message" value="Submit Request" />
-                                                </form> -->
-                                            <!-- </div> -->
                                         </div>
                                     </div>
                                 </div>

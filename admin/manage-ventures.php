@@ -43,10 +43,12 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                     <?php
                         require('include/mobile-dashboard.php');
                         ?>
-                         <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
-                            }?>
+                        <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                         <div class="my-properties">
                             <table class="table-responsive">
                                 <thead>

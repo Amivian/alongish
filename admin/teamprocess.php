@@ -14,12 +14,12 @@ $obj = new Property;
 $output= $obj->addTeam($agent_id,$staff, $fname, $position,$email, $image);
 
 if($output) {
-  $msg = "Team Member added successfully";
-      header("Location: my-team.php?msg=".$msg);
+  $_SESSION['message'] = "Team Member added successfully";
+      header("Location: my-team.php");
     exit();
   }else{
-    $mssg = "Failed to add Team Member, Try again";
-      header("Location: team.php?msg=".$mssg);
+    $_SESSION['message'] = "Failed to add Team Member, Try again";
+      header("Location: team.php");
     exit();
   }
 

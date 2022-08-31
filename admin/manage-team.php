@@ -18,9 +18,10 @@ if (empty($pix)) {
 
 require('property.php');
 $obj1 = new Property;
-if(isset($_POST['edit_data'])) {
-$id= $_POST['edit_id'];
+if(isset($_GET['edit_id'])) {
+$id= $_GET['edit_id'];
 $swap = $obj1->showTeamDetails($id);
+$img = $obj1->getTeamImage($id);
 }
  ?>
 
@@ -53,16 +54,13 @@ $swap = $obj1->showTeamDetails($id);
             <form action="editteam.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="t_id" class="d-none" value="<?php echo $id; ?>">
                 <div class="single-add-property">
-                    <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-info'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+                <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                     <h3>Edit Team Member</h3>
-                    <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h2 class='alert alert-danger text-center'>". $_GET['msg'] ."</h2>";
-                            }?>
                      <div class="property-form-group">
                         <div class="row">
                             <div class="col-md-12">
@@ -82,23 +80,23 @@ $swap = $obj1->showTeamDetails($id);
                             <div class="col-md-6">
                                 <p>
                                     <label for="description">Email Address</label>
-                                    <input id="description" name="email" placeholder="johnjoe@gmail.com"  value="<?php echo $swap['email']; ?>">
+                                    <input id="description" name="email"  value="<?php echo $swap['email']; ?>">
                                 </p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <i class='fa fa-cloud-upload'></i> Click here to upload Team Member Image <br>
-                                <input required class="mt-2" type="file" name="image" >
-                            </div>
+                        <div class="col-md-4">
+                              <img src="../images/team/<?php echo $img ?>" class="img-fluid" alt="<?php echo $img ?>"  style="width:200px ! important;height:180px ! important" >
+                            <input class="mt-2" type="file" name="image">
+                                </div>
                         </div>
                     </div>
                 </div>
                 <div class="single-add-property">
                     <div class="property-form-group">
                         <div class="row">
-                            <button type="submit" class=" btn btn-success btn-lg " name="btn">Submit</button>
-                            <button type="button" class=" btn btn-danger  btn-lg mr-5" name="btncancle"
+                            <button type="submit" class=" btn btn-success btn-lg  mr-5" name="btn">Submit</button>
+                            <button type="button" class=" btn btn-danger  btn-lg" name="btncancle"
                                 onClick="document.location.href='my-team.php'">Cancel</button>
                         </div>
                     </div>
