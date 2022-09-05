@@ -258,7 +258,7 @@ require('include/head.php');
                                                             aria-hidden="true"></i><a
                                                             href="mailto:<?php echo  substr($property['a_email'], 0, -18)?>XXX"
                                                             id="email1"
-                                                            style="display:inline"><?php echo  substr($property['a_email'],0,-18) ?>XXX</a>
+                                                            style="display:inline"><?php echo  substr($property['a_email'],0,-18) ?>***</a>
                                                         <a href="mailto:<?php echo $property['a_email']?>" id="email"
                                                             style="display:none"><?php echo $property['a_email'] ?></a></span>
                                                     <!-- Button trigger modal -->

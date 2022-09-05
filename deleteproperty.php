@@ -1,15 +1,16 @@
-<?php 
-require('property.php');
+<?php
+session_start();
+require 'property.php';
 $id = $_GET['id'];
 $obj = new Property;
 $output = $obj->deleteProperty($id);
 
-  if ($output) {
-            $msg= "Property deleted Successfully";
-            header("location:my-listings.php?msg=".urlencode(base64_encode($msg)));
-        }else{
-            $msg= "Error deleting record, try again";
-            header("location:my-listings.php?mssg=".urlencode(base64_encode($msg)));
-        }
-
- ?>
+if ($output) {
+  $_SESSION['message'] = "Property deleted Successfully";
+    header("location:my-listings.php");
+    exit();
+} else {
+  $_SESSION['message'] = "Error deleting record, try again";
+    header("location:my-listings.php");
+    exit();
+}

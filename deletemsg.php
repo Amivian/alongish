@@ -1,15 +1,16 @@
 <?php 
+session_start();
 require('property.php');
 $id = $_GET['id'];
 $obj = new Property;
 $output = $obj->delete($id);
 if($output) {
-    $msg = "Sponsorship Message deleted successfully";
-      header("Location:my-messages.php?msg=".$msg);
+   $_SESSION['message'] = "Sponsorship Message deleted successfully";
+      header("Location:my-messages.php");
   exit();
   }else{
-    $msg = "Failed to delete";
-      header("Location:my-messages.php?msg=".$mg);
+   $_SESSION['message'] = "Failed to delete";
+      header("Location:my-messages.php");
       // echo $msg;
     exit();
   }

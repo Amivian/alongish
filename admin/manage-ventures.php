@@ -114,7 +114,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                                      <input value='$idd' name='idd' hidden>
                                                      <input value='$staty' name='staty' hidden>";
                                                     echo "<button type='submit' style='background:teal; color: white; border: teal !important; font-size: 12px;border-radius:5px; padding: 10px; ' class='btn btn-sm'  name='jstatus'>";
-                                                    echo "Pending (Click to Approve)";
+                                                    echo "Pending ";
                                                     echo "</button>";
                                                     echo "</form>";
                                                     
@@ -125,7 +125,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                                     echo "<input value='$idd' name='idd' hidden>";
                                                     echo "<input value='$staty' name='staty' hidden>";
                                                     echo "<button type='submit' style='background: green; color: white; border: green !important; font-size: 12px; border-radius:5px; padding: 10px;' class='btn btn-sm'  name='jstatus'>";
-                                                    echo "Approve (Click to Pending)";
+                                                    echo "Approve";
                                                     echo "</button>";
                                                     echo "</form>";
                                                 }
@@ -136,12 +136,9 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                         </div></td><td class='actions'>
                                         <div class='row'>
                                             <div class='col-7'>
-                                                <form action='edit-agent-venture.php' method='POST'>
-                                                    <input type='text' name='edit_id' class='d-none'
-                                                        value="<?php echo $props['jointventure_id']?>">
-                                                    <button type='submit' name='edit_data'
-                                                        class='btn btn-success btn-sm'>Edit</button>
-                                                </form>
+                                                <a href='edit-agent-venture.php?edit_id=<?php echo $props['jointventure_id']?>' class="btn p-2 text-white btn-success btn-sm">
+                                                Edit
+                                                </a>
                                             </div>
                                             <div class='col-3'><a href='delete.php?id=<?php echo $props['jointventure_id'] ?>' name='delete' onclick="return confirm('You are about to delete  <?php echo $props['joint_title']?> by <?php echo $props['a_fname'] ?> <?php echo $props['a_lname'] ?>')"><i class="far fa-trash-alt"></i></a></div>
                                         </td>

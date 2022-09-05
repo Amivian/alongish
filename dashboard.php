@@ -53,11 +53,6 @@ $contact = $prop->showAgentContactMessage($agent_id);
                         ?>
                         <div class="dashborad-box stat bg-white">
                             <h4 class="title">Manage Dashboard</h4>
-                            <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
-                            }?>
-                            
                           <?php
                             if(isset($_SESSION['message'])) {
                                 echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";

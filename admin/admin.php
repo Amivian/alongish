@@ -74,7 +74,7 @@ include "add-database.php";
 
 
        public function propertyCount(){
-        $sql= "SELECT COUNT(property_id) FROM property";
+        $sql= "SELECT COUNT(property_id) FROM property WHERE deleted='0'";
         $result= $this->con->query($sql);
         // die($sql);
         $row= mysqli_fetch_row($result);
@@ -83,7 +83,7 @@ include "add-database.php";
     
     
         public function agentCount(){
-            $sql= "SELECT COUNT(agent_id) FROM agents";
+            $sql= "SELECT COUNT(agent_id) FROM agents WHERE deleted='0'";
             $result= $this->con->query($sql);
             // die($sql);
             $row= mysqli_fetch_row($result);
@@ -91,7 +91,7 @@ include "add-database.php";
         }
          
         public function swapCount(){
-            $sql= "SELECT COUNT(swap_id) FROM swaps";
+            $sql= "SELECT COUNT(swap_id) FROM swaps WHERE deleted='0'";
             $result= $this->con->query($sql);
             // die($sql);
             $row= mysqli_fetch_row($result);
@@ -99,7 +99,7 @@ include "add-database.php";
         }
 
         public function jointVentureCount(){
-            $sql= "SELECT COUNT(jointventure_id) FROM joint_venture";
+            $sql= "SELECT COUNT(jointventure_id) FROM joint_venture WHERE deleted='0'";
             $result= $this->con->query($sql);
             // die($sql);
             $row= mysqli_fetch_row($result);
@@ -107,7 +107,7 @@ include "add-database.php";
         }
 
         public function teamCount(){
-            $sql= "SELECT COUNT(team_id) FROM team";
+            $sql= "SELECT COUNT(team_id) FROM team WHERE deleted='0'";
             $result= $this->con->query($sql);
             // die($sql);
             $row= mysqli_fetch_row($result);
@@ -115,24 +115,12 @@ include "add-database.php";
         }
     
         public function jointMessageCount(){
-            $sql= "SELECT COUNT(message_id) FROM jointventure_message";
+            $sql= "SELECT COUNT(message_id) FROM jointventure_message WHERE deleted='0'";
             $result= $this->con->query($sql);
             // die($sql);
             $row= mysqli_fetch_row($result);
             return $row[0];
         }
-
-            
-// public function getRegUsers(){
-//     $sql="SELECT * FROM agents JOIN states ON agents.states_id = states.states_id JOIN city ON agents.city_id = city.city_id";
-//     // die($sql);
-//          $result= $this->con->query($sql);
-//          $data = [];
-//        while($row = $result->fetch_assoc()) {
-//            $data[] = $row;
-//    }
-//    return $data;
-//    }
    
 
 
@@ -170,7 +158,11 @@ public function get_city($id){
 
 // get user details and display on the dashboard
 public function getUser($id){
-    $sql = "SELECT * FROM agents JOIN states ON agents.states_id = states.states_id JOIN city ON agents.city_id = city.city_id WHERE agent_id='$id'";
+    $sql = "SELECT * FROM agents 
+    JOIN states ON agents.states_id = states.states_id 
+    JOIN city ON agents.city_id = city.city_id 
+    WHERE agent_id='$id' 
+    AND agents.deledted='0' ";
     // die($sql);
     // $sql = "SELECT * FROM agents WHERE agent_id='$id'";
     $result = $this->con->query($sql);
@@ -210,19 +202,14 @@ public function uploadpix($pic_array){
 	}
 }
         public function deleteUser($id){
-            $sql= "DELETE FROM agents WHERE agent_id = '$id'";
+            $sql= "DELETE FROM agents WHERE agents.agent_id = '$id'";
+            $sql="UPDATE agents SET deleted='1' WHERE agents.agent_id = '$id'";   
+            // die($sql);         
             $result= $this->con->query($sql);
-            // die($sql);
-           if($result){
-               $msg= "Record deleted successfully";
-               header("location: reguers.php?msg=".$msg);
-           }else{
-               $mssg ="Record Not Deleted, Try Again";
-               header("location: regusers.php?mssg=".$mssg);
-           }
+            return true;
         }
 
-        public function updateAgent($id,$fname,$lname,$phone,$state,$city, $business, $about, $mission, $vision, $pix ){
+        public function updateAgent($id,$fname,$lname,$phone,$state, $city, $business, $pix,$mission, $vision,$about  ){
        $sql="UPDATE agents SET 
        a_fname='$fname',
        a_lname='$lname', 
@@ -233,7 +220,7 @@ public function uploadpix($pic_array){
        about = '$about',
        mission='$mission',
        vision='$vision'
-       WHERE agent_id = '$id' ";
+       WHERE agent_id ='$id'";
   
 // die($sql);
    $result= $this->con->query($sql);
@@ -264,7 +251,7 @@ public function uploadpix($pic_array){
 
          
          public function requestCount(){
-            $sql= $sql= "SELECT COUNT(request_id) FROM request";
+            $sql= $sql= "SELECT COUNT(request_id) FROM request WHERE request.request_id = '0'";
             $result= $this->con->query($sql);
             // die($sql);
             $row= mysqli_fetch_row($result);
@@ -274,6 +261,7 @@ public function uploadpix($pic_array){
       
         public function deleteRequest($id){
             $sql= "DELETE FROM request WHERE request_id = '$id'";
+            $sql = "UPDATE request SET deleted = '1' WHERE request.request_id = '$id'";
             $result= $this->con->query($sql);
             // die($sql)
             return true;

@@ -107,7 +107,12 @@ require('include/header002.php');
                             <div class="listing-title-bar">
                                 <div class="text-heading text-left">
                                     <p><a href="index.php">Home </a> &nbsp;/&nbsp; <span> <a herf = "http://localhost/homes/joint-venture-search.php?sponsorship=&city=city&city="> Joint Venture</a></span></p>
-                                </div>                                
+                                </div>                             
+                                <?php if(isset($_SESSION['message'])) {
+                                    echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                                    unset($_SESSION['message']);
+                                      }
+                                ?>      
                                 <h3 class="search-title">Joint Venture Listing</h3>
                                 <div class="bg-white p-3"><p  style="line-height: 20px;">In return , sponsors are offer plots of land as which is often %250 value of the total amount that you may have spent on the project. Depending on the contract agreement , sponsors can get as much as 1 plot per acre , 2 plots per acre. <br>  <b>Note that Entry fee (owo iwoko) (₦1 million - ₦5 million): usually negotiable, is required to register your interest with the family.</b>    </p></div>
                             </div>

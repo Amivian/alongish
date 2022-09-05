@@ -133,13 +133,13 @@ function legal_input($value) {
      $query=$db->query($sql);
       if($query)
       {
-      $msg='Your Message was sent Successfully, Will we get back to you.';
-      header("Location:joint-venture.php?msg=".$msg);
+     $_SESSION['message']='Your Message was sent Successfully, Will we get back to you.';
+      header("Location:joint-venture.php");
       }
       else
       {
-       $msg="message failed";
-        header("Location:joint-venture.php?msg=".$msg);
+      $_SESSION['message']="message failed";
+        header("Location:joint-venture.php");
       }
   }
   

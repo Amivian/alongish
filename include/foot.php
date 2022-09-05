@@ -113,19 +113,13 @@
                         <i class="fas fa-eye-slash" id="togglePassword"></i>
                     </div>
                     <div class="fl-wrap filter-tags clearfix add_bottom_30">
-                        <div class="checkboxes float-left">
-                            <div class="filter-tags-wrap d-flex">
-                                <input id="check-b" type="checkbox" name="check">
-                                <label for="check-b">Remember me</label>
-                                
-                         </div>
-                        </div>
-                        <div class="float-right"><a id="forgot" href="javascript:void(0);" style="font-size: 14px">Forgot Password?</a></div>
+                     <div class="float-left">
+                        <a id="forgot" href="forgot-password.php" style="font-size: 14px">Forgot Password?</a></div>
                     </div>
                     <button class="log-submit-btn" name="login">Login</button>
                 </form>
             </div>
-                  <div class="text-right mt-5 ">New to Alongish? <strong><a href="register.html">Sign up!</a></strong></div>
+                  <div class="text-right mt-5 ">New to Alongish? <strong><a href="register.php">Sign up!</a></strong></div>
                  </div>
               </div>
             </div>

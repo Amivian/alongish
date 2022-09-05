@@ -22,11 +22,11 @@ if (isset($_POST['btn']))
     $obj = new Property;
     $output = $obj->editJointVenture($title, $prodesc, $offer, $address, $joint, $state, $city, $extra, $images, $pid);
     if ($output) {
-       $SESSION['message']= "Property Edited successfully";
+       $_SESSION['message']= "Property Edited successfully";
         header("Location: my-venture.php");
         exit();
     } else {
-       $SESSION['message']= "Failed to edit Property, Try again";
+       $_SESSION['message']= "Failed to edit Property, Try again";
         header("Location:manage-venture.php");
         exit();
     }

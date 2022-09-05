@@ -23,12 +23,12 @@ $pid =$_POST['p_id'];
     $obj = new Property;
     $output= $obj->editJointVenture($title,$prodesc,$offer,$address,$joint,$state,$city,$extra,$images,$pid);
     if($output) {
-  $msg = "Property Edited successfully";
-      header("Location: my-venture.php?msg=".$msg);
-    exit();
-  }else{
-    $msg = "Failed to edit Property, Try again";
-      header("Location:manage-venture.php?msg=".$msg);
+    $_SESSION['message'] = "Property Edited successfully";
+          header("Location: my-venture.php");
+        exit();
+      }else{
+      $_SESSION['message'] = "Failed to edit Property, Try again";
+          header("Location:manage-venture.php");
     exit();
   }
 

@@ -61,7 +61,7 @@ $images=$prop->getSwapImages($id);
                     ?>
           <h3>Edit Swap Item</h3>
           <div class="property-form-group">
-          <input type="text" name="edit_id" class="d-none" value="<?php echo $id ?>">
+            <input type="text" name="edit_id" class="d-none" value="<?php echo $id ?>">
             <div class="row">
               <div class="col-md-8">
                 <p>

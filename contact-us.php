@@ -248,9 +248,9 @@ require('include/header002.php');
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-12">
-                    <div class="wrapper p-3">
+                    <div class="wrapper p-3 ">
                         <header>Contact Us</header>
-                        <form action="#">
+                        <form action="#" class="contactus">
                             <div class="button-area mb-2">
                                 <h6 class="message"></h6>
                             </div>
@@ -326,4 +326,7 @@ require('include/header002.php');
     </section>
     <!-- END SECTION CONTACT US -->
     <?php include "include/foot.php"?>
+    
+    <script src="js/jquery-3.5.1.min.js"></script>    
+    <script src="js/contact.js"></script>
     <?php require('include/footer.php')?>

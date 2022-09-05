@@ -39,17 +39,12 @@ if (empty($_SESSION['id'])) {
                     <div class="col-lg-9 col-md-12 col-xs-12 pl-0 user-dash2">
                         <?php require('include/mobile-dashboard.php'); ?>
                         <?php
-                            if(isset($_SESSION['message'])) {
-                                echo "<h5 class='alert alert-success text-center'>". $_SESSION['message'] ."</h5>";
-                                unset($_SESSION['message']);
-                            }
-                        ?>
-                       <?php
-                    if(isset($_GET['msg'])){
-                        echo "<h5 class='alert alert-info text-center'>".base64_decode(urldecode($_GET['msg'])) . '</h5>';
-                    }
-                    ?>  
-                        <div class="my-properties">
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
+                       <div class="my-properties">
                             <table class="table-responsive">
                                 <thead>
                                     <tr>

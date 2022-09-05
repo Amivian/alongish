@@ -84,7 +84,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                 </thead>
                                 <tbody>
                                     
-                                <?php
+                                <?php 
                                  $count= 1;
                                         foreach($output as $props) {
                                             ?>
@@ -116,14 +116,13 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                         </td>
                                     </tr>
                                     <?php
-                                     $count++; }?>
+                                     $count++; }?>                                    
                                 </tbody>
                             </table>
                             <div class="pagination-container">
                                 <nav>
                                     <ul class="pagination">
-                        <?php 
-                         $get = $prop->pagination_request('request-listing.php', $page);?>
+                                        <?php  $get = $prop->pagination_request('request-listing.php', $page);?>
                                     </ul>
                                 </nav>
                             </div>

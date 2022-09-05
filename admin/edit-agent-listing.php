@@ -18,9 +18,10 @@ if (empty($pix)) {
 
 require('property.php');
 $obj1 = new Property;
-if(isset($_POST['edit_data'])) {
-$id= $_POST['edit_id'];
-$property = $obj1->showPropertyDetails($id);
+if(isset($_GET['edit_id'])) {
+$id= $_GET['edit_id'];
+$property = $obj1->showPropertyInfo($id); 
+$images = $obj1->getAllImages($id);
 }
  ?>
 
@@ -53,7 +54,7 @@ $property = $obj1->showPropertyDetails($id);
             <form action="editlistings.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="p_id" class="d-none" value="<?php echo $id; ?>">
                 <div class="single-add-property">
-                                    <?php
+                    <?php
                         if(isset($_SESSION['message'])) {
                             echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
                             unset($_SESSION['message']);
@@ -62,36 +63,18 @@ $property = $obj1->showPropertyDetails($id);
                     <h3>Edit Property</h3>
                     <div class="property-form-group">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <p>
                                     <label for="title">Property Title</label>
-                                    <input type="text" name="title" id="title" placeholder="Ex: Newly Built Mini Flat"
-                                        value="<?php echo $property['property_title']; ?>">
+                                    <input type="text" name="title" id="title" value="<?php echo isset($property['property_title']) ? $property['property_title'] : ''; ?>">
                                 </p>
-                            </div>
-                            <div class="col-md-3 mt-5">
-                             
-                            <ul class="pro-feature-add pl-0">
-
-<li class="fl-wrap filter-tags clearfix">
-    <div class="checkboxes float-left">
-        <div class="filter-tags-wrap">
-                                    <input id="featured" type="checkbox" name="featured"
-                                                    value="featured">
-                                    <label for="featured">Featured</label>
-                                                    </div>
-                                        </div>
-                                    </li>
-                        </ul>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <p>
                                     <label for="description">Property Description</label>
-                                    <textarea id="description" name="pro-desc"
-                                        placeholder="<?php echo $property['property_description']; ?>"
-                                        value="<?php echo $property['property_description']; ?>"></textarea>
+                                    <textarea id="description" name="pro-desc"> <?php echo isset($property['property_description']) ? $property['property_description'] : ''; ?></textarea>
                                 </p>
                             </div>
                         </div>
@@ -104,21 +87,19 @@ $property = $obj1->showPropertyDetails($id);
                         <div class="row">
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
-                                <?php
-                                                    $obj1->get_state();
-                                                     ?>
+                                <?php $stateID = isset($property['states_id']) ? $property['states_id'] : 0; ?> 
+                                <?php $obj1->get_state($stateID); ?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
-
                                 <label for="city">City</label>
-                                <div type="text" name="city" id="citi"></div>
-
+                                <?php $cityID = isset($property['city_id']) ? $property['city_id'] : 0; ?> 
+                                <div type="text" name="city" city_info ="<?php echo $cityID ?>" id="citi"></div>
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <p>
                                     <label for="address">Address</label>
-                                    <input type="text" name="address" placeholder="Enter property Address" id="address"
-                                        value="<?php echo $property['property_address']; ?>">
+                                    <input type="text" name="address" 
+                                        value="<?php echo isset($property['property_address']) ? $property['property_address'] : ''; ?>">
                                 </p>
                             </div>
                         </div>
@@ -128,11 +109,23 @@ $property = $obj1->showPropertyDetails($id);
                 <div class="single-add-property">
                     <h3>Property Media</h3>
                     <div class="property-form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br>
-                                <input  class="mt-2" type="file" name="images[]" multiple>
-                            </div>
+                    <div class="row">
+                            <?php $imagesCount = count($images); $totalImages = 5; ?>
+                            <?php foreach ($images as $img) { ?>
+                                <div class="col-md-4">
+                                    <img src="../images/property/<?php echo $img['image_url'] ?>" class="img-fluid" alt="<?php echo $img['image_url'] ?>" width="200px">
+                                    <input class="mt-2" type="file" name="images[<?php echo $img['image_id']; ?>]">
+                                </div>
+                            <?php } ?>
+
+                            <?php if (($totalImages - $imagesCount) > 0) { ?>
+                                <?php for ($a=0; $a < ($totalImages - $imagesCount); $a++) { ?>
+                                    <div class="col-md-4 mt-3">
+                                        <img src="" class="img-fluid" alt="property" width="200px">
+                                        <input class="mt-2" type="file" name="images[]">
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -142,24 +135,21 @@ $property = $obj1->showPropertyDetails($id);
                     <div class="property-form-group mt-4">
                         <div class="row">
                             <div class="col-lg-4 col-md-4 dropdown faq-drop">
-                                <div class="form-group categories">
-                                    <?php 
-                   $obj1->getStatus();
-                     ?>
+                            <div class="form-group categories">                                    
+                                <?php $statusID = isset($property['pstatus_id']) ? $property['pstatus_id'] : 0; ?> 
+                                    <?php $obj1->getStatus($statusID); ?>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 dropdown faq-drop">
-                                <div class="form-group categories">
-                                    <?php 
-                   $obj1->getPropertytype();
-                     ?>
+                            <div class="form-group categories">
+                                <?php $propertytypeID = isset($property['ptype_id']) ? $property['ptype_id'] : 0; ?> 
+                                    <?php $obj1->getPropertytype($propertytypeID ); ?>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
-                                    <?php 
-                   $obj1->getBedroom();
-                     ?>
+                                <?php $bedroomID = isset($property['bedroom_id']) ? $property['bedroom_id'] : 0; ?> 
+                                    <?php $obj1->getBedroom($bedroomID); ?>
 
                                 </div>
                             </div>
@@ -167,17 +157,16 @@ $property = $obj1->showPropertyDetails($id);
                         <div class="row">
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
-                                    <?php 
-                   $obj1->getBathroom();
-                     ?>
+                                <?php $bathroomID = isset($property['bathroom_id']) ? $property['bathroom_id'] : 0; ?> 
+                                    <?php $obj1->getBathroom($bathroomID ); ?>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
                                     <select name="furnish" id="" class="form-control wide">
                                         <option value="">-- Furnished --</option>
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
+                                        <option value="Yes" <?php if (isset($property['furnished']) && strtolower($property['furnished']) == 'yes') echo 'selected'; ?>>Yes</option>
+                                        <option value="No" <?php if (isset($property['furnished']) && strtolower($property['furnished']) == 'no') echo 'selected'; ?>>No</option>
                                     </select>
                                 </div>
                             </div>
@@ -185,8 +174,8 @@ $property = $obj1->showPropertyDetails($id);
                                 <div class="form-group categories">
                                     <select name="service" id="" class="form-control wide">
                                         <option value="">-- Serviced --</option>
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
+                                        <option value="Yes" <?php if (isset($property['serviced']) && strtolower($property['serviced']) == 'yes') echo 'selected'; ?>>Yes</option>
+                                        <option value="No" <?php if (isset($property['serviced']) && strtolower($property['serviced']) == 'no') echo 'selected'; ?>>No</option>
                                     </select>
                                 </div>
                             </div>
@@ -194,156 +183,37 @@ $property = $obj1->showPropertyDetails($id);
                                 <div class="form-group categories">
                                     <select name="share" id="" class="form-control wide">
                                         <option value="">-- Shared --</option>
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
+                                        <option value="Yes" <?php if (isset($property['shared']) && strtolower($property['shared']) == 'yes') echo 'selected'; ?>>Yes</option>
+                                        <option value="No" <?php if (isset($property['shared']) && strtolower($property['shared']) == 'no') echo 'selected'; ?>>No</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="row">
                             <div class="col-md-12">
-                                <ul class="pro-feature-add pl-0">
-
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-a" type="checkbox" name="extra[]"
-                                                    value="Air Condition">
-                                                <label for="check-a">Air Condition</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-b" type="checkbox" name="extra[]"
-                                                    value="Swimming Pool">
-                                                <label for="check-b">Swimming Pool</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-c" type="checkbox" name="extra[]"
-                                                    value="Central Heating">
-                                                <label for="check-c">Central Heating</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-d" type="checkbox" name="extra[]" value="Laundry Room">
-                                                <label for="check-d">Laundry Room</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-e" type="checkbox" name="extra[]" value="Gym">
-                                                <label for="check-e">Gym Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-f" type="checkbox" name="extra[]"
-                                                    value="Parking Space">
-                                                <label for="check-f">Parking Space</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-g" type="checkbox" name="extra[]"
-                                                    value="Gas / Fuel station Nearby">
-                                                <label for="check-g">Gas / Fuel station Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-h" type="checkbox" name="extra[]"
-                                                    value="Supermarket Nearby">
-                                                <label for="check-h">Supermarket Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-i" type="checkbox" name="extra[]"
-                                                    value="24 Hours Security">
-                                                <label for="check-i">24 Hours Security</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-j" type="checkbox" name="extra[]"
-                                                    value="Mosques Nearby">
-                                                <label for="check-j">Mosques Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-k" type="checkbox" name="extra[]"
-                                                    value="Stable Electricity">
-                                                <label for="check-k">Stable Electricity</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-l" type="checkbox" name="extra[]"
-                                                    value="Church Nearby">
-                                                <label for="check-l">Church Nearby</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-m" type="checkbox" name="extra[]" value="Alarm">
-                                                <label for="check-m">Alarm</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-n" type="checkbox" name="extra[]"
-                                                    value="Window Covering">
-                                                <label for="check-n">Window Covering</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-o" type="checkbox" name="extra[]" value="Lister">
-                                                <label for="check-o">Lister</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-p" type="checkbox" name="extra[]"
-                                                    value="TV Cable & WIFI">
-                                                <label for="check-p">TV Cable & WIFI</label>
-                                            </div>
-                                        </div>
-                                    </li>
+                            <ul class="pro-feature-add pl-0">      
+                                    <?php                                    
+                                            $amenitiesValue = $obj1>getAllFeatures(); 
+                                            echo "<pre>";
+                                            echo var_dump($amenitiesValue);
+                                            echo"</pre>";
+                                            exit();
+                                            foreach($amenitiesValue as $amenities) { 
+                                                $arrayOfPropertyAmenities[] = $obj1>propertyAmenities($amenities['property_id']);    
+                                                                                    
+                                                ?>  
+                                                               
+                                            <li class="fl-wrap filter-tags clearfix">
+                                                <div class="checkboxes float-left">
+                                                    <div class="filter-tags-wrap">                                                      
+                                                <input type="checkbox" <?php if (in_array($amenities['pfeature_id'] , $arrayOfPropertyAmenities['property_id'])) echo 'checked'; ?> id="<?php echo $amenities['pfeature_name'] ?>" > <?php ?>
+                                                    <label for="<?php echo $amenities['pfeature_name'] ?>"><?php echo $amenities['pfeature_name'] ?></label>
+                                                    </div>
+                                                </div>     
+                                            </li>    
+                                       <?php }?>
                                 </ul>
                             </div>
                         </div>
@@ -355,13 +225,13 @@ $property = $obj1->showPropertyDetails($id);
                             <div class="col-lg-6 col-md-6 form-group">
                                 <p>
                                     <label for="address">Price</label>
-                                    <input type="text" name="price" placeholder="NGN" id="price">
+                                    <input  type="text" name="price" value="<?php echo isset($property['property_price']) ? $property['property_price'] : ''; ?>" id="price">
                                 </p>
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <p class="no-mb last">
                                     <label for="area">Area</label>
-                                    <input type="text" name="area" placeholder="Sqft" id="area">
+                                    <input  type="text" name="area" value="<?php echo isset($property['property_area']) ? $property['property_area'] : ''; ?>" id="area">
                                 </p>
                             </div>
                         </div>

@@ -17,10 +17,10 @@ if (empty($pix)) {
 } 
 
 require('property.php');
-$obj1 = new Property;
-if(isset($_POST['edit_data'])) {
-$id= $_POST['edit_id'];
-$k = $obj1->showAgentDetails($id);
+$prop = new Property;
+if(isset($_GET['edit_id'])) {
+$id= $_GET['edit_id'];
+$agent = $prop->showAgentDetails($id);
 }
  ?>
 
@@ -78,19 +78,19 @@ $k = $obj1->showAgentDetails($id);
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input type="text" class="form-control" value="<?php echo ucfirst($k['a_fname'])?>" name="fname">
+                                    <input type="text" class="form-control" value="<?php echo ucfirst($agent['a_fname'])?>" name="fname">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input type="text" class="form-control" value="<?php echo ucfirst($k['a_lname'])?>" name="lname">
+                                    <input type="text" class="form-control" value="<?php echo ucfirst($agent['a_lname'])?>" name="lname">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Email </label>
-                                    <input type="text" class="form-control" value="<?php echo ucfirst($k['a_email'])?>" name="email"
+                                    <input type="text" class="form-control" value="<?php echo ucfirst($agent['a_email'])?>" name="email"
                                         disabled>
                                 </div>
                             </div>
@@ -98,28 +98,29 @@ $k = $obj1->showAgentDetails($id);
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Username</label>
-                                    <input type="text" class="form-control" value="<?php echo ucfirst($k['a_username'])?>" disabled name="uname">
+                                    <input type="text" class="form-control" value="<?php echo ucfirst($agent['a_username'])?>" disabled name="uname">
                                 </div>
                             </div>
-                            <!-- <div class="col-sm-6">
+                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="state">States</label>
-                                    <?php
-                                                    $obj->get_state();
-                                                    ?>
+                                <label for="state">State</label>
+                                <?php $stateID = isset($agent['states_id']) ? $agent['states_id'] : 0; ?> 
+                                <?php $prop->get_state($stateID); ?>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="city">City</label>
-                                    <div type="text" name="city" id="citi"></div>
+                                <?php $cityID = isset($agent['city_id']) ? $agent['city_id'] : 0; ?> 
+                                <div type="text" name="city" city_info ="<?php echo $cityID ?>" id="citi"></div>
                                 </div>
-                            </div> -->
+                            </div> 
+                            
                             
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Phone Number</label>
-                                    <input type="text" class="form-control" value="<?php echo ucfirst($k['a_phone'])?>" name="phone">
+                                    <input type="text" class="form-control" value="<?php echo ucfirst($agent['a_phone'])?>" name="phone">
                                 </div>
                             </div>
                         </div>
@@ -131,29 +132,23 @@ $k = $obj1->showAgentDetails($id);
                 <div class="password-section">
                <h6 class="mb-3">Update Company Information</h6>
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Business Name</label>
-                                <input type="text" class="form-control"  name="businessname" value="<?php echo $k['businessname']?>">
+                        <div class="col-6">
+                            <div > <h5>Business Name</h5></div>
+                                <input type="text" class="form-control"  name="businessname" value="<?php echo $agent['businessname']?>">
+                                <input type="text" class="form-control" hidden name="mission">
+                                <input type="text" class="form-control" hidden name="vision">
                             </div>
-                        </div>
-                               
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Upload Logo</label>
-                                <div>
+                            <div class="col-6 mb-2">                               
+                            <img src="../images/users/<?php echo $agent['a_pix'] ?>" class="img-fluid" alt="<?php echo $agent['a_pix'] ?>" width="200px">
                                <input type="file" name="pix" class="file_input" id="pix" value="">
-                                </div>
-                           </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>About <?php echo $k['businessname']?></label>
-                                <textarea rows="6" class="form-control" name="about" value="<?php echo $k['about']?>"><?php echo $k['about']?>
-                                </textarea>        
                             </div>
+                        </div>
+                <div class="row mt-4" >
+                <div class="col-12">
+                <div class="form-group" id="about">
+                     <div><h5>About <?php echo $agent['businessname'] ?></h5></div>
+                     <textarea  name="about" rows="10" cols="70"> <?php echo isset ($agent['about']) ? $agent['about'] : '';?> </textarea>
+                                </div>
                         </div>
                 </div>
                 <button type="button" class="btn btn-primary btn-lg mt-2" onClick="document.location.href='reguser.php'">Cancle</button>

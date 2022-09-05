@@ -44,11 +44,12 @@ if (empty($_SESSION['id'])) {
         <div class="container">
             <form action="jointprocess.php" method="POST" enctype="multipart/form-data">
                 <div class="single-add-property">
-                    <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-danger'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+                    <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                     <h3>Create Joint Venture Property</h3>
                     <div class="property-form-group">
                         <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">
@@ -100,95 +101,102 @@ if (empty($_SESSION['id'])) {
                 <div class="single-add-property">
                     <h3>Property Media</h3>
                     <div class="property-form-group">
+                        <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br>
                         <div class="row">
-                            <div class="col-md-12">
-                                <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br> Press down on the ctrl key to
-                                 select multiple images <br>
-                                <input class="mt-2" type="file" name="images[]" multiple required>
+                            <div class="col-md-3 filediv">
+                                <input class="mt-2" type="file" name="images[]">
                             </div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
                         </div>
                     </div>
-                </div>
 
-                <div class="single-add-property">
-                    <h3 class="my-3">Sponsorship Need</h3>
-                    <div class="property-form-group mt-4">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <ul class="pro-feature-add pl-0">
+                    <div class="single-add-property">
+                        <h3 class="my-3">Sponsorship Need</h3>
+                        <div class="property-form-group mt-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="pro-feature-add pl-0">
 
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-a" type="checkbox" name="extra[]"
-                                                    value="Land Clearing">
-                                                <label for="check-a">Land Clearing</label>
+                                        <li class="fl-wrap filter-tags clearfix">
+                                            <div class="checkboxes float-left">
+                                                <div class="filter-tags-wrap">
+                                                    <input id="check-a" type="checkbox" name="extra[]"
+                                                        value="Land Clearing">
+                                                    <label for="check-a">Land Clearing</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-b" type="checkbox" name="extra[]"
-                                                    value="Road Construction">
-                                                <label for="check-b">Road Construction</label>
+                                        </li>
+                                        <li class="fl-wrap filter-tags clearfix">
+                                            <div class="checkboxes float-left">
+                                                <div class="filter-tags-wrap">
+                                                    <input id="check-b" type="checkbox" name="extra[]"
+                                                        value="Road Construction">
+                                                    <label for="check-b">Road Construction</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-c" type="checkbox" name="extra[]"
-                                                    value="Layout/Survey Documentation">
-                                                <label for="check-c">Layout/Survey Documentation</label>
+                                        </li>
+                                        <li class="fl-wrap filter-tags clearfix">
+                                            <div class="checkboxes float-left">
+                                                <div class="filter-tags-wrap">
+                                                    <input id="check-c" type="checkbox" name="extra[]"
+                                                        value="Layout/Survey Documentation">
+                                                    <label for="check-c">Layout/Survey Documentation</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-d" type="checkbox" name="extra[]" value="Land Reclaimation">
-                                                <label for="check-d">Land Reclaimation</label>
+                                        </li>
+                                        <li class="fl-wrap filter-tags clearfix">
+                                            <div class="checkboxes float-left">
+                                                <div class="filter-tags-wrap">
+                                                    <input id="check-d" type="checkbox" name="extra[]"
+                                                        value="Land Reclaimation">
+                                                    <label for="check-d">Land Reclaimation</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="single-add-property">                    
-                <h3 class="my-3">Terms and Conditions</h3>
-                    <div class="property-form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    <label for="title">Offer (What you will give in return)</label>
-                                    <input required type="text" name="offer" placeholder="Ex: 1 plot of Land">
-                                </p>
+                    <div class="single-add-property">
+                        <h3 class="my-3">Terms and Conditions</h3>
+                        <div class="property-form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        <label for="title">Offer (What you will give in return)</label>
+                                        <input required type="text" name="offer" placeholder="Ex: 1 plot of Land">
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    <label for="description">Terms and Conditions</label>
-                                    <textarea id="description" name="joint_t&c"
-                                        placeholder="Describe the property" required></textarea>
-                                </p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        <label for="description">Terms and Conditions</label>
+                                        <textarea id="description" name="joint_t&c" placeholder="Describe the property"
+                                            required></textarea>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="single-add-property">
-                    <div class="property-form-group">
-                        <div class="row">
-                            <button type="submit" class=" btn btn-success btn-lg mr-5" name="btn">Submit
-                            </button>
-                            <button type="button" class=" btn btn-danger  btn-lg" name="btncancle"
-                                onClick="document.location.href='dashboard.php'">Cancel</button>
+                    <div class="single-add-property">
+                        <div class="property-form-group">
+                            <div class="row">
+                                <button type="submit" class=" btn btn-success btn-lg mr-5" name="btn">Submit
+                                </button>
+                                <button type="button" class=" btn btn-danger  btn-lg" name="btncancle"
+                                    onClick="document.location.href='dashboard.php'">Cancel</button>
+                            </div>
                         </div>
                     </div>
-                </div>
             </form>
         </div>
     </div>

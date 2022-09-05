@@ -11,11 +11,11 @@ $obj = new User;
 $output=$obj->changePassword( $id,$pwd,$npwd);
 if($output){
     session_destroy();
-    $res = 'res';
-	header("Location:login.php?res=" . urlencode(base64_encode("Password changed successfully, Login Again")));	
+    $_SESSION['message'] = 'Password changed successfully, Kindly Login';
+	header("Location:login.php");	
 }else{
-	$res ='res';
-	header("Location:change-password.php?res=". urlencode(base64_encode("OOps!! Password Failed, Try again")));
+	$_SESSION['message'] ='Oops !! Change Password failed';
+	header("Location:change-password.php");
 }
 }
 

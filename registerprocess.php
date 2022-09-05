@@ -17,11 +17,11 @@ if(isset($_POST['regbtn'])) {
 $obj = new User;
 $output=$obj->registerUser($fname,$lname,$uname,$pwd,$cpwd,$email,$phone,$tstate, $tcity,$activationcode,$status);
 if($output) {
-	$verify='Registration successful, please verify in the registered Email-Id';
-	header("location:register.php?verify=" . urlencode(base64_encode($verify)));
+	$_SESSION['message']='Registration successful, please verify in the registered Email-Id';
+	header("location:register.php");
 }else{
-	$res="Confirm Password does not Match!";
-	header("location:register.php?res=" . urlencode(base64_encode($res)));
+	$_SESSION['message']="Confirm Password does not Match!";
+	header("location:register.php");
 
 }
 }

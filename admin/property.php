@@ -186,25 +186,6 @@ class Property
         }echo "</select>";
     }
 
-    // public function showProperties()
-    // {
-    //     $sql = "SELECT * FROM property
-    //     LEFT JOIN agents ON property.agent_id = agents.agent_id
-    //     LEFT JOIN states ON property.states_id = states.states_id
-    //     LEFT JOIN city ON property.city_id = city.city_id
-    //     LEFT JOIN bathroom ON property.bathroom_id = bathroom.bathroom_id
-    //     LEFT JOIN property_status ON property.pstatus_id = property_status.pstatus_id
-    //     LEFT JOIN property_type ON property.ptype_id=property_type.ptype_id
-    //     LEFT JOIN bedroom ON property.bedroom_id =bedroom.bedroom_id
-    //     WHERE property.deleted='0'
-    //     ORDER BY date_posted DESC";
-    //     $result = $this->con->query($sql);
-    //     $data = [];
-    //     while ($row = $result->fetch_assoc()) {
-    //         $data[] = $row;
-    //     }
-    //     return $data;
-    // }
 
     public function getSingleImage($id)
     {
@@ -255,7 +236,7 @@ class Property
             LEFT JOIN property_type ON property.ptype_id=property_type.ptype_id
             LEFT JOIN bedroom ON property.bedroom_id =bedroom.bedroom_id
             WHERE property.property_id='$id'
-            AND property.pstatus = 'approved'
+            -- AND property.pstatus = 'approved'
                 AND property.deleted = '0'
             ORDER BY date_posted DESC";
         $result = $this->con->query($sql);
@@ -688,51 +669,57 @@ class Property
         return $row;
     }
 
-    public function editSwaps($name, $title, $prodesc, $need, $swapdec, $address, $state, $city, $images, $extra, $id)
+    public function editSwaps($name,$title,$prodesc,$need,$swapdec,$address,$state,$city, $images,$extra,$id)
     {
 
         $sql = "UPDATE swaps SET
-              swap_name = '$name',
-            swap_description='$prodesc',
-            sitem_description='$swapdec',
-           swap_address='$address',
-            swap_item='$title',
-            swap_need='$need',
-            states_id='$state',
-            city_id='$city' WHERE swaps.swap_id='$id'";
+                swap_name = '$name',
+                swap_description='$prodesc',
+                sitem_description='$swapdec',
+                swap_address='$address',
+                swap_item='$title',
+                swap_need='$need',
+                states_id='$state',
+                city_id='$city' 
+                WHERE swaps.swap_id='$id'";
 
         //    die($sql);
         $result = $this->con->query($sql);
-        //  $swap_id = $this->con->insert_id;
-
-        // //////////////////////////////////////
         if ($result) {
             $count = 10000;
             $output_dir = "../images/swaps/"; /* Path for file upload */
-            $fileCount = count($images['name']);
 
-            for ($i = 0; $i < $fileCount; $i++) {
-                $RandomNum = time() . "$count";
+            foreach ($_FILES['images']['name'] as $key => $value) {
+                        // echo'<pre>';var_dump($_FILES); exit;
+                if ($_FILES['images']['name'][$key]) {
+                    $RandomNum = time() . "$count";
 
-                $ImageName = str_replace(' ', '-', strtolower($images['name'][$i]));
-                $ImageType = $images['type'][$i]; /*"image/png", image/jpeg etc.*/
+                    $ImageName = str_replace(' ', '-', strtolower($_FILES['images']['name'][$key]));
+                    $ImageType = $_FILES['images']['type'][$key]; /*"image/png", image/jpeg etc.*/
 
-                $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
-                $ImageExt = str_replace('.', '', $ImageExt);
-                $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
-                $NewImageName = 'swap' . $id . '-listing-image-' . $RandomNum . '.' . $ImageExt;
+                    $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
+                    $ImageExt = str_replace('.', '', $ImageExt);
+                    $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
+                    $NewImageName = 'swaps' . $id . 'updated-image-' . $RandomNum . '.' . $ImageExt;
 
-                $ret[$NewImageName] = $output_dir . $NewImageName;
-                move_uploaded_file($images["tmp_name"][$i], $output_dir . $NewImageName);
+                    $ret[$NewImageName] = $output_dir . $NewImageName;
+                    move_uploaded_file($_FILES['images']['tmp_name'][$key], $output_dir . $NewImageName);
 
-                $count++;
+                    $count++;
 
-                $sql2 = "UPDATE images SET image_url= '$NewImageName' WHERE images.swap_id= '$id'";
-                //  die($sql2);
-                $result2 = $this->con->query($sql2);
+                    $sql1 = "SELECT * FROM images WHERE images.image_id= '$key'";
+                    $result1 = $this->con->query($sql1);
+                    if ($result1) {
 
+                        $sql2 = "UPDATE images  SET image_url= '$NewImageName' WHERE images.image_id= '$key'";
+                       
+                        $result2 = $this->con->query($sql2);
+                    }
+
+                }
             }
         }
+
 
         if ($result) {
             if (!empty($extra)) {
@@ -740,6 +727,7 @@ class Property
                 foreach ($extra as $add) {
                     $check = $add;
                     $sql3 = "UPDATE swap_document SET doument_name='$check' WHERE swap_id= '$id'";
+                    // die($sql3);
                     $result3 = $this->con->query($sql3);
 
                 }
@@ -783,7 +771,7 @@ class Property
     {
 
         if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
-        $sql1 = mysqli_query($this->con, "SELECT COUNT(message_id) AS total_records FROM agent_message WHERE agent_message.agent_id ='$id'");
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(message_id) AS total_records FROM agent_message WHERE agent_message.agent_id ='$id' AND agent_message.deleted='0' ");
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
 // set the number of entries to appear on the page
@@ -1056,7 +1044,7 @@ class Property
     {
 
         if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
-        $sql1 = mysqli_query($this->con, "SELECT COUNT(message_id) AS total_records FROM jointventure_message WHERE jointventure_message.agent_id ='$id' AND jmstatus='approved'");
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(message_id) AS total_records FROM jointventure_message WHERE jointventure_message.agent_id ='$id' AND jmstatus='approved' AND jointventure_message.deleted='0'");
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
 // set the number of entries to appear on the page
@@ -1096,19 +1084,7 @@ class Property
         }
     }
 
-    // public function getSponsorshipMessage($id){
-    //     $sql = "SELECT * FROM jointventure_message JOIN agents ON jointventure_message.agent_id = agents.agent_id WHERE jointventure_message.agent_id ='$id' ORDER BY date_posted DESC ";
-    //     // die($sql);
-    //     $result=$this->con->query($sql);
-
-    //     $data = [];
-    //     // die($sql);
-    //     while($row = $result->fetch_assoc()) {
-    //         $data[] = $row;
-    //     }
-    //     return $data;
-
-    // }
+  
 
     public function editProperty($title, $prodesc, $price, $area, $address, $status, $type, $bedrooms, $furnished, $serviced, $shared, $bathrooms, $state, $city, $extra, $images, $pid)
     {
@@ -1148,7 +1124,7 @@ class Property
                     $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
                     $ImageExt = str_replace('.', '', $ImageExt);
                     $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
-                    $NewImageName = 'property' . $pid . 'updated-listing-image-' . $RandomNum . '.' . $ImageExt;
+                    $NewImageName = 'property' . $pid . 'updated-image-' . $RandomNum . '.' . $ImageExt;
 
                     $ret[$NewImageName] = $output_dir . $NewImageName;
                     move_uploaded_file($_FILES['images']['tmp_name'][$key], $output_dir . $NewImageName);
@@ -1189,30 +1165,27 @@ class Property
         }
     }
 
-    public function editAgentProperty($title, $prodesc, $price, $area, $address, $status, $type, $bedrooms, $furnished, $serviced, $shared, $bathrooms, $state, $city, $extra, $featured, $images, $pid)
+    public function editAgentProperty($title, $prodesc, $price, $area, $address, $status, $type, $bedrooms, $furnished, $serviced, $shared, $bathrooms, $state, $city, $extra, $images, $pid)
     {
-        $sql = "UPDATE property SET
-                                                       property_title='$title',
-                                                       property_description='$prodesc',
-                                                       property_price='$price',
-                                                       property_area='$area',
-                                                       property_address='$address',
-                                                       pstatus_id= '$status',
-                                                       ptype_id= '$type',
-                                                       bedroom_id='$bedrooms',
-                                                      furnished='$furnished',
-                                                      serviced='$serviced',
-                                                      shared='$shared',
-                                                      bathroom_id='$bathrooms',
-                                                       states_id='$state',
-                                                       city_id= '$city' WHERE property_id='$pid'";
+        $sql = "UPDATE property SET  
+        property_title='$title',
+        property_description='$prodesc',
+        property_price='$price',
+        property_area='$area',
+        property_address='$address',
+        pstatus_id= '$status',
+        ptype_id= '$type',
+        bedroom_id='$bedrooms',
+       furnished='$furnished',
+       serviced='$serviced',
+       shared='$shared',
+       bathroom_id='$bathrooms',
+        states_id='$state',
+        city_id= '$city' WHERE property_id='$pid'";
+                                                     
 
         die($sql);
         $result = $this->con->query($sql);
-
-        // //////////////////////////////////////
-
-        // if ($result) {
         if ($result) {
             $count = 10000;
             $output_dir = "../images/property/"; /* Path for file upload */
@@ -1256,14 +1229,6 @@ class Property
                 }
             }
         }
-
-        if ($result) {
-            $sql1 = "UPDATE featured SET  featured='$featured' WHERE property_id= '$pid'";
-            // die($sql1);
-            $result3 = $this->con->query($sql1);
-
-        }
-
         if ($result) {
             if (!empty($extra)) {
                 $check = "";
@@ -1279,7 +1244,7 @@ class Property
 
     public function showAgentDetails($id)
     {
-        $sql = "SELECT * FROM agents JOIN states ON agents.states_id = states.states_id JOIN city ON agents.city_id = city.city_id WHERE agents.agent_id='$id'";
+        $sql = "SELECT * FROM agents JOIN states ON agents.states_id = states.states_id JOIN city ON agents.city_id = city.city_id WHERE agents.agent_id='$id' AND agents.deleted='0'";
         // die($sql);
         $result = $this->con->query($sql);
         $row = $result->fetch_assoc();
@@ -1291,7 +1256,7 @@ class Property
         // get the pagenum.  If it doesn't exist, set it to 1
         if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
 // set the number of entries to appear on the page
-        $sql1 = mysqli_query($this->con, "SELECT COUNT(request_id)  AS total_records FROM request ");
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(request_id)  AS total_records FROM request WHERE request.deleted='0' ");
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
         $entries_per_page = 10;
@@ -1300,7 +1265,14 @@ class Property
 // offset is used by SQL query in the LIMIT
         $offset = (($page * $entries_per_page) - $entries_per_page);
 
-        $sql = "SELECT * FROM request JOIN states ON request.states_id = states.states_id JOIN city ON request.city_id = city.city_id  JOIN property_status ON request.pstatus_id = property_status.pstatus_id JOIN property_type ON request.ptype_id=property_type.ptype_id JOIN bedroom ON request.bedroom_id =bedroom.bedroom_id ORDER BY sent DESC LIMIT $offset, $entries_per_page";
+        $sql = "SELECT * FROM request 
+        LEFT JOIN states ON request.states_id = states.states_id 
+        LEFT JOIN city ON request.city_id = city.city_id  
+        LEFT JOIN property_status ON request.pstatus_id = property_status.pstatus_id 
+        LEFT JOIN property_type ON request.ptype_id=property_type.ptype_id 
+        LEFT JOIN bedroom ON request.bedroom_id =bedroom.bedroom_id 
+        WHERE request.deleted='0'
+        ORDER BY sent DESC LIMIT $offset, $entries_per_page";
 // die($sql);
         $result = $this->con->query($sql);
         $data = [];
@@ -1315,7 +1287,7 @@ class Property
     {
 
         if (isset($_GET['page']) ? $page = $_GET['page'] : $page = 1);
-        $sql1 = mysqli_query($this->con, "SELECT COUNT(request_id)  AS total_records FROM request ");
+        $sql1 = mysqli_query($this->con, "SELECT COUNT(request_id)  AS total_records FROM request WHERE request.deleted='0' ");
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
 // set the number of entries to appear on the page
@@ -1779,7 +1751,7 @@ class Property
         AND joint_venture.deleted='0'");
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
-        $entries_per_page = 3;
+        $entries_per_page = 10;
 // total pages is rounded up to nearest integer
         $total_pages = ceil($total_records / $entries_per_page);
 // offset is used by SQL query in the LIMIT
@@ -1811,7 +1783,7 @@ class Property
         $total_records = mysqli_fetch_array($sql1);
         $total_records = $total_records['total_records'];
 // set the number of entries to appear on the page
-        $entries_per_page = 1;
+        $entries_per_page = 10;
 // total pages is rounded up to nearest integer
         $total_pages = ceil($total_records / $entries_per_page);
 // offset is used by SQL query in the LIMIT
@@ -1905,40 +1877,50 @@ class Property
         states_id='$state',
         city_id='$city'
         WHERE jointventure_id= '$pid' ";
-        $result = $this->con->query($sql);
+        // die($sql);
+        $result = $this->con->query($sql);        
         if ($result) {
             $count = 10000;
             $output_dir = "../images/sponsor/"; /* Path for file upload */
             $fileCount = count($images['name']);
 
-            for ($i = 0; $i < $fileCount; $i++) {
-                $RandomNum = time() . "$count";
+            foreach ($_FILES['images']['name'] as $key => $value) {
+                // echo'<pre>';var_dump($_FILES); exit;
+                if ($_FILES['images']['name'][$key]) {
+                    $RandomNum = time() . "$count";
 
-                $ImageName = str_replace(' ', '-', strtolower($images['name'][$i]));
-                $ImageType = $images['type'][$i]; /*"image/png", image/jpeg etc.*/
+                    $ImageName = str_replace(' ', '-', strtolower($_FILES['images']['name'][$key]));
+                    $ImageType = $_FILES['images']['type'][$key]; /*"image/png", image/jpeg etc.*/
 
-                $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
-                $ImageExt = str_replace('.', '', $ImageExt);
-                $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
-                $NewImageName = 'sponsor-' . $pid . '-updated-listing-image-' . $RandomNum . '.' . $ImageExt;
+                    $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
+                    $ImageExt = str_replace('.', '', $ImageExt);
+                    $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
+                    $NewImageName = 'sponor' . $pid . 'updated-image-' . $RandomNum . '.' . $ImageExt;
 
-                $ret[$NewImageName] = $output_dir . $NewImageName;
-                move_uploaded_file($images["tmp_name"][$i], $output_dir . $NewImageName);
+                    $ret[$NewImageName] = $output_dir . $NewImageName;
+                    move_uploaded_file($_FILES['images']['tmp_name'][$key], $output_dir . $NewImageName);
 
-                $count++;
-                $sql2 = "UPDATE images SET  image_url = '$NewImageName'  WHERE images.jointventure_id='$pid'";
-                // die($sql2);
-                $result2 = $this->con->query($sql2);
+                    $count++;
 
+                    $sql1 = "SELECT * FROM images WHERE images.image_id= '$key'";
+                    // die($sql);
+                    $result1 = $this->con->query($sql1);
+
+                    if ($result1) {
+                        $sql3 = "UPDATE images  SET image_url= '$NewImageName' WHERE images.image_id= '$key'";
+                        $result3 = $this->con->query($sql3);
+                    }
+
+                }
             }
         }
+
         if ($result) {
             if (!empty($extra)) {
                 $check = '';
                 foreach ($extra as $add) {
                     $check = $add;
                     $sql4 = "UPDATE joint_type SET joint_name='$check' WHERE joint_type.jointventure_id= '$pid'";
-                    //    die($sql4);
                     $result4 = $this->con->query($sql4);
 
                 }

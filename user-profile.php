@@ -40,11 +40,11 @@ if (empty($_SESSION['id'])) {
 				 ?>
                         <div class="col-lg-9 col-md-9 col-xs-6 widget-boxed mt-33 mt-0 ">
                         <?php
-                                                                                        
-                            if(isset($_GET['msg'])) {
-                               echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
-                            }
-                        ?>
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                         <?php
 				require('include/mobile-dashboard.php');
 				 ?>
@@ -53,7 +53,7 @@ if (empty($_SESSION['id'])) {
                                     <div class="row">
                                         <div class="col-md-4">
                                          
-                                            <h4>Profile Details</h4>
+                                            <h4 class='mb-0'>Profile Details</h4>
                                         </div>
                                         <div class="col-md-6">
                                             <span>Registered: <?php date_default_timezone_set("Africa/Lagos"); 
@@ -62,25 +62,34 @@ if (empty($_SESSION['id'])) {
                                         <div class="col-md-2">
                                             <a href="details.php"><i class="fas fa-edit"></i></a>
                                         </div>
-<!--                                          
-                  <?php
-                if(isset($_GET['res'])){
-                    echo "<div class='alert alert-danger'>".base64_decode(urldecode($_GET['res'])) . '</div>';
-                }
-                ?> -->
                                     </div>
                                 </div>
 
                             </div>
                             <div class="sidebar-widget author-widget2 mt-3">
                                 <div class="author-box clearfix">
-                                    <!-- <span><b><?php echo "Welcome ". ucfirst($k['a_fname'])."!";
-                                ?></b></span><br> -->
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <img src="images/users/<?php echo $pix ?>" width="100" alt="profile"><br>
+                                        <div class="col-md-6">                                            
+                                    <h4 class="author__title ml-3 mb-0" >
+                                        <?php echo ucfirst($k['a_fname'])?>
+                                        <?php echo ucfirst($k['a_lname'])?></h4>
+                                        <ul class="author__contact">
+                                    <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>   
+                                        <?php echo $k['city_name']?>,
+                                        <?php echo $k['states_name']?>
+                                    
+                                    
+                                    </li>
+                                    <li><span class="la la-phone"><i class="fa fa-phone"
+                                                aria-hidden="true"></i></span><a href="#">
+                                            <?php echo $k['a_phone']?></a></li>
+                                    <li><span class="la la-envelope-o"><i class="fa fa-envelope"
+                                                aria-hidden="true"></i></span><a href="#">
+                                            <?php echo $k['a_email']?></a></li>
+                                </ul>                                           
                                         </div>
                                         <div class="col-md-6">
+                                        <img src="images/users/<?php echo $pix ?>" style="width:300px !important; height:250px !important" alt="profile"><br>
                                             <?php
                                             if ($k['a_pix'] =='') {
                                                 ?>
@@ -98,34 +107,13 @@ if (empty($_SESSION['id'])) {
                                             ?>
                                         </div>
                                     </div>
-                                    <h4 class="author__title"><?php echo ucfirst($k['a_fname'])?>
-                                        <?php echo ucfirst($k['a_lname'])?></h4>
                                 </div>
-                                <ul class="author__contact">
-                                    <li><span class="la la-map-marker"><i
-                                                class="fa fa-map-marker"></i></span>
-                                                
-
-                                           
-
-
-                                                <?php echo $k['city_name']?>,
-                                        <?php echo $k['states_name']?>
-                                    
-                                    
-                                    </li>
-                                    <li><span class="la la-phone"><i class="fa fa-phone"
-                                                aria-hidden="true"></i></span><a href="#">
-                                            <?php echo $k['a_phone']?></a></li>
-                                    <li><span class="la la-envelope-o"><i class="fa fa-envelope"
-                                                aria-hidden="true"></i></span><a href="#">
-                                            <?php echo $k['a_email']?></a></li>
-                                </ul>                            
+                                                        
                             <div class="container-fluid mt-5">
                                 <div class="widget-boxed-header pb-0">
                                     <div class="row">
                                         <div class="col-md-10">
-                                            <h4 class="mb-">Company Information</h4>
+                                            <h4 class="mb-0">Company Information</h4>
                                         </div>
                                         <div class="col-md-2"><a href="details.php#businessname"><i class="fas fa-edit"></i></a>
                                         </div>

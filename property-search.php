@@ -125,11 +125,11 @@ require('include/header002.php');
                 
                 <?php
                 if(!empty($obj1)){
-            foreach($obj1 as $data){ 
-                $img = $prop-> getSingleImage($data['property_id']);
-                $p_id=$data['property_id'];
-                
-            ?>
+                    foreach($obj1 as $data){ 
+                        $img = $prop-> getSingleImage($data['property_id']);
+                        $p_id=$data['property_id'];
+                        
+                    ?>
 
                 <div class="row featured portfolio-items">
                     <div class="my-3 row">

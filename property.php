@@ -793,7 +793,8 @@ class Property
 
     public function getAllDocuments($id)
     {
-        $sql = "SELECT * FROM swap_document WHERE swap_id = $id";
+        $sql = "SELECT * FROM documenttoswap JOIN swap_document ON documenttoswap.document_id=swap_document.document_id WHERE swap_id = $id";
+        // die($sql);
         $result = $this->con->query($sql);
         $data = [];
         while ($row = $result->fetch_assoc()) {
@@ -1981,33 +1982,39 @@ class Property
 
                 //    die($sql);
         $result = $this->con->query($sql);
-                //  $swap_id = $this->con->insert_id;
-
-                //  if ($result) {
+      
         if ($result) {
             $count = 10000;
             $output_dir = "images/swaps/"; /* Path for file upload */
-            $fileCount = count($images['name']);
 
-            for ($i = 0; $i < $fileCount; $i++) {
-                $RandomNum = time() . "$count";
+            foreach ($_FILES['images']['name'] as $key => $value) {
+                        // echo'<pre>';var_dump($_FILES); exit;
+                if ($_FILES['images']['name'][$key]) {
+                    $RandomNum = time() . "$count";
 
-                $ImageName = str_replace(' ', '-', strtolower($images['name'][$i]));
-                $ImageType = $images['type'][$i]; /*"image/png", image/jpeg etc.*/
+                    $ImageName = str_replace(' ', '-', strtolower($_FILES['images']['name'][$key]));
+                    $ImageType = $_FILES['images']['type'][$key]; /*"image/png", image/jpeg etc.*/
 
-                $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
-                $ImageExt = str_replace('.', '', $ImageExt);
-                $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
-                $NewImageName = 'swap' . $id . '-listing-image-' . $RandomNum . '.' . $ImageExt;
+                    $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
+                    $ImageExt = str_replace('.', '', $ImageExt);
+                    $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
+                    $NewImageName = 'swaps' . $pid . 'updated-image-' . $RandomNum . '.' . $ImageExt;
 
-                $ret[$NewImageName] = $output_dir . $NewImageName;
-                move_uploaded_file($images["tmp_name"][$i], $output_dir . $NewImageName);
+                    $ret[$NewImageName] = $output_dir . $NewImageName;
+                    move_uploaded_file($_FILES['images']['tmp_name'][$key], $output_dir . $NewImageName);
 
-                $count++;
+                    $count++;
 
-                $sql2 = "UPDATE images SET image_url= '$NewImageName' WHERE images.swap_id= '$id'";
-                $result2 = $this->con->query($sql2);
+                    $sql1 = "SELECT * FROM images WHERE images.image_id= '$key'";
+                    $result1 = $this->con->query($sql1);
+                    if ($result1) {
 
+                        $sql2 = "UPDATE images  SET image_url= '$NewImageName' WHERE images.image_id= '$key'";
+                                // die($sql);
+                        $result2 = $this->con->query($sql2);
+                    }
+
+                }
             }
         }
 
@@ -2016,14 +2023,13 @@ class Property
                 $check = "";
                 foreach ($extra as $add) {
                     $check = $add;
-                    $sql3 = "UPDATE swap_document SET doument_name='$check' WHERE swap_id= '$id'";
+                    $sql3 = "UPDATE swap_document SET doument_name='$check' WHERE swaps.swap_id= '$id'";
                     $result3 = $this->con->query($sql3);
 
                 }
-                return true;
-
             }
-
+            
+            return true;   
         }
     }
 
@@ -2063,7 +2069,7 @@ class Property
                     $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
                     $ImageExt = str_replace('.', '', $ImageExt);
                     $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
-                    $NewImageName = 'property' . $pid . 'updated-listing-image-' . $RandomNum . '.' . $ImageExt;
+                    $NewImageName = 'property' . $pid . 'updated-image-' . $RandomNum . '.' . $ImageExt;
 
                     $ret[$NewImageName] = $output_dir . $NewImageName;
                     move_uploaded_file($_FILES['images']['tmp_name'][$key], $output_dir . $NewImageName);
@@ -2676,42 +2682,52 @@ class Property
     public function editJointVenture($title, $prodesc, $offer, $address, $joint, $state, $city, $extra, $images, $pid)
     {
         $sql = "UPDATE joint_venture SET joint_title='$title',
-                                       joint_description='$prodesc',
-                                       address='$address',
-                                       offer= '$offer',
-                                       joint_tc= '$joint',
-                                       states_id='$state',
-                                       city_id='$city'
-                                       WHERE jointventure_id= '$pid' ";
+        joint_description='$prodesc',
+        address='$address',
+        offer= '$offer',
+        joint_tc= '$joint',
+        states_id='$state',
+        city_id='$city'
+        WHERE jointventure_id= '$pid' ";
 
                 //   die($sql);
         $result = $this->con->query($sql);
         if ($result) {
             $count = 10000;
             $output_dir = "images/sponsor/"; /* Path for file upload */
-            $fileCount = count($images['name']);
 
-            for ($i = 0; $i < $fileCount; $i++) {
-                $RandomNum = time() . "$count";
+            foreach ($_FILES['images']['name'] as $key => $value) {
+                        // echo'<pre>';var_dump($_FILES); exit;
+                if ($_FILES['images']['name'][$key]) {
+                    $RandomNum = time() . "$count";
 
-                $ImageName = str_replace(' ', '-', strtolower($images['name'][$i]));
-                $ImageType = $images['type'][$i]; /*"image/png", image/jpeg etc.*/
+                    $ImageName = str_replace(' ', '-', strtolower($_FILES['images']['name'][$key]));
+                    $ImageType = $_FILES['images']['type'][$key]; /*"image/png", image/jpeg etc.*/
 
-                $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
-                $ImageExt = str_replace('.', '', $ImageExt);
-                $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
-                $NewImageName = 'sponsor-' . $pid . '-updated-listing-image-' . $RandomNum . '.' . $ImageExt;
+                    $ImageExt = substr($ImageName, strrpos($ImageName, '.'));
+                    $ImageExt = str_replace('.', '', $ImageExt);
+                    $ImageName = preg_replace("/\.[^.\s]{3,4}$/", "", $ImageName);
+                    $NewImageName = 'sponsor' . $pid . 'updated-image-' . $RandomNum . '.' . $ImageExt;
 
-                $ret[$NewImageName] = $output_dir . $NewImageName;
-                move_uploaded_file($images["tmp_name"][$i], $output_dir . $NewImageName);
+                    $ret[$NewImageName] = $output_dir . $NewImageName;
+                    move_uploaded_file($_FILES['images']['tmp_name'][$key], $output_dir . $NewImageName);
 
-                $count++;
-                $sql2 = "UPDATE images SET  image_url = '$NewImageName'  WHERE images.jointventure_id='$pid'";
-                        // die($sql2);
-                $result2 = $this->con->query($sql2);
+                    $count++;
 
+                    $sql1 = "SELECT * FROM images WHERE images.image_id= '$key'";
+                    // die($sql1);
+                    $result1 = $this->con->query($sql1);
+                    if ($result1) {
+
+                        $sql2 = "UPDATE images  SET image_url= '$NewImageName' WHERE images.image_id= '$key'";
+                                // die($sql);
+                        $result2 = $this->con->query($sql2);
+                    }
+
+                }
             }
         }
+
         if ($result) {
             if (!empty($extra)) {
                 $check = [];

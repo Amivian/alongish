@@ -48,11 +48,12 @@ $prop= new Property;
     <div class="container">
       <form action="swapprocess.php" method="POST" enctype="multipart/form-data">
         <div class="single-add-property">
-          <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-danger'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+          <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
           <h3>Create Swap</h3>
           <div class="property-form-group">
             <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">
@@ -79,9 +80,10 @@ $prop= new Property;
               <div class="col-md-12">
                 <p>
                   <label for="description">Swap Item Description</label>
-                  <textarea id="description" name="swap_description"
-                    placeholder="Describe exactly what you have" required></textarea>
-                    <small >If you pick car for swap, Kindly indicate the following: YEAR, CAR BRAND, CAR MODEL, NEW/USED</small>
+                  <textarea id="description" name="swap_description" placeholder="Describe exactly what you have"
+                    required></textarea>
+                  <small>If you pick car for swap, Kindly indicate the following: YEAR, CAR BRAND, CAR MODEL,
+                    NEW/USED</small>
                 </p>
               </div>
             </div>
@@ -99,8 +101,8 @@ $prop= new Property;
               <div class="col-md-12">
                 <p>
                   <label for="description">Swap Need Description</label>
-                  <textarea id="description" name="sneed_description"
-                    placeholder="Describe exactly what you want" required></textarea>
+                  <textarea id="description" name="sneed_description" placeholder="Describe exactly what you want"
+                    required></textarea>
                 </p>
               </div>
             </div>
@@ -187,15 +189,22 @@ $prop= new Property;
 
         <div class="single-add-property">
           <h3>Property Media</h3>
-          <div class="property-form-group">
-            <div class="row">
-              <div class="col-md-12">
-                <i class='fa fa-cloud-upload'></i> Click here to upload Swap images. <br> Press down on the ctrl key to
-                select multiple images <br>
-                <input required class="mt-2" type="file" name="images[]" multiple>
-              </div>
+            <div class="property-form-group">
+              <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br>
+                <div class="row">
+                    <div class="col-md-3 filediv">
+                      <input class="mt-2" type="file" name="images[]">
+                    </div>
+                    <div class="col-md-3">
+                      <input class="mt-2" type="file" name="images[]"></div>
+                    <div class="col-md-3">
+                      <input class="mt-2" type="file" name="images[]"></div>
+                    <div class="col-md-3">
+                      <input class="mt-2" type="file" name="images[]"></div>
+                    <div class="col-md-3">
+                      <input class="mt-2" type="file" name="images[]"></div>
+                </div>
             </div>
-          </div>
         </div>
         <div class="single-add-property">
           <div class="property-form-group">

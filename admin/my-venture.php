@@ -96,9 +96,8 @@ $agent_id=$_SESSION['id'];
                                         <td class="actions">
                                          <div class="row">
                                                <div class="col-6">
-                                                        <form action="manage-venture.php" method="POST">
-                                                <input type="text" name="edit_id" class="d-none" value="<?php echo $props['jointventure_id']?>">
-                                               <button type="submit" name="edit_data" class="btn btn-success btn-sm">Edit</button></form></div>
+                                                    <a href="manage-venture.php?edit_id=<?php echo $props['jointventure_id']?>"  class="btn p-2 text-white btn-success btn-sm">Edit</a>
+                                                </div>
                                              <div class="col-6">
                                         <a href='deleteventure.php?id=<?php echo $props['jointventure_id']?>' name='delete' onclick="return confirm('You are about to delete <?php echo $props['joint_title']?>')"><i class="far fa-trash-alt"></i></a></div>
                                                 </div> 
@@ -111,9 +110,9 @@ $agent_id=$_SESSION['id'];
                             <div class="pagination-container">
                                 <nav>
                                 <ul class=" pagination">
-                        <?php 
-                         $get = $prop->pagination_four('my-venture.php', $page, $agent_id);?>
-                    </ul>
+                                    <?php 
+                                    $get = $prop->pagination_four('my-venture.php', $page, $agent_id);?>
+                                </ul>
                                 </nav>
                             </div>
                         </div>

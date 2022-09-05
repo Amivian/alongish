@@ -102,12 +102,19 @@ if (empty($pix)) {
                 <div class="single-add-property">
                     <h3>Property Media</h3>
                     <div class="property-form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br> Press down on the ctrl key to
-                                 select multiple images <br>
-                                <input class="mt-2" type="file" name="images[]" multiple required>
+            <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br>
+                    <div class="row">
+                            <div class="col-md-3 filediv">
+                                <input class="mt-2" type="file" name="images[]">
                             </div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3">
+                                <input class="mt-2" type="file" name="images[]"></div>
                         </div>
                     </div>
                 </div>

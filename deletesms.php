@@ -11,7 +11,6 @@ if($output) {
   }else{
     $_SESSION['message'] = "Failed to delete";
       header("Location:my-contact-messages.php");
-      // echo $msg;
     exit();
   }
  ?>

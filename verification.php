@@ -10,13 +10,13 @@ if($output) {
 }
 elseif($output == 1)
 {
-$msg ="Your account is already active, no need to activate again";
-header ("Location: login.php?msg=" .urlencode(base64_encode($msg)));
+$_SESSION['message']="Your account is already active, no need to activate again";
+header ("Location: login.php");
 }
 else
 {
-$msg ="Wrong activation code.";
-header ("Location: login.php?msg=" .urlencode(base64_encode($msg)));
+$_S['message'] ="Wrong activation code.";
+header ("Location: login.php");
 }
 
 }

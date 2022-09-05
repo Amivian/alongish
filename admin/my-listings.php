@@ -127,7 +127,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
             
                                 <ul class=" pagination">
                                     <?php 
-                                     $get = $prop->pagination_two('my-listings.php', $page, $agent_id);?>
+                                     $get = $prop->pagination_three('my-listings.php', $page, $agent_id);?>
                                 </ul>
                             </nav>
                         </div>

@@ -40,12 +40,7 @@ $property = $prop->getAgentProperties($agent_id);
 				require('include/sidebar.php');
 				 ?>
                         <div class="col-lg-9 col-md-9 col-xs-6 widget-boxed mt-33 mt-0 ">
-                        <?php
-                            if(isset($_SESSION['message'])) {
-                                echo "<h5 class='alert alert-success text-center'>". $_SESSION['message'] ."</h5>";
-                                unset($_SESSION['message']);
-                            }
-                        ?>
+                        
                         <?php
 				require('include/mobile-dashboard.php');
 				 ?>
@@ -63,12 +58,12 @@ $property = $prop->getAgentProperties($agent_id);
                                         <div class="col-md-2">
                                             <a href="details.php"><i class="fas fa-edit"></i></a>
                                         </div>
-<!--                                          
-                  <?php
-                if(isset($_GET['res'])){
-                    echo "<div class='alert alert-danger'>".base64_decode(urldecode($_GET['res'])) . '</div>';
-                }
-                ?> -->
+<!--                <?php
+                            if(isset($_SESSION['message'])) {
+                                echo "<h5 class='alert alert-success text-center'>". $_SESSION['message'] ."</h5>";
+                                unset($_SESSION['message']);
+                            }
+                        ?>
                                     </div>
                                 </div>
 

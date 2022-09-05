@@ -92,13 +92,10 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                         <td><?php echo date('F j, Y', strtotime($user['datereg']));?></td>
                                         <td class="actions">
                                         <div class='row'>
-                                            <div class='col-7'>
-                                                <form action='edit-agent.php' method='POST'>
-                                                    <input type='text' name='edit_id' class='d-none'
-                                                        value="<?php echo $user['agent_id']?>">
-                                                    <button type='submit' name='edit_data'
-                                                        class='btn btn-success btn-sm'>Edit</button>
-                                                </form>
+                                            <div class='col-7'>  
+                                                <a href='edit-agent.php?edit_id=<?php echo $user['agent_id']?>' class="btn p-2 text-white btn-success btn-sm">
+                                                Edit
+                                                </a>
                                             </div>
                                             <div class='col-3'>
                                             <a href='deleteuser.php?id=<?php echo $user['agent_id']?>' name='delete' onclick="return confirm('You are about to delete <?php echo ucwords($user['a_fname'])?>  <?php echo ucwords($user['a_lname'])?>')"><i class="far fa-trash-alt"></i></a>

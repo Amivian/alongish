@@ -1,8 +1,9 @@
 <?php
 session_start();
 session_destroy();
+session_start();
 //Redirect with success message
-$mg = 'mg';
-header('location:login.php?mg=' . urlencode(base64_encode("You have been successfully logged out!")));
+$_SESSION['message'] = 'Logged out successfully';
+header('location:login.php');
 exit();
 ?>

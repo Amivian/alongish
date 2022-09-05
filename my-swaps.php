@@ -45,10 +45,12 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
         <?php
                         require('include/mobile-dashboard.php');
                         ?>
-        <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
-                            }?>
+          <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
         <div class="my-properties">
             <table class="table-responsive">
                 <thead>
@@ -106,12 +108,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                         <td class='actions'>
                             <div class='row'>
                                 <div class='col-6'>
-                                    <form action='manage-swap.php' method='POST'>
-                                        <input type='text' name='edit_id' class='d-none'
-                                            value="<?php echo $props['swap_id']?>">
-                                        <button type='submit' name='edit_data'
-                                            class='btn btn-success btn-sm'>Edit</button>
-                                    </form>
+                                    <a href='manage-swap.php?edit_id=<?php echo $props['swap_id']?>' class="btn p-2 text-white btn-success btn-sm">Edit </a>
                                 </div>
                                 <div class='col-6'>
                                     <a href='delete-swaps.php?id=<?php echo $props['swap_id']?>' name='delete'

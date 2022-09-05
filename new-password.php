@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('users.php');
+require_once 'users.php';
 if(isset($_SESSION['id'])){
     $obj = new User;
     
@@ -14,7 +14,14 @@ if(isset($_SESSION['id'])){
 }else{
 
 }
+
 ?>
+
+<?php
+$email = $_SESSION['a_email'];
+if($email == false){
+  header('Location: login.php');
+}?>
 
 <?php 
 require('property.php');
@@ -33,7 +40,7 @@ $output=$obj->newsLetter( $email);
 <head>
 <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
-    <title>Reset Password</title>
+    <title>Create New Password</title>
 <?php
 require('include/head.php');
 ?>
@@ -65,15 +72,28 @@ require('include/header002.php');
                 <div class="col-md-6 offset-3">
                     <div id="login"  class="mb-5">
                     <div  class="login" style="max-width:440px !important">
-                    <h1 class=" user-login__title mb-0 ">Recovery Your Password</h1>
-                            <form id="user-form" action="loginprocess.php" method="post">
-                    <p class="alert text-center mb-0"><font color="#FF0000"><?php echo $_SESSION['action1']; ?><?php echo $_SESSION['action1']="";?></font></p>
-                    <div class="form-group text-center">
-                        <label>Enter Your Email</label>
-                        <input type="email" class="form-control  form-control-lg" 
-                        name="email" placeholder="name@example.com" required value="">
+                     <?php 
+                    if(isset($_SESSION['info'])){
+                        ?>
+                        <div class="alert alert-success text-center" style="padding: 0.4rem 0.4rem">
+                            <?php echo $_SESSION['info']; ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                     
+                    <h1 class=" user-login__title mb-0 ">Create New Password</h1>
+                   
+                            <form action="newpasswordprocess.php" method="post">
+                            <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" class="form-control  form-control-lg" name="pwd"  placeholder="Password" required value=""> 
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                        <input type="password" class="form-control  form-control-lg" name="cpwd"  placeholder="Confirm Password" value="" required>
                     </div>
-                    <button id="login" class="btn_1 rounded full-width" name="login">Reset</button>
+                    <button id="login" class="btn_1 rounded full-width" name="new-password">submit</button>
                 </form>
             </div>
         </div>

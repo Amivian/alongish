@@ -1,4 +1,5 @@
 <?php 
+session_start();
 require('property.php');
 $id = $_GET['id'];
 $obj = new Property;

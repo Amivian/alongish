@@ -7,8 +7,7 @@
             $this->con = new mysqli('localhost', 'root', '', 'homes');
         }
 
-        // create user and send verification link to email
-        
+        // create user and send verification link to email        
      	public function registerUser($fname,$lname,$uname,$pwd,$cpwd, $email,$phone,$tstate,$tcity,$activationcode,$status){
    
             if($pwd === $cpwd){
@@ -199,11 +198,10 @@ public function uploadpix($pic_array){
 }
 
 
-// public function updateAgent($id,$fname,$lname,$phone,$tstate, $tcity, $business, $pix){
-public function updateAgent($id,$fname,$lname,$phone, $business, $about, $pix){
+public function updateAgent($id,$fname,$lname,$phone,$tstate, $tcity, $business, $pix, $about){
+// public function updateAgent($id,$fname,$lname,$phone, $business, $about, $pix){
     // $pwd = md5('pwd');
-//    $sql="UPDATE agents SET a_fname='$fname',a_lname='$lname', a_phone='$phone',states_id='$tstate', city_id='$tcity',businessname='$business' WHERE agent_id = '$id' ";
-   $sql="UPDATE agents SET a_fname='$fname',a_lname='$lname', a_phone='$phone',businessname='$business', about = '$about' WHERE agent_id = '$id' ";
+   $sql="UPDATE agents SET a_fname='$fname',a_lname='$lname', a_phone='$phone',states_id='$tstate', city_id='$tcity',businessname='$business', about='$about' WHERE agent_id = '$id' ";
   
    $result= $this->con->query($sql);
 //   
@@ -300,5 +298,71 @@ public function getAdmin(){
 }
 
 
+            //if user click continue button in forgot password form
+    public function forgotPassword($email){
+        $sql = "SELECT * FROM agents WHERE a_email='$email' AND deleted='0'";        
+        $result= $this->con->query($sql);
+        if(mysqli_num_rows($result) > 0){
+            $code = rand(999999, 111111);
+            $insert_code = "UPDATE agents SET activationcode = '$code' WHERE a_email = '$email' AND deleted='0'";
+            // die($insert_code);
+            $run_query =  $this->con->query($insert_code);
+            if($run_query){
+                $subject = "Password Reset Code";
+                $message = "Your password reset code is $code";
+                $sender = "From: vivian.akpoke@trostechnologies.com";
+                if(mail($email, $subject, $message, $sender)){
+                    $info = "We've sent a password reset otp to your email - $email";
+                    $_SESSION['info'] = $info;
+                    $_SESSION['a_email'] = $email;
+                    header('location: reset-code.php');
+                    exit();
+                }else{
+                    $_SESSION['message'] = "Failed while sending code!";
+                    header('location: forgot-password.php');
+                }
+            }else{
+                $_SESSION['message'] = "Something went wrong!";
+                header('location: forgot-password.php');
+            }
+        }else{
+            $_SESSION['message'] = "This email address does not exist!";
+            header('location: forgot-password.php');
+        }
+    }
+
+    public function resetCode($code){
+        $sql = "SELECT * FROM agents WHERE activationcode = '$code'";
+        // die($sql);
+        $result= $this->con->query($sql) ;
+        if(mysqli_num_rows($result) > 0){
+            $fetch_data = mysqli_fetch_assoc($result);
+            $email = $fetch_data['a_email'];
+            $_SESSION['a_email'] = $email;
+            $info = "Please create a new password.";
+            $_SESSION['info'] = $info;
+        }else{
+            $info= "You've entered incorrect code!";     
+        }
+        return $info;
+    }
+
+    public function createNewPassword($pwd, $cpwd){
+        if($pwd === $cpwd){
+            $email = $_SESSION['a_email']; //getting this email using session
+            $encpass = md5($pwd);
+            $code=md5($email.time());
+            $sql = "UPDATE agents SET activationcode = '$code', a_pwd = '$encpass' WHERE a_email = '$email'";
+            $result = $this->con->query($sql);
+            if($result){
+                $info = "Password changed Successfully. Kindly proceed to login with the new password.";
+            }else{
+                $info = "Failed to change your password!";
+            }
+        }
+        return $info;
+    }
 }
 ?>
+
+                

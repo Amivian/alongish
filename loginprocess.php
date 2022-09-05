@@ -1,7 +1,6 @@
 <?php
 session_start();
 include('users.php');
-
 if(isset($_POST['login'])) {
 $email = strtolower(htmlspecialchars(strip_tags($_POST['email'])));
 $uname = strtolower(htmlspecialchars(strip_tags($_POST['email'])));
@@ -13,12 +12,8 @@ if ($output) {
 	header("Location: dashboard.php");
 
 }else{
-    $mg = 'Username or Password is Invalid';
-    header('location:login.php?mg='. urlencode(base64_encode($mg)));
+    $_SESSION['message'] = 'Username or Password is Invalid';
+    header('location:login.php');
 }
 }
-
-
-
-
- ?>
+?>

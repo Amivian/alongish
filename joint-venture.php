@@ -96,11 +96,12 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                     </div>
                     <!-- < !--End Search Form -->
                     
-                    <?php if(isset($_GET['msg'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
-                            }
-
-                            ?>
+                    <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
 
                     <?php foreach($output as $list) {
                                 $img=$prop->getsponsorshipImage($list['jointventure_id']);

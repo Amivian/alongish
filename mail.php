@@ -2,7 +2,7 @@
 $receiver = "vivian.akpoke@trostechnologies.com";
 $subject = "Email Test via PHP using Localhost";
 $body = "Hi, there...This is a test email send from Localhost.";
-$sender = "From:amiviann@gmail.com";
+$sender = "From:vivian.akpoke@trostechnologies.com";
 
 if(mail($receiver, $subject, $body, $sender)){
     echo "Email sent successfully to $receiver";

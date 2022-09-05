@@ -15,9 +15,10 @@ if (empty($_SESSION['id'])) {
 }
 require('property.php');
 $prop = new Property;
-if(isset($_POST['edit_data'])) {
-    $id= $_POST['edit_id'];
-    $property = $prop->showVentureDetails($id);
+if(isset($_GET['edit_id'])) {
+    $id= $_GET['edit_id'];
+    $property = $prop->showVentureDetails($id);    
+    $images=$prop-> getSponsorshipImages($id);
     }
 }
  ?>
@@ -57,18 +58,19 @@ if(isset($_POST['edit_data'])) {
             <form action="editventure.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="p_id" class="d-none" value="<?php echo $id; ?>">
                 <div class="single-add-property">
-                    <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-danger'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+                <?php
+                        if(isset($_SESSION['message'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                     <h3>Edit Joint Venture Property</h3>
                     <div class="property-form-group">
                         <div class="row">
                             <div class="col-md-12">
                                 <p>
                                     <label for="address">Property Title</label>
-                                    <input required type="text" name="title" placeholder="Ex 5 Arces of Land" value="<?php echo $property['joint_title']; ?>">
+                                    <input required type="text" name="title" value="<?php echo $property['joint_title'] ? $property['joint_title'] : '';  ?>">
                                 </p>
                             </div>
                         </div>
@@ -76,7 +78,7 @@ if(isset($_POST['edit_data'])) {
                             <div class="col-md-12">
                                 <p>
                                     <label for="description">Property Description</label>
-                                    <textarea required id="description" name="joint_description"><?php echo $property['joint_description']; ?></textarea>
+                                    <textarea id="description" name="joint_description"><?php echo $property['joint_description']? $property['joint_description'] : '';  ?></textarea>
                                 </p>
                             </div>
                         </div>
@@ -86,23 +88,22 @@ if(isset($_POST['edit_data'])) {
                 <div class="single-add-property mb-5">
                     <h3>property Location</h3>
                     <div class="property-form-group">
-                        <div class="row">
+                    <div class="row">
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
-                                <?php
-                                                    $obj->get_state();
-                                                     ?>
+                                <?php $stateID = isset($property['states_id']) ? $property['states_id'] : 0; ?> 
+                                <?php $prop->get_state($stateID); ?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
-
                                 <label for="city">City</label>
-                                <div type="text" name="city" id="citi"></div>
-
+                                <?php $cityID = isset($property['city_id']) ? $property['city_id'] : 0; ?> 
+                                <div type="text" name="city" city_info ="<?php echo $cityID ?>" id="citi"></div>
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <p>
                                     <label for="address">Address</label>
-                                    <input type="text" required name="address" value="<?php echo $property['address']; ?>">
+                                    <input type="text" name="address" 
+                                        value="<?php echo isset($property['address']) ? $property['address'] : ''; ?>">
                                 </p>
                             </div>
                         </div>
@@ -111,12 +112,23 @@ if(isset($_POST['edit_data'])) {
                 <div class="single-add-property">
                     <h3>Property Media</h3>
                     <div class="property-form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br> Press down on the ctrl key to
-                                 select multiple images <br>
-                                <input class="mt-2" type="file" name="images[]" multiple required>
-                            </div>
+                    <div class="row">
+                            <?php $imagesCount = count($images); $totalImages = 5; ?>
+                            <?php foreach ($images as $img) { ?>
+                                <div class="col-md-4">
+                                    <img src="images/sponsor/<?php echo $img['image_url'] ?>" class="img-fluid" alt="<?php echo $img['image_url'] ?>" width="200px">
+                                    <input class="mt-2" type="file" name="images[<?php echo $img['image_id']; ?>]">
+                                </div>
+                            <?php } ?>
+
+                            <?php if (($totalImages - $imagesCount) > 0) { ?>
+                                <?php for ($a=0; $a < ($totalImages - $imagesCount); $a++) { ?>
+                                    <div class="col-md-4 mt-3">
+                                        <img src="" class="img-fluid" alt="property" width="200px">
+                                        <input class="mt-2" type="file" name="images[]">
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -175,7 +187,7 @@ if(isset($_POST['edit_data'])) {
                             <div class="col-md-12">
                                 <p>
                                     <label for="title">Offer (What you will give in return)</label>
-                                    <input type="text" name="offer" required value="<?php echo $property['offer']; ?>">
+                                    <input type="text" name="offer" value="<?php echo ucwords($property['offer']) ? $property['offer'] : ''; ?>">
                                 </p>
                             </div>
                         </div>
@@ -184,7 +196,7 @@ if(isset($_POST['edit_data'])) {
                                 <p>
                                     <label for="description">Terms and Conditions</label>
                                     <textarea id="description" name="joint_t&c"
-                                        required><?php echo $property['joint_tc']; ?></textarea>
+                                        placeholder="Describe the property"><?php echo $property['joint_tc'] ? $property['joint_tc'] : '';  ?></textarea>
                                 </p>
                             </div>
                         </div>
