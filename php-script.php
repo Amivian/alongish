@@ -1,5 +1,5 @@
 <?php
- include("users.php");
+include("users.php");
 $con  = new mysqli('localhost', 'root', '', 'homes');
  
 if(!empty(isset($_POST['emailId'])) && isset($_POST['emailId'])){

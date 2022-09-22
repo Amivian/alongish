@@ -1,7 +1,4 @@
 <?php 
-session_start();
-require('property.php');
-
 if (isset($_POST['btn'])) {
   if(isset($_POST['name'])){
     $name = htmlentities(strip_tags($_POST['name']));
@@ -15,8 +12,9 @@ if (isset($_POST['btn'])) {
   $image= $_FILES['image'];
 
 $tid =$_POST['t_id'];
-$obj = new Property;
-$output= $obj->editTeam($name,$position,$email,$tid,$image);
+
+$team = new admin\Property;
+$output= $team->editTeam($name,$position,$email,$tid,$image);
 
 if($output) {
   $_SESSION['message']= "Team Member Edited successfully";

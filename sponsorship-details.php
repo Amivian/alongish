@@ -1,38 +1,23 @@
 <?php
-session_start();
-require "sponsorshipform.php";
-if(isset($_SESSION['id'])){
+    require 'include/active-user.php';
+
+    require "sponsorship-form.php";
     
-    require('users.php');
     $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
 
-}else{
+    $prop = new \admin\Property;
 
-}
+    $id = $_GET['id'];
 
-require('property.php');
-$id = $_GET['id'];
-$prop = new Property;
-$property = $prop-> showVentureDetails($id);
-$extra = $prop->getSponsorshipNeed($id);
-$images = $prop-> getSponsorshipImages($id);
-$recent = $prop->showRecentJoint();
-$swap = $prop->showSwaps();
+    $property = $prop-> showVentureDetails($id);
 
+    $extra = $prop->getSponsorshipNeed($id);
 
-?>
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$mail=$prop->newsLetter( $email);
-}
+    $images = $prop-> getSponsorshipImages($id);
+
+    $recent = $prop->showRecentJoint();
+
+    $swap = $prop->showSwaps();
 ?>
 
 <!DOCTYPE html>
@@ -42,9 +27,7 @@ $mail=$prop->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Property Details</title>
-    <?php
-    require('include/head.php');
-    ?>
+    <?php  require('include/head.php');  ?>
 </head>
 
 <body class="inner-pages sin-1 ">
@@ -56,9 +39,7 @@ $mail=$prop->newsLetter( $email);
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-            require('include/header002.php');
-            ?>
+                <?php  require('include/header002.php');  ?>
             </div>
 
 
@@ -107,11 +88,7 @@ $mail=$prop->newsLetter( $email);
                                 <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                     <h5 class="mb-4">Gallery</h5>
                                     <div class="w3-content w3-display-container" style="max-width:800px">
-                                        <?php
-                                                                        foreach($images as $img){
-                                                                            // $count = 0;
-                                                                                    
-                                                                            ?>
+                                        <?php foreach($images as $img){ ?>
                                         <img class="mySlides" src="images/sponsor/<?php echo $img['image_url'] ?>"
                                             style="width:100%">
 
@@ -130,46 +107,24 @@ $mail=$prop->newsLetter( $email);
                                             <span class="w3-badge demo w3-border w3-transparent w3-hover-white"
                                                 onclick="currentDiv(3)"></span>
                                         </div>
-                                    </div>
-
-
-
-
-
-
-
-                                    <div class="carousel-inner">
-
-
-
-
-
+                                    </div> 
+                                    <div class="carousel-inner"> 
                                         <div class="active item carousel-item" data-slide-number="0">
                                             <img src="images/sponsor/<?php echo $img['image_url'] ?>" class="img-fluid"
-                                                alt="<?php echo $img['joint_title'] ?>">
+                                                alt="<?php echo $property['joint_title'] ?>">
                                         </div>
 
-                                        <?php
-                                        foreach($images as $img){
-                                            // $count = 0;
-                                                    
-                                            ?>
-
+                                        <?php   foreach($images as $img){  ?>
                                         <div class="item carousel-item" data-slide-number="1">
                                             <img src="images/sponsor/<?php echo $img['image_url'] ?>" class="img-fluid"
-                                                alt="<?php echo $img['joint_title'] ?>">
+                                                alt="<?php echo $property['joint_title'] ?>">
                                         </div>
-
                                         <a class="carousel-control left" href="#listingDetailsSlider"
                                             data-slide="prev"><i class="fa fa-angle-left"></i></a>
                                         <a class="carousel-control right" href="#listingDetailsSlider"
                                             data-slide="next"><i class="fa fa-angle-right"></i></a>
-                                        <?php
-                                        }?>
-
-                                    </div>
-
-
+                                        <?php }?> 
+                                    </div> 
                                     <!-- main slider carousel items -->
                                 </div>
                                 <div class="blog-info details mb-30">
@@ -299,57 +254,7 @@ $mail=$prop->newsLetter( $email);
                                                         <input type="email" name="email"
                                                             placeholder="Enter Your Email Address" required value="<?php echo $set_email;?>">
                                                         <textarea placeholder="Enter Your Message" name="msg"
-                                                            required><?php echo $set_msg;?></textarea>
-                                                         <!-- <div class="row">
-                                                            <div class="col-md-12">
-                                                                <ul class="pro-feature-add pl-0">
-                                                                    <li class="fl-wrap filter-tags clearfix">
-                                                                        <div class="checkboxes float-left">
-                                                                            <div class="filter-tags-wrap">
-                                                                                <input id="check-a" type="checkbox"
-                                                                                    name="extra[]"
-                                                                                    value="Land Clearing">
-                                                                                <label for="check-a">Land
-                                                                                    Clearing</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li class="fl-wrap filter-tags clearfix">
-                                                                        <div class="checkboxes float-left">
-                                                                            <div class="filter-tags-wrap">
-                                                                                <input id="check-b" type="checkbox"
-                                                                                    name="extra[]"
-                                                                                    value="Road Construction">
-                                                                                <label for="check-b">Road
-                                                                                    Construction</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li class="fl-wrap filter-tags clearfix">
-                                                                        <div class="checkboxes float-left">
-                                                                            <div class="filter-tags-wrap">
-                                                                                <input id="check-c" type="checkbox"
-                                                                                    name="extra[]"
-                                                                                    value="Layout/Survey Documentation">
-                                                                                <label for="check-c">Layout/Survey
-                                                                                    Documentation</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li class="fl-wrap filter-tags clearfix">
-                                                                        <div class="checkboxes float-left">
-                                                                            <div class="filter-tags-wrap">
-                                                                                <input id="check-d" type="checkbox"
-                                                                                    name="extra[]"
-                                                                                    value="Land Reclaimation">
-                                                                                <label for="check-d">Land
-                                                                                    Reclaimation</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div> -->
+                                                            required><?php echo $set_msg;?></textarea>                                                        
                                                         <div class="row mt-2">
                                                           <ul class="pro-feature-add pl-4">
                                                                     <li class="fl-wrap filter-tags clearfix">
@@ -465,11 +370,6 @@ $mail=$prop->newsLetter( $email);
 
                                         </ul>
                                         <div class="footer">
-                                            <!-- <a href="agent-details.php?id=<?php echo $new['agent_id'] ?>">
-                                                <img style=" height: 40px; border-radius: 50%;"
-                                                    src="images/users/<?php echo $new['a_pix'] ?>" alt=""
-                                                    class="mr-2"><?php echo ucfirst($new['a_username'])?>
-                                            </a> -->
                                             <span class=""> <?php date_default_timezone_set("Africa/Lagos"); 
                                              echo date('F j, Y', strtotime($property['date_posted'])); ?></span>
 

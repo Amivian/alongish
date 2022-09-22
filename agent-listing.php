@@ -1,32 +1,17 @@
 <?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
+    require 'include/active-user.php';
+
+    require "contact-agent.php";
+
     $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
 
-}else{
+    $prop = new admin\Property;
 
-}
-require('property.php');
-$prop = new Property;
-$output = $prop->getRegUsers();
-if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
+    $output = $prop->getRegUsers();
+
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 ?>
 
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$mail=$prop->newsLetter( $email);
-}
-?>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -35,9 +20,7 @@ $mail=$prop->newsLetter( $email);
 <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Agents</title>
-<?php
-require('include/head.php');
-?>
+<?php require('include/head.php');?>
 </head>
 
 <body class="inner-pages agents homepage-4 hd-white">
@@ -48,10 +31,8 @@ require('include/head.php');
         ================================================== -->
         <header id="header-container">
         <div id="header">
-            <?php
-require('include/header002.php');
-?>
-            </div>
+            <?php require('include/header002.php');?>
+        </div>
             
 
         </header>
@@ -85,10 +66,11 @@ require('include/header002.php');
                 <div class="row">
                     <div class="col-lg-10 col-md-12 col-xs-12">
                     <?php
-                                if (isset($_GET['msg'])) {
-                                        echo "<h5 class='alert alert-info text-center'>". $_GET['msg']. "</h5>";
-                                    }
-                                    ?>
+                        if(isset( $_SESSION['response'])) {
+                            echo "<p class='alert alert-success text-center'>".  $_SESSION['response'] ."</p>";
+                            unset( $_SESSION['response']);
+                        }
+                    ?>
                         <div class="row">
                            
                         <?php 

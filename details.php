@@ -1,21 +1,10 @@
 <?php 	
-session_start();
- if (empty($_SESSION['id'])) {
- 	header('location:login.php');
- }else{
-    require('users.php');
-    $obj = new User;
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];
-    
-   $pix= $k['a_pix'];
-   if (empty($pix)) {
-       $pix = 'avatar.png';
- }
+ require 'include/checks.php';
 
+ require 'update.php';
 
-} 
- ?>
+ $user = new User;
+?>
 
 
 <!DOCTYPE html>
@@ -29,28 +18,23 @@ session_start();
     <meta name="author" content="">
     <title>Update Profile</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php');  ?>
 
+    <?php require('include/sidebar.php');  ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+
+        <?php require('include/mobile-dashboard.php');  ?>
+
         <div class="container">
-            <form action="update.php" enctype="multipart/form-data" method="POST" id="picture">
+            <form action="" enctype="multipart/form-data" method="POST" id="picture">
                 <input type="hidden" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">
                 <?php
-                        if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                            unset($_SESSION['message']);
-                        }
-                    ?>
+                    if(isset($_SESSION['message'])) {
+                        echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                        unset($_SESSION['message']);
+                    }
+                ?>
                 <div class="dashborad-box mb-3">
                     <h3 class="heading pt-0">Update Profile</h3>
                     <div class="section-inforamation">
@@ -129,7 +113,7 @@ session_start();
                                 </div>
                         </div>
                     </div>
-                <button type="button" class="btn btn-primary btn-lg mt-2 mr-3" onClick="document.location.href='dashboard.php'">Cancle</button>
+                <button type="button" class="btn btn-primary btn-lg mt-2 mr-3" onClick="document.location.href='user-profile.php'">Cancle</button>
                 <button type="submit" class="btn btn-success btn-lg mt-2 " name="update">Update</button>
 
             </div>
@@ -144,6 +128,4 @@ session_start();
     </div>
     </div>
     </section>
-                 <?php
-				require('include/dashfooter.php');
-				 ?>
+<?php require('include/dashfooter.php');  ?>

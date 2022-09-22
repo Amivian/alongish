@@ -1,37 +1,25 @@
 <?php
-session_start();
-require "contact-agent.php";
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
+    require 'include/active-user.php';
+
+    require "contact-agent.php";
+
     $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
 
-}else{
+    $props = new admin\Property;
 
-}
-require('property.php');
-$id = $_GET['id'];
-$prop = new Property;
-$property = $prop->showAgentDetails($id);
-$count = $prop->agentPropertyCount($id);
-$listing = $prop->showAgentProperties($id);
+    $id = $_GET['id'];
 
-if(isset($_GET['id'])? $id =$_GET['id']:$id=' property.agent_id ');
-if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
-?>
+    $prop = new admin\Property;
 
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$output=$prop->newsLetter( $email);
-}
+    $property = $prop->showAgentDetails($id);
+
+    $count = $prop->agentPropertyCount($id);
+
+    $listing = $prop->showAgentProperties($id);
+
+    if(isset($_GET['id'])? $id =$_GET['id']:$id=' property.agent_id ');
+
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 ?>
 
 
@@ -42,9 +30,7 @@ $output=$prop->newsLetter( $email);
 <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Agent Details</title>
-<?php
-require('include/head.php');
-?>
+<?php require('include/head.php');?>
 </head>
 
 <body class="inner-pages hd-white about">
@@ -55,10 +41,8 @@ require('include/head.php');
         ================================================== -->
         <header id="header-container">
         <div id="header">
-            <?php
-require('include/header002.php');
-?>
-            </div>
+            <?php require('include/header002.php');?>
+         </div>
             
 
         </header>
@@ -91,7 +75,7 @@ require('include/header002.php');
                                         <div class="news-item-img homes">
                                             <div class="homes-tag button alt featured"> <small style="font-color:white;font-weight:bold"><?php echo $count;?> Listings</small>
                                            </div>
-                                            <img class="resp-img" src="images/users/<?php echo $property['a_pix'] ?>" alt="blog image">
+                                            <img class="resp-img" src="images/users/<?php echo $property['a_pix'] ?>" alt="<?php echo ucwords($property['a_fname']) ?> <?php echo ucwords($property['a_lname']) ?>">
                                         </div>
                                     </a>
                                     <div class="news-item-text">
@@ -216,14 +200,11 @@ require('include/header002.php');
                 
                 <nav aria-label="..." class="pt-4">
                 <ul class="pagination lis-view">
-                <?php 
-                 $get = $prop->pagination_agentproperties('agent-details.php', $page, $id);?>
+                <?php  $prop->pagination_agentproperties('agent-details.php', $page, $id);?>
             </ul>
                 </nav>
             </div>
         </section>
         <!-- END SECTION AGENTS DETAILS -->
         <?php include "include/foot.php"?>
-        <?php
-  require('include/footer.php');
-?>
+        <?php   require('include/footer.php');?>

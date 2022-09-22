@@ -1,35 +1,13 @@
-<?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-require('property.php');
-$prop = new Property;
-$output = $prop->showAdminJointVentures();
-if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
-
-// do your query results
-
-
-?>
-
 <?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$mail=$prop->newsLetter( $email);
-}
+    require 'include/active-user.php';
+    
+    $obj = new User;
+
+    $prop = new \admin\Property;
+
+    $output = $prop->showAdminJointVentures();
+
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 ?>
 
 <!DOCTYPE html>
@@ -38,10 +16,8 @@ $mail=$prop->newsLetter( $email);
 <head>
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
-    <title>Our Swaps Listings</title>
-    <?php
-require('include/head.php');
-?>
+    <title>Our Joint Venture Listings</title>
+    <?php require('include/head.php');?>
 </head>
 
 <body class="inner-pages homepage-4 agents list hp-6 full hd-white">
@@ -53,9 +29,7 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-require('include/header002.php');
-?>
+                <?php require('include/header002.php');?>
             </div>
 
 
@@ -121,9 +95,8 @@ require('include/header002.php');
                                     <ul class="homes-list clearfix pb-3">
                                         <li class="the-icons"><span><b>Sponsorship: </b><?php foreach($type as $extras) {
                                                     ?><?php echo $extras['joint_name']?><br><?php
-                                                }
-
-                                                ?></span></li>
+                                                }?></span>
+                                        </li>
                                     </ul>
                                     <!-- < !-- agent details -->
                                     <div class="footer">
@@ -145,8 +118,7 @@ require('include/header002.php');
 
                 <nav aria-label="..." class="pt-4">
                     <ul class="pagination lis-view">
-                        <?php 
-                         $get = $prop->pagination_adminjoint('showAdminJointVentures',$page);?>
+                        <?php $prop->pagination_adminjoint('showAdminJointVentures',$page);?>
                     </ul>
                 </nav>
             </div>
@@ -154,6 +126,4 @@ require('include/header002.php');
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
 
-        <?php
-      require('include/footer.php');
-      ?>
+        <?php  require('include/footer.php'); ?>

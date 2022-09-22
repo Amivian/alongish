@@ -6,7 +6,7 @@
     $name = $_REQUEST['lastname'];
 	  $message = $_REQUEST['message'];
     $headers = "From: $from";
-	  $subject = "Contact Form FindHouses Site";
+	  $subject = "Contact Form Alongish Site";
    
     $fields = array();
     $fields{"firstname"} = "First name";

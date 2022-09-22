@@ -1,20 +1,12 @@
 <?php 	
-session_start();
-if (empty($_SESSION['uname'])) {
-    header('location:index.php');
-}
-require('admin.php'); 
-$obj = new Admin;
-$k = $obj->getAdmin($_SESSION['id']);
-$agent_id=$_SESSION['id'];
+require_once ('include/checks.php');
 
-$pix= $k['a_pix'];
-if (empty($pix)) {
-    $pix = 'avatar.png';
-}
 require('property.php');
-$prop= new Property;
-$output = $prop->getpartners();
+
+$property= new admin\Property;
+
+$output = $property->getpartners();
+
 if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 
   ?>
@@ -32,24 +24,20 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
     <meta name="author" content="">
     <title>Our Partners</title>
 
-    <?php
-                 require('include/dashheaders.php');
-                  ?>
+    <?php require('include/dashheaders.php'); ?>
 
+    <?php require('include/sidebar.php');?>
 
-    <?php
-                 require('include/sidebar.php');
-                  ?>
     <div class="col-lg-8  col-md-12 col-xs-12 pl-0 user-dash2">
-        <?php
-                        require('include/mobile-dashboard.php');
-                        ?>
-                            <?php
-                              if(isset($_SESSION['message'])) {
-                                  echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                                  unset($_SESSION['message']);
-                              }
-                          ?>
+
+      <?php require('include/mobile-dashboard.php'); ?>
+      
+       <?php
+            if(isset($_SESSION['message'])) {
+                echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                unset($_SESSION['message']);
+            }
+       ?>
         <div class="my-properties">
             <table class="table-responsive">
                 <thead class='text-center'>
@@ -62,7 +50,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                     </tr>
                 </thead>
                 <tbody class='text-center'> 
-                    <?php   $count= 1;  foreach($output as $partner) {?>
+                <?php   if(!empty($output)){ $count= 1;  foreach($output as $partner) {?>                   
                     <tr>
                         <td><?php echo $count?></td>
                         <td class='image myelist'>
@@ -93,11 +81,8 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                             </div>
                         </td>
                     </tr>
-                    <?php  $count++;  }
-    ?>
-
-
-                </tbody>
+                    <?php  $count++;  } ?>
+               </tbody>
             </table>
 
             <div style='padding: 10px 20px 0px; border-top: dotted 1px #CCC;'>
@@ -108,10 +93,15 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 
                     <ul class=" pagination">
                         <?php 
-                         $get = $prop->pagination_partner('our-partner.php', $page);?>
+                         $get = $property->pagination_partner('our-partner.php', $page);?>
                     </ul>
                 </nav>
-            </div>
+            </div>            
+            <?php }else{ ?>
+                    <div>
+                    <h4 class="text-danger text-center">No Record Avaliable </h4>
+                    </div>
+                <?php   }  ?>
 
         </div>
     </div>

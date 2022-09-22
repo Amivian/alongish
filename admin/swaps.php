@@ -1,22 +1,15 @@
 <?php 	
-session_start();
-if (empty($_SESSION['uname'])) {
-    header('location:index.php');
-}
-require('admin.php'); 
-$obj = new Admin;
-$k = $obj->getAdmin($_SESSION['id']);
-$agent_id=$_SESSION['id'];
+  require_once ('include/checks.php'); 
 
-$pix= $k['a_pix'];
-if (empty($pix)) {
-    $pix = 'avatar.png';
-}
-require('property.php');
-$prop= new Property;
+  require('property.php');
 
+  require('swapprocess.php');
 
- ?>
+  $properties = new \admin\Property;
+
+  $obj = new admin\Admin;
+
+?>
 
 
 <!DOCTYPE html>
@@ -30,38 +23,31 @@ $prop= new Property;
   <meta name="author" content="">
   <title>Create Swap Item</title>
 
-  <?php
-				require('include/dashheaders.php');
-				 ?>
+  <?php require('include/dashheaders.php');  ?>
 
+  <?php require('include/sidebar.php');  ?>
 
-
-  <?php
-				require('include/sidebar.php');
-				 ?>
   <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-    <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+
+    <?php require('include/mobile-dashboard.php');  ?>
     <div class="container">
-      <form action="swapprocess.php" method="POST" enctype="multipart/form-data">
-        <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">
+      <form action="" method="POST" enctype="multipart/form-data">
         <input type="text" name="staff" class="d-none" value="staff">
         <div class="single-add-property">
           <?php
-                        if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                            unset($_SESSION['message']);
-                        }
-                    ?>
+              if(isset($_SESSION['message'])) {
+                echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                unset($_SESSION['message']);
+              }
+          ?>
           <h3>Create Swap Item</h3>
           <div class="property-form-group">
-            <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">
             <div class="row">
               <div class="col-md-8">
                 <p>
                   <label for="address">Swap Item</label>
-                  <input required type="text" name="swap_name" placeholder="Enter Swap Name" id="address">
+                  <input required type="text" name="swap_name" placeholder="Enter Swap Name" id="address" value="<?php echo isset($_POST['swap_name']) ? $_POST['swap_name'] : '' ?>">
+                   <span class="text-danger"><?php echo isset($form_errors['title']) ? $form_errors['title'] : '' ?></span>
                 </p>
               </div>
               <div class="col-md-2">
@@ -74,6 +60,7 @@ $prop= new Property;
                     <option value="Land">Land</option>
                   </select>
                 </p>
+                <span class="text-danger"><?php echo isset($form_errors['swap_item']) ? $form_errors['swap_item'] : '' ?></span>
               </div>
             </div>
             <div class="row">
@@ -81,10 +68,11 @@ $prop= new Property;
                 <p>
                   <label for="description">Swap Item Description</label>
                   <textarea id="description" name="swap_description" placeholder="Describe exactly what you have"
-                    required></textarea>
+                    required><?php echo isset($_POST['swap_description']) ? $_POST['swap_description'] : '' ?></textarea>
                   <small>If you pick car for swap, Kindly indicate the following: YEAR, CAR BRAND, CAR MODEL,
                     NEW/USED</small>
                 </p>
+                <span class="text-danger"><?php echo isset($form_errors['swap_description']) ? $form_errors['swap_description'] : '' ?></span>
               </div>
             </div>
             <div class="row">
@@ -95,6 +83,7 @@ $prop= new Property;
                   <option value="House">House</option>
                   <option value="Land">Land</option>
                 </select>
+                <span class="text-danger"><?php echo isset($form_errors['swap_need']) ? $form_errors['swap_need'] : '' ?></span>
               </div>
             </div>
             <div class="row">
@@ -102,8 +91,9 @@ $prop= new Property;
                 <p>
                   <label for="description">Swap Need Description</label>
                   <textarea id="description" name="sneed_description" placeholder="Describe exactly what you want"
-                    required></textarea>
-                </p>
+                    required><?php echo isset($_POST['sneed_description']) ? $_POST['sneed_description'] : '' ?></textarea>
+                </p>                
+                <span class="text-danger"><?php echo isset($form_errors['sneed_description']) ? $form_errors['sneed_description'] : '' ?></span>
               </div>
             </div>
           </div>
@@ -114,21 +104,18 @@ $prop= new Property;
               <div class="row">
                 <div class="col-lg-4 col-md-4 form-group">
                   <label for="state">State</label>
-                  <?php
-                                                    $obj->get_state();
-                                                     ?>
+                  <?php $obj->get_state(); ?>
                 </div>
                 <div class="col-lg-4 col-md-4 form-group">
-
                   <label for="city">City</label>
                   <div type="text" name="city" id="citi"></div>
-
                 </div>
                 <div class="col-lg-4 col-md-4">
                   <p>
                     <label for="address">Address</label>
-                    <input required type="text" name="address" placeholder="Enter property Address" id="address">
+                    <input required type="text" name="address" placeholder="Enter property Address" id="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : '' ?>">
                   </p>
+                <span class="text-danger"><?php echo isset($form_errors['address']) ? $form_errors['address'] : '' ?></span>
                 </div>
               </div>
             </div>
@@ -143,12 +130,13 @@ $prop= new Property;
                     <li class="fl-wrap filter-tags clearfix">
                       <div class="checkboxes float-left">
                         <div class="filter-tags-wrap">
-                          <?php $feature=$prop->getSwapDocument();?>
+                          <?php $properties->getSwapDocument();?>
                         </div>
                       </div>
                     </li>
 
                   </ul>
+                <span class="text-danger"><?php echo isset($form_errors['extra']) ? $form_errors['extra'] : '' ?></span>
                 </div>
               </div>
             </div>
@@ -191,6 +179,4 @@ $prop= new Property;
   <!-- END SECTION USER PROFILE -->
 
 
-  <?php
-				require('include/dashfooter.php');
-				 ?>
+  <?php require('include/dashfooter.php');  ?>

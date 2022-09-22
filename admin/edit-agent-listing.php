@@ -1,28 +1,23 @@
 <?php 	
-session_start();
-require('admin.php');
- 
- $obj= new Admin;
+    require_once ('include/checks.php'); 
 
- if (empty($_SESSION['uname'])) {
- 	header('location:login.php');
- }
+    require('property.php');
 
- $k = $obj->getAdmin($_SESSION['id']);
- $agent_id = $_SESSION['id'];
- 
-$pix= $k['a_pix'];
-if (empty($pix)) {
-    $pix = 'avatar.png';
-} 
+    require('editlistings.php');
 
-require('property.php');
-$obj1 = new Property;
-if(isset($_GET['edit_id'])) {
-$id= $_GET['edit_id'];
-$property = $obj1->showPropertyInfo($id); 
-$images = $obj1->getAllImages($id);
-}
+    $properties = new \admin\Property;
+
+    $admin= new \admin\Admin;
+
+    if(isset($_GET['edit_id'])) 
+    {
+        $id= $_GET['edit_id'];
+
+        $property = $properties->showPropertyInfo($id); 
+        $images = $properties->getAllImages($id);
+        $amenities=$properties->checkedAmenities();
+        $propertyamenities= $properties->getCheckedAmenities($id);
+    }
  ?>
 
 
@@ -37,26 +32,19 @@ $images = $obj1->getAllImages($id);
     <meta name="author" content="">
     <title>Admin Edit Agent Listing</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php'); ?>
 
+    <?php require('include/sidebar.php');?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+        <?php require('include/mobile-dashboard.php'); ?>
         <div class="container">
-            <form action="editlistings.php" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="p_id" class="d-none" value="<?php echo $id; ?>">
+            <form action="" method="POST" enctype="multipart/form-data">            
+            <input type="hidden" name="edit_id" class="d-none" value="<?php echo $id; ?>">
                 <div class="single-add-property">
                     <?php
                         if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            echo "<p class='alert alert-success text-center'>". $_SESSION['message'] ."</p>";
                             unset($_SESSION['message']);
                         }
                     ?>
@@ -67,6 +55,7 @@ $images = $obj1->getAllImages($id);
                                 <p>
                                     <label for="title">Property Title</label>
                                     <input type="text" name="title" id="title" value="<?php echo isset($property['property_title']) ? $property['property_title'] : ''; ?>">
+                                    <span class="text-danger"><?php echo isset($form_errors['title']) ? $form_errors['title'] : '' ?></span>
                                 </p>
                             </div>
                         </div>
@@ -74,7 +63,8 @@ $images = $obj1->getAllImages($id);
                             <div class="col-md-12">
                                 <p>
                                     <label for="description">Property Description</label>
-                                    <textarea id="description" name="pro-desc"> <?php echo isset($property['property_description']) ? $property['property_description'] : ''; ?></textarea>
+                                    <textarea id="description" name="pro-desc"><?php echo isset($property['property_description']) ? $property['property_description'] : ''; ?></textarea>
+                                    <span class="text-danger"><?php echo isset($form_errors['pro-desc']) ? $form_errors['pro-desc'] : '' ?></span>
                                 </p>
                             </div>
                         </div>
@@ -88,7 +78,7 @@ $images = $obj1->getAllImages($id);
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
                                 <?php $stateID = isset($property['states_id']) ? $property['states_id'] : 0; ?> 
-                                <?php $obj1->get_state($stateID); ?>
+                                <?php $admin->get_state($stateID); ?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="city">City</label>
@@ -98,8 +88,8 @@ $images = $obj1->getAllImages($id);
                             <div class="col-lg-4 col-md-4">
                                 <p>
                                     <label for="address">Address</label>
-                                    <input type="text" name="address" 
-                                        value="<?php echo isset($property['property_address']) ? $property['property_address'] : ''; ?>">
+                                    <input type="text" name="address" value="<?php echo isset($property['property_address']) ? $property['property_address'] : ''; ?>">
+                                    <span class="text-danger"><?php echo isset($form_errors['address']) ? $form_errors['address'] : '' ?></span>
                                 </p>
                             </div>
                         </div>
@@ -137,19 +127,19 @@ $images = $obj1->getAllImages($id);
                             <div class="col-lg-4 col-md-4 dropdown faq-drop">
                             <div class="form-group categories">                                    
                                 <?php $statusID = isset($property['pstatus_id']) ? $property['pstatus_id'] : 0; ?> 
-                                    <?php $obj1->getStatus($statusID); ?>
+                                    <?php $properties->getStatus($statusID); ?>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 dropdown faq-drop">
                             <div class="form-group categories">
                                 <?php $propertytypeID = isset($property['ptype_id']) ? $property['ptype_id'] : 0; ?> 
-                                    <?php $obj1->getPropertytype($propertytypeID ); ?>
+                                    <?php $properties->getPropertytype($propertytypeID ); ?>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
                                 <?php $bedroomID = isset($property['bedroom_id']) ? $property['bedroom_id'] : 0; ?> 
-                                    <?php $obj1->getBedroom($bedroomID); ?>
+                                    <?php $properties->getBedroom($bedroomID); ?>
 
                                 </div>
                             </div>
@@ -158,7 +148,7 @@ $images = $obj1->getAllImages($id);
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
                                 <?php $bathroomID = isset($property['bathroom_id']) ? $property['bathroom_id'] : 0; ?> 
-                                    <?php $obj1->getBathroom($bathroomID ); ?>
+                                    <?php $properties->getBathroom($bathroomID ); ?>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
@@ -194,27 +184,20 @@ $images = $obj1->getAllImages($id);
                         <div class="row">
                             <div class="col-md-12">
                             <ul class="pro-feature-add pl-0">      
-                                    <?php                                    
-                                            $amenitiesValue = $obj1>getAllFeatures(); 
-                                            echo "<pre>";
-                                            echo var_dump($amenitiesValue);
-                                            echo"</pre>";
-                                            exit();
-                                            foreach($amenitiesValue as $amenities) { 
-                                                $arrayOfPropertyAmenities[] = $obj1>propertyAmenities($amenities['property_id']);    
-                                                                                    
-                                                ?>  
-                                                               
-                                            <li class="fl-wrap filter-tags clearfix">
-                                                <div class="checkboxes float-left">
-                                                    <div class="filter-tags-wrap">                                                      
-                                                <input type="checkbox" <?php if (in_array($amenities['pfeature_id'] , $arrayOfPropertyAmenities['property_id'])) echo 'checked'; ?> id="<?php echo $amenities['pfeature_name'] ?>" > <?php ?>
-                                                    <label for="<?php echo $amenities['pfeature_name'] ?>"><?php echo $amenities['pfeature_name'] ?></label>
-                                                    </div>
-                                                </div>     
-                                            </li>    
-                                       <?php }?>
-                                </ul>
+                                <li class="fl-wrap filter-tags clearfix">
+                                    <div class="checkboxes float-left">
+                                        <div class="filter-tags-wrap">                                        
+                                        <?php  
+                                        foreach($amenities as $documents)
+                                        { ?>
+                                            <input type="checkbox" <?php if (in_array($documents['pfeature_id'], $propertyamenities)) echo 'checked'; ?> id="<?php echo $documents['pfeature_name']?>" name="extra[<?php echo $documents['pfeature_id']?>]" value="<?php echo $documents['pfeature_id']?>"> 
+                                            <label for="<?php echo $documents['pfeature_name'] ?>"><?php echo $documents['pfeature_name'] ?></label>
+                                        <?php }?>   
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
                             </div>
                         </div>
                     </div>
@@ -226,12 +209,14 @@ $images = $obj1->getAllImages($id);
                                 <p>
                                     <label for="address">Price</label>
                                     <input  type="text" name="price" value="<?php echo isset($property['property_price']) ? $property['property_price'] : ''; ?>" id="price">
+                                    <span class="text-danger"><?php echo isset($form_errors['price']) ? $form_errors['price'] : '' ?></span>
                                 </p>
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <p class="no-mb last">
                                     <label for="area">Area</label>
                                     <input  type="text" name="area" value="<?php echo isset($property['property_area']) ? $property['property_area'] : ''; ?>" id="area">
+                                    <span class="text-danger"><?php echo isset($form_errors['area']) ? $form_errors['area'] : '' ?></span>
                                 </p>
                             </div>
                         </div>
@@ -241,7 +226,7 @@ $images = $obj1->getAllImages($id);
                     <div class="property-form-group">
                         <div class="row">
                             <button type="button" class=" btn btn-danger  btn-lg mr-5" name="btncancle"
-                                onClick="document.location.href='my-listings.php'">Cancel</button>
+                                onClick="document.location.href='manage-listings.php'">Cancel</button>
                             <button type="submit" class=" btn btn-success btn-lg " name="btn">Submit</button>
                         </div>
                     </div>
@@ -253,6 +238,4 @@ $images = $obj1->getAllImages($id);
     <!-- END SECTION USER PROFILE -->
 
 
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

@@ -1,35 +1,13 @@
 <?php
-session_start();
-if(isset($_SESSION['id'])){
+    require 'include/active-user.php';
     
-    require('users.php');
     $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
 
-}else{
+    $prop = new \admin\Property;
 
-}
-require('property.php');
-$prop = new Property;
-$output = $prop->showAdminswaps();
-if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
+    $output = $prop->showAdminswaps();
 
-// do your query results
-
-
-?>
-
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$mail=$prop->newsLetter( $email);
-}
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 ?>
 
 <!DOCTYPE html>
@@ -39,9 +17,7 @@ $mail=$prop->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Our Swaps Listings</title>
-    <?php
-require('include/head.php');
-?>
+    <?php require('include/head.php');  ?>
 </head>
 
 <body class="inner-pages homepage-4 agents list hp-6 full hd-white">
@@ -53,12 +29,8 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-require('include/header002.php');
-?>
+                <?php require('include/header002.php'); ?>
             </div>
-
-
         </header>
         <div class="clearfix"></div>
         <!-- Header ends -->
@@ -137,8 +109,6 @@ require('include/header002.php');
                 </div>
 
                 <?php }?>
-
-
                 <nav aria-label="..." class="pt-4">
                     <ul class="pagination lis-view">
                         <?php 
@@ -150,6 +120,4 @@ require('include/header002.php');
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
 
-        <?php
-      require('include/footer.php');
-      ?>
+        <?php require('include/footer.php'); ?>

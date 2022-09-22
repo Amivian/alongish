@@ -1,18 +1,12 @@
 <?php 	
-session_start();
-require('admin.php');
- if (empty($_SESSION['uname'])) {
- 	header('location:login.php');
- }
- 
- $obj = new Admin;
- $k = $obj->getUser($_SESSION['id']);
- $agent_id=$_SESSION['id'];
- 
-$pix= $k['a_pix'];
-if (empty($pix)) {
-    $pix = 'avatar.png';
-} 
+    require('include/checks.php');
+
+    require('property.php');
+
+    require('jointprocess.php');
+    
+    $properties= new admin\Property;
+    $obj = new admin\Admin;
 
  ?>
 
@@ -28,21 +22,15 @@ if (empty($pix)) {
     <meta name="author" content="">
     <title>Create Joint Venture Property</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php');  ?>
 
+    <?php require('include/sidebar.php');  ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+
+        <?php require('include/mobile-dashboard.php');  ?>
         <div class="container">
-            <form action="jointprocess.php" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <div class="single-add-property">
                 <?php
                         if(isset($_SESSION['message'])) {
@@ -52,7 +40,6 @@ if (empty($pix)) {
                     ?>
                     <h3>Create Joint Venture Property</h3>
                     <div class="property-form-group">
-                        <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">
                         <input type="text" name="staff" class="d-none" value="staff">
                         <div class="row">
                             <div class="col-md-12">
@@ -80,9 +67,7 @@ if (empty($pix)) {
                         <div class="row">
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
-                                <?php
-                                                    $obj->get_state();
-                                                     ?>
+                                <?php  $obj->get_state();   ?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
 
@@ -125,38 +110,10 @@ if (empty($pix)) {
                         <div class="row">
                             <div class="col-md-12">
                                 <ul class="pro-feature-add pl-0">
-
                                     <li class="fl-wrap filter-tags clearfix">
                                         <div class="checkboxes float-left">
                                             <div class="filter-tags-wrap">
-                                                <input id="check-a" type="checkbox" name="extra[]" value="Land Clearing">
-                                                <label for="check-a">Land Clearing</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-b" type="checkbox" name="extra[]"
-                                                    value="Road Construction">
-                                                <label for="check-b">Road Construction</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-c" type="checkbox" name="extra[]"
-                                                    value="Layout/Survey Documentation">
-                                                <label for="check-c">Layout/Survey Documentation</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="fl-wrap filter-tags clearfix">
-                                        <div class="checkboxes float-left">
-                                            <div class="filter-tags-wrap">
-                                                <input id="check-d" type="checkbox" name="extra[]" value="Land Reclaimation">
-                                                <label for="check-d">Land Reclaimation</label>
+                                            <?php $properties->getAllJointNeed();?>
                                             </div>
                                         </div>
                                     </li>
@@ -203,7 +160,4 @@ if (empty($pix)) {
 
     <!-- END SECTION USER PROFILE -->
 
-
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

@@ -1,30 +1,25 @@
 <?php 	
-session_start();
-if (empty($_SESSION['id'])) {
-    header('location:login.php');
-}
-else{
-    require('users.php');
-    $obj = new User;
-    $k = $obj->getUser($_SESSION['id']);
+    require 'include/checks.php';
 
-    $agent_id = $_SESSION['id'];
-   
-    $pix= $k['a_pix'];
+    require 'editlisting.php';
 
-    if (empty($pix)) {
-      $pix = 'avatar.png';
-    }
+    require 'admin/property.php';
 
-    require('property.php');
+    $prop = new admin\Property;
 
-    $prop = new Property;
     if(isset($_GET['edit_id'])) {
+
         $id= $_GET['edit_id'];
+        
         $property = $prop->showPropertyInfo($id);    
+        
         $images = $prop->getAllImages($id);
+        
+        $amenities=$prop->checkedAmenities();
+        
+        $propertyamenities= $prop->getCheckedAmenities($id);
     }
-}
+
 
  ?>
 <!DOCTYPE html>
@@ -38,26 +33,19 @@ else{
     <meta name="author" content="">
     <title>Manage Listings</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php');  ?>
 
+    <?php require('include/sidebar.php');  ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+        <?php require('include/mobile-dashboard.php');  ?>
         <div class="container">
-            <form action="editlisting.php" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="p_id" class="d-none" value="<?php echo $id; ?>">
                 <div class="single-add-property">
                 <?php
                         if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            echo "<p class='alert alert-success text-center'>". $_SESSION['message'] ."</p>";
                             unset($_SESSION['message']);
                         }
                     ?>
@@ -90,7 +78,7 @@ else{
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
                                 <?php $stateID = isset($property['states_id']) ? $property['states_id'] : 0; ?> 
-                                <?php $prop->get_state($stateID); ?>
+                                <?php $obj->get_state($stateID); ?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="city">City</label>
@@ -196,26 +184,18 @@ else{
                         <div class="row">
                             <div class="col-md-12">
                                 <ul class="pro-feature-add pl-0">      
-                                    <?php                                    
-                                            $amenitiesValue = $prop->getAllFeatures(); 
-                                            echo "<pre>";
-                                            echo var_dump($amenitiesValue);
-                                            echo"</pre>";
-                                            exit();
-                                            foreach($amenitiesValue as $amenities) { 
-                                                $arrayOfPropertyAmenities[] = $prop->propertyAmenities($amenities['property_id']);    
-                                                                                    
-                                                ?>  
-                                                               
-                                            <li class="fl-wrap filter-tags clearfix">
-                                                <div class="checkboxes float-left">
-                                                    <div class="filter-tags-wrap">                                                      
-                                                <input type="checkbox" <?php if (in_array($amenities['pfeature_id'] , $arrayOfPropertyAmenities['property_id'])) echo 'checked'; ?> id="<?php echo $amenities['pfeature_name'] ?>" > <?php ?>
-                                                    <label for="<?php echo $amenities['pfeature_name'] ?>"><?php echo $amenities['pfeature_name'] ?></label>
-                                                    </div>
-                                                </div>     
-                                            </li>    
-                                       <?php }?>
+                                <li class="fl-wrap filter-tags clearfix">
+                                    <div class="checkboxes float-left">
+                                        <div class="filter-tags-wrap">                                        
+                                        <?php  
+                                        foreach($amenities as $documents)
+                                        { ?>
+                                            <input type="checkbox" <?php if (in_array($documents['pfeature_id'], $propertyamenities)) echo 'checked'; ?> id="<?php echo $documents['pfeature_id']?>" name="extra[<?php echo $documents['pfeature_id']?>]"> 
+                                            <label for="<?php echo $documents['pfeature_id'] ?>"><?php echo $documents['pfeature_name'] ?></label>
+                                        <?php }?>  
+                                        </div>
+                                    </div>
+                                </li>
                                 </ul>
                             </div>
                         </div>

@@ -1,32 +1,16 @@
 <?php
-session_start();
-if(isset($_SESSION['id'])){
+    require 'include/active-user.php';
+
     
-    require('users.php');
     $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
 
-}else{
+    $props = new \admin\Property;
 
-}
-?>
-<?php 
-  require('property.php');
-  $props = new Property;
-$team = $props->showTeamMembers();
-$partner = $props-> getPartnerImage();
-$admin = $obj-> getAdmin();
+    $team = $props->showTeamMembers();
 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$output=$obj->newsLetter( $email);
-}
+    $partner = $props-> getPartnerImage();
+
+    $admin = $props-> getAdmin();
 ?>
 
 
@@ -37,9 +21,7 @@ $output=$obj->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>About Us</title>
-    <?php
-require('include/head.php');
-?>
+    <?php require('include/head.php');?>
 </head>
 
 <body class="inner-pages hd-white about">
@@ -50,12 +32,8 @@ require('include/head.php');
         ================================================== -->
         <header id="header-container">
             <div id="header">
-                <?php
-require('include/header002.php');
-?>
+                <?php require('include/header002.php');?>
             </div>
-
-
         </header>
         <div class="clearfix"></div>
         <!-- Header Container / End -->
@@ -130,9 +108,9 @@ require('include/header002.php');
             <div class="row team-all">
 
                 <?php
-         foreach($team as $member){
-        $image = $props-> getTeamImage($member['team_id']);
-      ?>
+                    foreach($team as $member){
+                    $image = $props-> getTeamImage($member['team_id']);
+                ?>
                 <div class="col-lg-3 col-md-6 team-pro">
                     <div class="team-wrap">
                         <div class="team-img">
@@ -179,6 +157,4 @@ require('include/header002.php');
     </div>   
      <!-- END SECTION PARTNERS -->
     <?php include "include/foot.php"?>
-    <?php
-  require('include/footer.php');
-?>
+    <?php require('include/footer.php');?>

@@ -1,41 +1,14 @@
 
 <?php
-session_start();
-require('property.php');
-
-$prop = new Property;
-
-if (empty($_POST) && empty($_GET)) {
-    header("Location: index.php");
-
-    exit;
-}
-// $obj = $prop->showProperties();
-
-if(isset($_SESSION['id'])){
+    require('include/active-user.php');
     
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
+    $prop = new admin\Property;
 
-}else{
-
-}
+    if (empty($_POST) && empty($_GET)) {
+        header("Location: index.php");
+        exit;
+    }
 ?>
-
-<?php 
-if(isset($_GET['btn'])) {
-	$email = htmlentities(strip_tags($_GET['email']));
-$output=$prop->newsLetter( $email);
-}
-?>
-
 <?php
     if(isset($_GET)){
         if (isset($_GET['city'])) {
@@ -75,9 +48,7 @@ $output=$prop->newsLetter( $email);
 <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Property for Rent Search</title>
-<?php
-require('include/head.php');
-?>
+<?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages homepage-4 agents list hp-6 full hd-white">
@@ -89,13 +60,9 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-            <?php
-require('include/header002.php');
-?>
+              <?php require('include/header002.php');?>
             </div>
-            
-
-        </header>
+       </header>
     <div class="clearfix"></div>
     <!-- Header ends -->
 
@@ -109,7 +76,7 @@ require('include/header002.php');
                                     <p><a href="index.php">Home </a> &nbsp;/&nbsp; <span> <a herf = "http://localhost/homes/joint-venture-search.php?sponsorship=&city=city&city="> Joint Venture</a></span></p>
                                 </div>                             
                                 <?php if(isset($_SESSION['message'])) {
-                                    echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                                    echo "<p class='alert alert-success text-center'>". $_SESSION['message'] ."</p>";
                                     unset($_SESSION['message']);
                                       }
                                 ?>      
@@ -168,10 +135,7 @@ require('include/header002.php');
                             <!-- < !-- Sponsorship need -->
                             <ul class="homes-list clearfix pb-3">
                                 <li class="the-icons"><span><b>Sponsorship: </b><?php foreach($type as $extras) {
-                                            ?><?php echo $extras['joint_name']?><br><?php
-                                        }
-
-                                        ?></span></li>
+                                            ?><?php echo $extras['joint_name']?><br><?php } ?></span></li>
                             </ul>
                             <!-- < !-- agent details -->
                             <div class="footer">
@@ -187,17 +151,12 @@ require('include/header002.php');
                     </div>
                 </div>
             </div>
-            <?php }
-                }
-    else{
-        ?>
+            <?php } } else{?>
         <h4 class="text-danger text-center">We're sorry, but no property matched your search.  </h4>
-        <?php   }       
-            ?>
-                <nav aria-label="..." class="pt-4">
+        <?php   } ?>
+        <nav aria-label="..." class="pt-4">
             <ul class="pagination lis-view">
-                <?php 
-                 $get = $prop->pagination_sponsor('joint-venture-search.php',$page);?>
+                <?php $prop->pagination_sponsor('joint-venture-search.php',$page);?>
             </ul>
         </nav>
 
@@ -206,6 +165,4 @@ require('include/header002.php');
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
 
-    <?php
-      require('include/footer.php');
-      ?>
+    <?php require('include/footer.php'); ?>

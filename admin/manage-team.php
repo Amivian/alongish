@@ -1,28 +1,19 @@
 <?php 	
-session_start();
-require('admin.php');
- 
- $obj= new Admin;
+    require_once ('include/checks.php');
 
- if (empty($_SESSION['uname'])) {
- 	header('location:login.php');
- }
+    require('property.php');
 
- $k = $obj->getAdmin($_SESSION['id']);
- $agent_id = $_SESSION['id'];
- 
-$pix= $k['a_pix'];
-if (empty($pix)) {
-    $pix = 'avatar.png';
-} 
+    require ('editteam.php');
 
-require('property.php');
-$obj1 = new Property;
-if(isset($_GET['edit_id'])) {
-$id= $_GET['edit_id'];
-$swap = $obj1->showTeamDetails($id);
-$img = $obj1->getTeamImage($id);
-}
+    $property= new \admin\Property;
+
+    if(isset($_GET['edit_id'])) {
+        $id= $_GET['edit_id'];
+        
+        $swap = $property->showTeamDetails($id);
+
+        $img = $property->getTeamImage($id);
+    }
  ?>
 
 
@@ -37,26 +28,20 @@ $img = $obj1->getTeamImage($id);
     <meta name="author" content="">
     <title>Manage Team Member</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php');  ?>
 
-
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
+    <?php require('include/sidebar.php');  ?>
+    
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+        <?php require('include/mobile-dashboard.php');  ?>
+    
         <div class="container">
-            <form action="editteam.php" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="t_id" class="d-none" value="<?php echo $id; ?>">
                 <div class="single-add-property">
                 <?php
                         if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            echo "<p class='alert alert-success text-center'>". $_SESSION['message'] ."</p>";
                             unset($_SESSION['message']);
                         }
                     ?>
@@ -108,6 +93,4 @@ $img = $obj1->getTeamImage($id);
     <!-- END SECTION USER PROFILE -->
 
 
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

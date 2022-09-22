@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 require('property.php');
@@ -37,7 +36,7 @@ $output=$prop->newsLetter( $email);
 ?>
 
 
-    <?php
+<?php
     if(isset($_GET)){
         if (isset($_GET['city'])) {
           $city = htmlspecialchars(strip_tags($_GET['city']));
@@ -81,10 +80,10 @@ $output=$prop->newsLetter( $email);
 <html lang="zxx">
 
 <head>
-<meta name="description" content="Find your desired home here">
+    <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Property for Rent Search</title>
-<?php
+    <?php
 require('include/head.php');
 ?>
 </head>
@@ -98,39 +97,40 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-            <?php
+                <?php
 require('include/header002.php');
 ?>
             </div>
-            
+
 
         </header>
-    <div class="clearfix"></div>
-    <!-- Header ends -->
+        <div class="clearfix"></div>
+        <!-- Header ends -->
 
-    <section class="properties-list full featured portfolio blog">
+        <section class="properties-list full featured portfolio blog">
             <div class="container">
                 <section class="headings-2 pt-0 pb-0">
                     <div class="pro-wrapper">
                         <div class="detail-wrapper-body">
                             <div class="listing-title-bar">
                                 <div class="text-heading text-left">
-                                    <p><a href="index.php">Home </a> &nbsp;/&nbsp; <span> <a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=&rent="> Rent</a></span></p>
-                                </div>                                
+                                    <p><a href="index.php">Home </a> &nbsp;/&nbsp; <span> <a
+                                                href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=&rent=">
+                                                Rent</a></span></p>
+                                </div>
                                 <h3 class="search-title">For Rent Property Listings</h3>
                             </div>
                         </div>
                     </div>
                 </section>
                 <!-- Search Form -->
-                
+
                 <?php
-                if(!empty($obj1)){
-            foreach($obj1 as $data){ 
-                $img = $prop-> getSingleImage($data['property_id']);
-                $p_id=$data['property_id'];
-                
-            ?>
+                    if(!empty($obj1)){
+                    foreach($obj1 as $data){ 
+                    $img = $prop-> getSingleImage($data['property_id']);
+                    $p_id=$data['property_id']; 
+                ?>
 
                 <div class="row featured portfolio-items">
                     <div class="my-3 row">
@@ -140,25 +140,26 @@ require('include/header002.php');
                                 <div class="project-inner project-head">
                                     <div class="home">
                                         <!-- homes img -->
-                                        <a href="property-details.php?id=<?php echo $p_id ?>"
-                                            class="homes-img">
+                                        <a href="property-details.php?id=<?php echo $p_id ?>" class="homes-img">
                                             <?php 
                                                 if($data['feature'] == 'featured'){
                                                     ?>
-                                                    <div class="homes-tag button alt featured">                                             
-                                                    <?php  echo $data['feature'] ?></div>
-                                                    <?php }?>
+                                            <div class="homes-tag button alt featured">
+                                                <?php  echo $data['feature'] ?></div>
+                                            <?php }?>
                                             <div class="homes-tag button alt sale">
                                                 <?php echo $data['pstatus_name'] ?></div>
                                             <div class="homes-price">₦<?php echo $data['property_price'] ?></div>
-                                            <img src="images/property/<?php echo  $img; ?>" alt="<?php echo $data['property_title'] ?>"
-                                            class="img-responsive" style="width:720px ! important;height:280px!important" >
+                                            <img src="images/property/<?php echo  $img; ?>"
+                                                alt="<?php echo $data['property_title'] ?>" class="img-responsive"
+                                                style="width:720px ! important;height:280px!important">
                                         </a>
                                     </div>
                                     <div class="button-effect">
-                                        <a href="property-details.php?id=<?php echo $p_id?>" class="btn"><i class="fa fa-link"></i></a>
-                                       <a href="property-details.php?id=<?php echo $p_id?>"
-                                            class="img-poppu btn"><i class="fa fa-photo"></i></a>
+                                        <a href="property-details.php?id=<?php echo $p_id?>" class="btn"><i
+                                                class="fa fa-link"></i></a>
+                                        <a href="property-details.php?id=<?php echo $p_id?>" class="img-poppu btn"><i
+                                                class="fa fa-photo"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -209,21 +210,21 @@ require('include/header002.php');
                 }
     else{
         ?>
-        <h4 class="text-danger text-center">We're sorry, but no property matched your search.  </h4>
-        <?php   }       
+                <h4 class="text-danger text-center">We're sorry, but no property matched your search. </h4>
+                <?php   }       
             ?>
                 <nav aria-label="..." class="pt-4">
-            <ul class="pagination lis-view">
-                <?php 
+                    <ul class="pagination lis-view">
+                        <?php 
                  $get = $prop->pagination_rent('property-for-rent.php',$page);?>
-            </ul>
-        </nav>
+                    </ul>
+                </nav>
 
             </div>
         </section>
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
 
-    <?php
+        <?php
       require('include/footer.php');
       ?>

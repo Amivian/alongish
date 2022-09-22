@@ -1,31 +1,19 @@
 <?php 	
-session_start();
-if (empty($_SESSION['id'])) {
-    header('location:login.php');
-}else{
-    require('users.php');
-    $obj = new User;
-    $k = $obj->getUser($_SESSION['id']);
- 
-    $agent_id = $_SESSION['id'];
-    
-    
-   $pix= $k['a_pix'];
-   if (empty($pix)) {
-       $pix = 'avatar.png';
-}
-require('property.php');
-$prop= new Property;
-$obj1 = $prop->agentPropertyCount($agent_id);
-$property = $prop->getagentlistings($agent_id);
-$chat= $prop->agentMessageCount($agent_id);
-$swap= $prop->agentSwapCount($agent_id);
-$msg = $prop->showAgentjointMessage($agent_id);
-$joint= $prop->agentJointVentureCount($agent_id);
-$contact = $prop->showAgentContactMessage($agent_id);
+    require 'include/checks.php';
 
-}
- ?>
+    require('admin/property.php');
+
+    $prop= new admin\Property;
+
+    $obj1 = $prop->agentPropertyCount($agent_id);
+    $property = $prop->getagentlistings($agent_id);
+    $chat= $prop->agentMessageCount($agent_id);
+    $swap= $prop->agentSwapCount($agent_id);
+    $msg = $prop->showAgentjointMessage($agent_id);
+    $joint= $prop->agentJointVentureCount($agent_id);
+    $contact = $prop->showAgentContactMessage($agent_id);
+
+?>
 
  
 <!DOCTYPE html>
@@ -39,26 +27,22 @@ $contact = $prop->showAgentContactMessage($agent_id);
     <meta name="author" content="">
     <title>My Dashboard</title>
  
-       <?php
-				require('include/dashheaders.php');
-				 ?>
+       <?php require('include/dashheaders.php');  ?>
 
+        <?php require('include/sidebar.php');  ?>
 
-                    <?php
-				require('include/sidebar.php');
-				 ?>
-                 <div class="col-lg-9 col-md-12 col-xs-12 pl-0 user-dash2">
-                        <?php
-                        require('include/mobile-dashboard.php');
-                        ?>
+         <div class="col-lg-9 col-md-12 col-xs-12 pl-0 user-dash2">
+
+         <?php require('include/mobile-dashboard.php'); ?>
+
                         <div class="dashborad-box stat bg-white">
                             <h4 class="title">Manage Dashboard</h4>
                           <?php
-                            if(isset($_SESSION['message'])) {
-                                echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                                unset($_SESSION['message']);
-                            }
-                        ?>
+                                if(isset($_SESSION['message'])) {
+                                    echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                                    unset($_SESSION['message']);
+                                }
+                            ?>
                             <div class="section-body">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-6 col-xs-12 dar pro mr-3">
@@ -124,11 +108,7 @@ $contact = $prop->showAgentContactMessage($agent_id);
                                             </tr>
                                         </thead>
                                         <tbody>
-
-                                        <?php
-                                        foreach($property as $props) {
-                                            ?>
-
+                                        <?php  foreach($property as $props) { ?>
                                             <tr>
                                                 <td><?php echo ucwords($props['property_title']);?></td>
                                                 <td><?php echo date('F j, Y', strtotime($props['date_posted']));?></td>
@@ -136,10 +116,8 @@ $contact = $prop->showAgentContactMessage($agent_id);
                                                 <td><?php echo ucwords($props['property_address']);?></td>
                                                 <td><?php echo $props['city_name'];?></td>
                                                 <td><?php echo $props['states_name'];?></td>
-                                            </tr>
-                                            
-                                            <?php
-                                    }?>
+                                            </tr>                                            
+                                            <?php }?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -150,9 +128,7 @@ $contact = $prop->showAgentContactMessage($agent_id);
                             <div class="section-body">
                                 <div class="messages">
                                     
-                                <?php
-                                        foreach($msg as $sms) {
-                                            ?>
+                                <?php foreach($msg as $sms) {  ?>
                                     <div class="message">
                                         <div class="body">
                                             <h6  class="mb-0"><?php echo ucwords($sms['fname']);?></h6>                                            
@@ -168,8 +144,7 @@ $contact = $prop->showAgentContactMessage($agent_id);
                                         </div>
                                     </div>
                                     
-                                    <?php
-                                        }?>
+                                    <?php }?>
                                 </div>
                             </div>
                         </div>
@@ -178,9 +153,7 @@ $contact = $prop->showAgentContactMessage($agent_id);
                             <div class="section-body">
                                 <div class="messages">
                                     
-                                <?php
-                                        foreach($contact as $mail) {
-                                            ?>
+                                <?php  foreach($contact as $mail) { ?>
                                     <div class="message">
                                         <div class="body">
                                             <h6  class="mb-0"><?php echo ucwords($mail['fname']);?></h6>                                            
@@ -196,8 +169,7 @@ $contact = $prop->showAgentContactMessage($agent_id);
                                         </div>
                                     </div>
                                     
-                                    <?php
-                                        }?>
+                                    <?php }?>
                                 </div>
                             </div>
                         </div>
@@ -206,6 +178,4 @@ $contact = $prop->showAgentContactMessage($agent_id);
                 </div>
             </div>
         </section>
-        <?php
-				require('include/dashfooter.php');
-				 ?>
+        <?php require('include/dashfooter.php');  ?>

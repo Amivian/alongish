@@ -1,14 +1,11 @@
 <?php 
-session_start();
-require('property.php');
-
 if(isset($_POST['btn'])) {
 $fname = htmlentities(strip_tags($_POST['name']));
 $pic_array = $_FILES['image'];
 $pid = $_POST['p_id'];
 
-$obj = new Property;
-$output= $obj->EditPartner($fname,$pic_array,$pid);
+$obj = new \admin\Property;
+$output= $obj->editPartner($fname,$pic_array,$pid);
 if($output) {
   $_SESSION['message'] = "Partner Edited successfully";
       header("Location: our-partner.php");

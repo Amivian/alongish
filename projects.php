@@ -1,32 +1,15 @@
-<?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-require('property.php');
-$prop = new Property;
-$output= $prop->showAdminProperty();
-$swaps=$prop->showAdminswaps();
-$joint=$prop->showAdminJointventure();
-?>
-
 <?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$mail=$prop->newsLetter( $email);
-}
+    require 'include/active-user.php';
+    
+    $obj = new User;
+
+    $prop = new admin\Property;
+
+    $output= $prop->showAdminProperty();
+
+    $swaps=$prop->showAdminSwap();
+
+    $joint=$prop->showAdminJointventure();
 ?>
 
 
@@ -37,9 +20,7 @@ $mail=$prop->newsLetter( $email);
   <meta name="description" content="Find your desired home here">
   <meta name="author" content="">
   <title>Projects</title>
-  <?php
-require('include/head.php');
-?>
+  <?php require('include/head.php');?>
 </head>
 
 <body class="inner-pages hd-white about">
@@ -50,9 +31,7 @@ require('include/head.php');
         ================================================== -->
     <header id="header-container">
       <div id="header">
-        <?php
-require('include/header002.php');
-?>
+        <?php require('include/header002.php');?>
       </div>
 
 
@@ -92,9 +71,7 @@ require('include/header002.php');
               <div class="homes">
                 <!-- homes img -->
                 <a href="property-details.php?id=<?php echo $property['property_id'] ?>" class="homes-img">
-                  <?php 
-                                                if($property['feature'] == 'featured'){
-                                                    ?>
+                  <?php  if($property['feature'] == 'featured'){     ?>
                   <div class="homes-tag button alt featured">
                     <?php  echo $property['feature'] ?></div>
                   <?php }?>
@@ -156,9 +133,7 @@ require('include/header002.php');
           </div>
         </div>
 
-        <?php
-        }
-        ?>
+        <?php } ?>
       </div>
       <div class="bg-all">
         <a href="alongish-properties.php" class="btn btn-outline-light">View Property Listings</a>
@@ -233,9 +208,7 @@ require('include/header002.php');
           </div>
         </div>
 
-        <?php
-        }
-        ?>
+        <?php } ?>
       </div>
       <div class="bg-all">
         <a href="alongish-swaps.php" class="btn btn-outline-light">View Swap Properties</a>
@@ -305,11 +278,8 @@ require('include/header002.php');
               </div>
             </div>
           </div>
-        </div>
-
-        <?php
-        }
-        ?>
+        </div> 
+        <?php } ?>
       </div>
       <div class="bg-all">
         <a href="alongish-joint-ventures.php" class="btn btn-outline-light">View Joint Venture Properties</a>
@@ -365,6 +335,4 @@ require('include/header002.php');
   <!-- END SECTION COUNTER UP -->
 
   <?php include "include/foot.php"?>
-  <?php
-  require('include/footer.php');
-?>
+  <?php require('include/footer.php'); ?>

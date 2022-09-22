@@ -1,27 +1,25 @@
-<?php 	
-session_start();
-if (empty($_SESSION['id'])) {
-    header('location:login.php');
-}else{
-   require('users.php');
-   $obj = new User;
-   $k = $obj->getUser($_SESSION['id']);
+<?php 
+  require 'include/checks.php';
 
-   $agent_id = $_SESSION['id'];
-   
-  $pix= $k['a_pix'];
-  if (empty($pix)) {
-      $pix = 'avatar.png';
-}
-require('property.php');
-$prop = new Property;
-if(isset($_GET['edit_id'])) {
-$id= $_GET['edit_id'];
-$property= $prop->showSwapsDetails($id);
-$images=$prop->getSwapImages($id);
-}
-}
- ?>
+  require('admin/property.php');
+
+  require 'editswap.php';
+
+  $prop = new admin\Property;
+
+  if(isset($_GET['edit_id'])) {
+
+    $id= $_GET['edit_id'];
+
+    $property= $prop->showSwapsDetails($id);
+
+    $images=$prop->getSwapImages($id);
+
+    $swapdocument= $prop->getAgentSwapDocument($id);
+    
+    $document=$prop->getDocumentSwap();
+  }
+?>
 
 
 <!DOCTYPE html>
@@ -35,28 +33,20 @@ $images=$prop->getSwapImages($id);
   <meta name="author" content="">
   <title>Manage Swap</title>
 
-  <?php
-				require('include/dashheaders.php');
-				 ?>
+  <?php require('include/dashheaders.php');  ?>
 
-
-
-  <?php
-				require('include/sidebar.php');
-				 ?>
+  <?php require('include/sidebar.php');  ?>
   <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-    <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+    <?php require('include/mobile-dashboard.php'); ?>
     <div class="container">
-      <form action="editswap.php" method="POST" enctype="multipart/form-data">
+      <form action="" method="POST" enctype="multipart/form-data">
         <div class="single-add-property">
           <?php
-                        if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                            unset($_SESSION['message']);
-                        }
-                    ?>
+              if(isset($_SESSION['message'])) {
+                  echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                  unset($_SESSION['message']);
+              }
+          ?>
           <h3>Edit Swap </h3>
           <div class="property-form-group">
             <input type="text" name="edit_id" class="d-none" value="<?php echo $id ?>">
@@ -128,52 +118,24 @@ $images=$prop->getSwapImages($id);
         <div class="single-add-property">
           <h3 class="my-3">Documents</h3>
           <div class="property-form-group mt-4">
-            <div class="row">
-              <div class="col-md-12">
-                <ul class="pro-feature-add pl-0">
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-a" type="checkbox" name="extra[]" value="Survey">
-                        <label for="check-a">Survey</label>
+          <div class="row">
+                <div class="col-md-12">
+                  <ul class="pro-feature-add pl-2">
+                    <li class="fl-wrap filter-tags clearfix">
+                      <div class="checkboxes float-left">
+                        <div class="filter-tags-wrap">
+                          <?php  
+                          foreach($document as $documents)
+                          { ?>
+                            <input type="checkbox"<?php if (in_array($documents['document_id'], $swapdocument)) echo 'checked'; ?> name="extra[]" id="<?php echo $documents['document_name'] ?>"><label for="<?php echo $documents['document_name'] ?>"><?php echo $documents['document_name'] ?></label>
+                          <?php }?>  
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-b" type="checkbox" name="extra[]" value="Purchase Receipt">
-                        <label for="check-b">Purchase Receipt</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-c" type="checkbox" name="extra[]" value="Family Conveyance">
-                        <label for="check-c">Family Conveyance</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-d" type="checkbox" name="extra[]" value="Executed Deed of Assignment">
-                        <label for="check-d">Executed Deed of Assignment</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-e" type="checkbox" name="extra[]" value="Excision">
-                        <label for="check-e">Excision </label>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
+                    </li>
+
+                  </ul>
+                </div>
               </div>
-            </div>
           </div>
 
         </div>
@@ -184,7 +146,7 @@ $images=$prop->getSwapImages($id);
               <div class="col-lg-4 col-md-4 form-group">
                 <label for="state">State</label>
                 <?php $stateID = isset($property['states_id']) ? $property['states_id'] : 0; ?>
-                <?php $prop->get_state($stateID); ?>
+                <?php $obj->get_state($stateID); ?>
               </div>
               <div class="col-lg-4 col-md-4 form-group">
                 <label for="city">City</label>

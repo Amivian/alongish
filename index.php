@@ -1,32 +1,13 @@
 <?php
-session_start();
-require('property.php');
-$prop = new Property;
-$featured = $prop->showFeaturedProperties();
-$recent = $prop->showRecentProperties();
+    require 'include/active-user.php';
 
-
-if(isset($_SESSION['id'])){
+    require 'loginprocess.php';
     
-    require('users.php');
-    $obj = new User;
+    $prop = new admin\Property;
     
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-?>
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$output=$prop->newsLetter( $email);
-}
+    $featured = $prop->showFeaturedProperties();
+    
+    $recent = $prop->showRecentProperties();
 ?>
 
 <!DOCTYPE html>
@@ -107,51 +88,55 @@ $output=$prop->newsLetter( $email);
                                 <li><a href="contact-us.php">Contact</a></li>
                             </ul>
                         </nav>
-                        <!-- Main Navigation / End -->
                     </div>
-                    <!-- Left Side Content / End -->
 
-                    <!-- Right Side Content / End -->
                     <div class="right-side d-none d-none d-lg-none d-xl-flex">
-                        <!-- Header Widget -->
                         <div class="header-widget">
+                            
+                    <?php // if (isset($_SESSION['id']) && $_SESSION['user_type'] = 'admin') { ?>
+                            <!-- <a href="admin/add-property.php" class="button border">Add Listing<i
+                                    class="fas fa-laptop-house ml-2"></i></a> -->
+                        <?php //} else { ?>
                             <a href="add-property.php" class="button border">Add Listing<i
                                     class="fas fa-laptop-house ml-2"></i></a>
+                        <?php //}?>   
                         </div>
-                        <!-- Header Widget / End -->
                     </div>
-                    <!-- Right Side Content / End -->
 
-                    <!-- Right Side Content / End -->
-                    <div class="header-user-menu user-menu add">
-                        <?php
-  
-  
-  if(isset($_SESSION['id'])){
-  
-    echo"                        <div class='header-user-name'>";
-                          echo"  <span><img src='images/users/". $pix . "'></span>Hi, ".  $_SESSION['fname'] . "
-                        </div>";
-        echo"           <ul>  <li><a href='dashboard.php'>Dashboard</a></li>
-                                <li><a href='add-property.php'>Add Property</a></li>
-                                <li><a href='swaps.php'>Swaps</a></li>
-                                <li><a href='venture.php'>Joint Venture</a></li>
-                            <li><a href='logout.php'>Log Out</a></li>
-                      </ul>
-                   </div>";
-  }else{
-    echo"   <!-- Right Side Content / End -->";
+                    <?php if (isset($_SESSION['id'])) { ?>
+        <div class="header-user-menu user-menu add">
+            <div class='header-user-name'>
+                <span><img src="images/users/<?php echo $pix ?> " /></span>Hi, <?php echo $_SESSION['fname']; ?>
+            </div>
+            <ul>
+                <?php if ($_SESSION['user_type'] != 'admin') { ?>
+                    <li><a href='dashboard.php'>Dashboard</a></li>
+                    <li><a href='add-property.php'>Add Property</a></li>
+                    <li><a href='swaps.php'>Swaps</a></li>
+                    <li><a href='venture.php'>Joint Venture</a></li>
+                    <li><a href='logout.php'>Log Out</a></li>
+                <?php } else { ?>
+                    <li><a href='admin/admindashboard.php'>Dashboard</a></li> 
+                    <li><a href='admin/add-property.php'>Add Property</a></li>
+                    <li><a href='admin/swaps.php'>Swaps</a></li>
+                    <li><a href='admin/venture.php'>Joint Venture</a></li>
+                    <li><a href='admin/logout.php'>Log Out</a></li>
+                <?php } ?>
+                                </ul>
+                            </div>
+                        <?php } else { ?>
+                            <div class='right-side d-none d-none d-lg-none d-xl-flex sign ml-0 mt-3' style='border:none; padding:6px 16px'>
+                                <div class='header-widget sign-in d-flex ' style="color:white !important" >
+                                    <div class='show-reg-form modal-open mx-3'>
+                                        <a class='' href='login.php'>Login</a>
+                                    </div>
 
-    echo"       <div class='right-side d-none d-none d-lg-none d-xl-flex sign ml-0 mt-2' style='border:none'>
-                        <!-- Header Widget -->
-                        <div class='header-widget sign-in d-flex' >
-                        <div class='show-reg-form modal-open mr-2'><a href='login.php'>Login</a></div>
-                            <div><a href='register.php'>Register</a></div>
-                        </div>
-                        <!-- Header Widget / End -->
-                    </div>";
-  }
-  ?>
+                                    <div>
+                                        <a class='' href='register.php'>Register</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <!-- Header / End -->
@@ -171,15 +156,16 @@ $output=$prop->newsLetter( $email);
                                 <!-- Welcome Text -->
                                 <div class="welcome-text">
                                     <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
-                            }?>
-                               <?php
-                        if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                            unset($_SESSION['message']);
-                        }
-                    ?>
+                                        if(isset($_GET['msg'])) {
+                                            echo "<h4 class='alert alert-success text-center'>". $_GET['msg'] ."</h4>";
+                                        }
+                                    ?>
+                                  <?php
+                                        if(isset($_SESSION['message'])) {
+                                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                                            unset($_SESSION['message']);
+                                        }
+                                    ?>
                                     <h1 class="h1">Find Your Dream
                                         <br class="d-md-none">
                                         <span class="typed border-bottom"></span>
@@ -219,18 +205,14 @@ $output=$prop->newsLetter( $email);
                                                                         class="form-control">
                                                                 <input name="type" value="property_name" type="hidden"
                                                                     class="form-control">
-                                                                <?php 
-                                                                                $prop->getPropertytype();
-                                                                                ?>
+                                                                <?php  $prop->getPropertytype(); ?>
 
                                                             </div>
                                                             <div class="rld-single-select ml-4"
                                                                 style="margin-right:15px">
                                                                 <input name="city" value="city" type="hidden"
                                                                     class="form-control">
-                                                                <?php 
-                                                                                 $prop->city();
-                                                                                ?>
+                                                                <?php  $prop->city();  ?>
                                                             </div>
                                                             <div class="col-xl-2 col-lg-2 col-md-4 pl-0 ml-4"
                                                                 style="margin-right:15px">
@@ -256,18 +238,14 @@ $output=$prop->newsLetter( $email);
                                                                     class="form-control">                                                                    
                                                                     <input name="status" type="hidden"
                                                                         class="form-control">
-                                                                <?php 
-                                                                                $prop->getPropertytype();
-                                                                                ?>
+                                                                <?php   $prop->getPropertytype();  ?>
 
                                                             </div>
                                                             <div class="rld-single-select ml-4"
                                                                 style="margin-right:15px">
                                                                 <input name="city" value="city" type="hidden"
                                                                     class="form-control">
-                                                                <?php 
-                                                                                $prop->city();
-                                                                                ?>
+                                                                <?php   $prop->city();  ?>
                                                             </div>
                                                             <div class="col-xl-2 col-lg-2 col-md-4 pl-0 ml-4"
                                                                 style="margin-right:15px">
@@ -289,22 +267,17 @@ $output=$prop->newsLetter( $email);
                                                             <div class="rld-single-select ml-4"
                                                                 style="margin-right:15px">
                                                                 <input name="type" value="property_name" type="hidden"
-                                                                    class="form-control">
-                                                                                                                                       
+                                                                    class="form-control">                                                       
                                                                     <input name="status"  type="hidden"
                                                                         class="form-control">
-                                                                <?php 
-                                                                                $prop->getPropertytype();
-                                                                                ?>
+                                                                <?php   $prop->getPropertytype();  ?>
 
                                                             </div>
                                                             <div class="rld-single-select ml-4"
                                                                 style="margin-right:15px">
                                                                 <input name="city" value="city" type="hidden"
                                                                     class="form-control">
-                                                                <?php 
-                                                                                $prop->city();
-                                                                                ?>
+                                                                <?php   $prop->city();  ?>
                                                             </div>
                                                             <div class="col-xl-2 col-lg-2 col-md-4 pl-0 ml-4"
                                                                 style="margin-right:15px">
@@ -446,9 +419,9 @@ $output=$prop->newsLetter( $email);
                 </div>
                 <div class="row portfolio-items">
                     <?php
-                                            foreach($featured as $property){
-                                                        $img = $prop-> getSingleImage($property['property_id']);
-                                                ?>
+                        foreach($featured as $property){
+                        $img = $prop-> getSingleImage($property['property_id']);
+                    ?>
                     <div class="item col-xl-6 col-lg-12 col-md-12 col-xs-12 landscapes sale">
                         <div class="project-single" data-aos="fade-right">
                             <div class="project-inner project-head">
@@ -657,9 +630,9 @@ $output=$prop->newsLetter( $email);
                 <div class="portfolio col-xl-12">
                     <div class="slick-lancers">
                         <?php
-foreach ($recent as $new) {
-    $img = $prop-> getSingleImage($new['property_id']);
- ?>
+                            foreach ($recent as $new) {
+                                $img = $prop-> getSingleImage($new['property_id']);
+                        ?>
 
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <div class="landscapes">

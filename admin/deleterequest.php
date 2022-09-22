@@ -2,7 +2,7 @@
 session_start();
 require('admin.php');
 $id = $_GET['id'];
-$obj = new Admin;
+$obj = new admin\Admin;
 $output = $obj->deleteRequest($id);
 if($output){
     $_SESSION['message']= "Record deleted successfully";

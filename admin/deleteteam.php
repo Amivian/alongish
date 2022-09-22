@@ -2,7 +2,7 @@
 session_start();
 require('property.php');
 $id = $_GET['id'];
-$obj = new Property;
+$obj = new admin\Property;
 $output = $obj->deleteTeam($id);
 if ($output) {
     $_SESSION['message']= "Member deleted Successfully";

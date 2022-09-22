@@ -18,7 +18,7 @@ if (empty($_SESSION['id'])) {
 }
  ?>
 
- 
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -30,119 +30,112 @@ if (empty($_SESSION['id'])) {
     <meta name="author" content="">
     <title>My Profile</title>
 
-                <?php
+    <?php
 				require('include/dashheaders.php');
 				 ?>
 
 
-                    <?php
+    <?php
 				require('include/sidebar.php');
 				 ?>
-                        <div class="col-lg-9 col-md-9 col-xs-6 widget-boxed mt-33 mt-0 ">
-                        <?php
+    <div class="col-lg-9 col-md-9 col-xs-6 widget-boxed mt-33 mt-0 ">
+        <?php
                         if(isset($_SESSION['message'])) {
                             echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
                             unset($_SESSION['message']);
                         }
                     ?>
-                        <?php
+        <?php
 				require('include/mobile-dashboard.php');
 				 ?>
-                            <div class="widget-boxed-header pb-0 mb-0">
-                                <div class="container pb-0 mb-0">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                         
-                                            <h4 class='mb-0'>Profile Details</h4>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <span>Registered: <?php date_default_timezone_set("Africa/Lagos"); 
+        <div class="widget-boxed-header pb-0 mb-0">
+            <div class="container pb-0 mb-0">
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <h4 class='mb-0'>Profile Details</h4>
+                    </div>
+                    <div class="col-md-6">
+                        <span>Registered: <?php date_default_timezone_set("Africa/Lagos"); 
                                              echo date('F j, Y', strtotime($k['datereg'])); ?></span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <a href="details.php"><i class="fas fa-edit"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="details.php"><i class="fas fa-edit"></i></a>
+                    </div>
+                </div>
+            </div>
 
+        </div>
+        <div class="sidebar-widget author-widget2 mt-3">
+            <div class="author-box clearfix">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="author__title ml-3 mb-0">
+                            <?php echo ucfirst($k['a_fname'])?>
+                            <?php echo ucfirst($k['a_lname'])?></h4>
+                        <ul class="author__contact">
+                            <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
+                                <?php echo $k['city_name']?>,
+                                <?php echo $k['states_name']?>
+                            </li>
+                            <li><span class="la la-phone"><i class="fa fa-phone" aria-hidden="true"></i></span><a
+                                    href="#">
+                                    <?php echo $k['a_phone']?></a></li>
+                            <li><span class="la la-envelope-o"><i class="fa fa-envelope"
+                                        aria-hidden="true"></i></span><a href="#">
+                                    <?php echo $k['a_email']?></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="images/users/<?php echo $pix ?>"
+                            style="width:300px !important; height:250px !important" alt="profile"><br>
+                        <?php if ($k['a_pix'] =='') { ?>
+                        <form action="uploadprofile.php" method="post" enctype="multipart/form-data">
+
+                            <input type="file" name="pix" class="file_input" id="pix"><br>
+                            <div class="mt-2">
+                                <button type="submit" class="btn btn-sm btn-danger">Upload
+                                    Picture</button>
                             </div>
-                            <div class="sidebar-widget author-widget2 mt-3">
-                                <div class="author-box clearfix">
-                                    <div class="row">
-                                        <div class="col-md-6">                                            
-                                    <h4 class="author__title ml-3 mb-0" >
-                                        <?php echo ucfirst($k['a_fname'])?>
-                                        <?php echo ucfirst($k['a_lname'])?></h4>
-                                        <ul class="author__contact">
-                                    <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>   
-                                        <?php echo $k['city_name']?>,
-                                        <?php echo $k['states_name']?>
-                                    
-                                    
-                                    </li>
-                                    <li><span class="la la-phone"><i class="fa fa-phone"
-                                                aria-hidden="true"></i></span><a href="#">
-                                            <?php echo $k['a_phone']?></a></li>
-                                    <li><span class="la la-envelope-o"><i class="fa fa-envelope"
-                                                aria-hidden="true"></i></span><a href="#">
-                                            <?php echo $k['a_email']?></a></li>
-                                </ul>                                           
-                                        </div>
-                                        <div class="col-md-6">
-                                        <img src="images/users/<?php echo $pix ?>" style="width:300px !important; height:250px !important" alt="profile"><br>
-                                            <?php
-                                            if ($k['a_pix'] =='') {
-                                                ?>
-                                            <form action="uploadprofile.php" method="post"
-                                                enctype="multipart/form-data">
+                        </form>
+                        <?php  } ?>
+                    </div>
+                </div>
+            </div>
 
-                                                <input type="file" name="pix" class="file_input" id="pix"><br>
-                                                <div class="mt-2">
-                                                    <button type="submit" class="btn btn-sm btn-danger">Upload
-                                                        Picture</button>
-                                                </div>
-                                            </form>
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                                        
-                            <div class="container-fluid mt-5">
-                                <div class="widget-boxed-header pb-0">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <h4 class="mb-0">Company Information</h4>
-                                        </div>
-                                        <div class="col-md-2"><a href="details.php#businessname"><i class="fas fa-edit"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sidebar-widget author-widget2">
-                                    <div class="author-box clearfix">
-                                        <div class="row">
-                                            <div class="col-md-6 mt-3">
-                                                <h4>Business Name</h4>
-                                              <p> <?php echo $k['businessname']?> </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <h4>About Us</h4>
-                                                <p> <?php echo $k['about']?></p>
-                                            </div>
-                                        </div>
-                                    </div>  
-                                </div>
+            <div class="container-fluid mt-5">
+                <div class="widget-boxed-header pb-0">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h4 class="mb-0">Company Information</h4>
+                        </div>
+                        <div class="col-md-2"><a href="details.php#businessname"><i class="fas fa-edit"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-widget author-widget2">
+                    <div class="author-box clearfix">
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
+                                <h4>Business Name</h4>
+                                <p> <?php echo $k['businessname']?> </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4>About Us</h4>
+                                <p> <?php echo $k['about']?></p>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
+    </div>
+    </div>
+    </div>
 
-        </section>
-        <?php
+    </section>
+    <?php
 				require('include/dashfooter.php');
 				 ?>
-       

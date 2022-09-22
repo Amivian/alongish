@@ -102,7 +102,7 @@
            <div id="tabs-container">
             <div class="tab">
                 <div class="custom-form">                        
-                <form id="user-form" action="loginprocess.php" method="post">
+                <form id="user-form" action="" method="post">
                     <div class="form-group">
                         <label>Email or Username</label>
                         <input type="text" class="form-control  form-control-lg" name="email" id="email" placeholder="name@example.com or username" required value="">

@@ -1,25 +1,13 @@
 <?php 	
-session_start();
-if (empty($_SESSION['id'])) {
-    header('location:login.php');
-}else{
-   require('users.php');
-   $obj = new User;
-   $k = $obj->getUser($_SESSION['id']);
+    require 'include/checks.php';
 
-   $agent_id = $_SESSION['id'];
-   
-  $pix= $k['a_pix'];
-  if (empty($pix)) {
-      $pix = 'avatar.png';
-}
+    require 'admin/property.php';
 
-require('property.php');
-$prop= new Property;
-$output = $prop->getAgentSwaps($agent_id);
+    $prop= new admin\Property;
+    
+    $output = $prop->getAgentSwaps($agent_id);
 
-if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
-}
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 ?>
 
 <!DOCTYPE html>
@@ -33,24 +21,17 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
     <meta name="author" content="">
     <title>My Swaps Listings</title>
 
-    <?php
-                 require('include/dashheaders.php');
-                  ?>
+    <?php require('include/dashheaders.php');  ?>
 
-
-    <?php
-                 require('include/sidebar.php');
-                  ?>
+    <?php require('include/sidebar.php');  ?>
     <div class="col-lg-9 col-md-12 col-xs-12 pl-0 user-dash2">
-        <?php
-                        require('include/mobile-dashboard.php');
-                        ?>
+        <?php require('include/mobile-dashboard.php'); ?>
           <?php
-                        if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                            unset($_SESSION['message']);
-                        }
-                    ?>
+                if(isset($_SESSION['message'])) {
+                    echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                    unset($_SESSION['message']);
+                }
+            ?>
         <div class="my-properties">
             <table class="table-responsive">
                 <thead>
@@ -64,19 +45,16 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                                foreach($output as $props) {
-                                            $img = $prop-> getSwapImage($props['swap_id']);
-                                            ?>
+                    <?php if(!empty($output)){ foreach($output as $props) { $img = $prop-> getSwapImage($props['swap_id']); ?>
                     <tr>
                         <td class='image myelist'>
-                            <a href='swap-details.php?id=<?php echo $props['swap_id'] ?>'>
-                                <img alt=<?php echo $props['swap_name']?> src='images/swaps/<?php echo  $img?>'>
+                            <a href='swap-details.php?id=<?php echo $props['swap_id']?>'>
+                                <img alt=<?php echo $props['swap_name']?> src='images/swaps/<?php echo $img?>'>
                             </a>
                         </td>
                         <td>
                             <div class='inner'>
-                                <a href='swap-details.php?id=<?php echo $props[' swap_id']?>'>
+                                <a href='swap-details.php?id=<?php echo $props['swap_id']?>'>
                                     <h2><b><?php echo ucwords($props['swap_name'])?></b></h2>
                                 </a>
                                 <figure class='mb-1'>
@@ -111,7 +89,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                     <a href='manage-swap.php?edit_id=<?php echo $props['swap_id']?>' class="btn p-2 text-white btn-success btn-sm">Edit </a>
                                 </div>
                                 <div class='col-6'>
-                                    <a href='delete-swaps.php?id=<?php echo $props['swap_id']?>' name='delete'
+                                    <a href='deleteswap.php?id=<?php echo $props['swap_id']?>' name='delete'
                                         onclick="return confirm('You are about to delete this <?php echo ucwords($props['swap_name'])?>')">
                                         <i class='far fa-trash-alt'></i>
                                     </a>
@@ -119,8 +97,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                             </div>
                         </td>
                     </tr>
-                    <?php    }
-    ?>
+                    <?php    }?>
                 </tbody>
             </table>
 
@@ -128,19 +105,18 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
             </div>
 
             <div class='pagination-container'>
-                <nav>
-
+                <nav> 
                     <ul class=" pagination">
-                        <?php 
-                         $get = $prop->pagination_two('my-swaps.php', $page, $agent_id);?>
+                        <?php $prop->pagination_two('my-swaps.php', $page, $agent_id);?>
                     </ul>
                 </nav>
-            </div>
+            </div>         
+            <?php }else{ ?>
+                <div>  <h4 class="text-danger text-center">No Record Avaliable </h4>  </div>
+            <?php }?>
         </div>
     </div>
     </div>
     </div>
     </section>
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

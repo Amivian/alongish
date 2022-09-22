@@ -1,21 +1,5 @@
 <?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-  }
-  
-
-}else{
-
-}
+    require 'include/active-user.php';
 ?>
 
 
@@ -28,9 +12,7 @@ if(isset($_SESSION['id'])){
 <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>FAQ'S</title>
-<?php
-require('include/head.php');
-?>
+<?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages hd-white about">
@@ -41,11 +23,8 @@ require('include/head.php');
         ================================================== -->
         <header id="header-container">
         <div id="header">
-            <?php
-require('include/header002.php');
-?>
-            </div>
-            
+            <?php require('include/header002.php'); ?>
+        </div>          
 
         </header>
         <div class="clearfix"></div>

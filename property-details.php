@@ -20,7 +20,7 @@ require('property.php');
 $id = $_GET['id'];
 $prop = new Property;
 $property = $prop->showPropertyDetails($id);
-// $extra = $prop->getAllFeatures($id);
+$extra = $prop->getPropertyAmenities($id);
 $images = $prop->getAllImages($id);
 $recent = $prop->showRecentProperties();
 $swap = $prop->showSwaps();
@@ -216,12 +216,7 @@ $mail=$prop->newsLetter( $email);
                             <h5 class="mt-5">Amenities</h5>
                             <!-- cars List -->
                             <ul class="homes-list clearfix">
-                                <?php
-                                
-                                foreach($extra as $extras){
-                                
-                                            
-                                    ?>
+                                <?php foreach($extra as $extras){ ?>
                                 <li>
                                     <i class="fa fa-check-square" aria-hidden="true"></i>
                                     <span><?php echo $extras['pfeature_name'];?></span>
@@ -230,7 +225,7 @@ $mail=$prop->newsLetter( $email);
                             }?>
                             </ul>
                         </div>
-                        
+                         
                         <!-- Disclaimer -->
 
                         <div class="single homes-content details mb-30">

@@ -1,21 +1,12 @@
 <?php 	
-session_start();
-if (empty($_SESSION['uname'])) {
-    header('location:index.php');
-}
-require('admin.php'); 
-$obj = new Admin;
-$k = $obj->getAdmin($_SESSION['id']);
-$agent_id=$_SESSION['id'];
+    require_once ('include/checks.php');
 
-$pix= $k['a_pix'];
-if (empty($pix)) {
-    $pix = 'avatar.png';
-}
-require('property.php');
-$prop= new Property;
+    require('property.php');
 
+    require('teamprocess.php');
 
+    $property= new admin\Property;
+    
  ?>
 
 
@@ -28,24 +19,18 @@ $prop= new Property;
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
-    <title>Add Listing</title>
+    <title>Add Team</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php');  ?>
 
+    <?php require('include/sidebar.php');  ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+
+        <?php require('include/mobile-dashboard.php');  ?>
+        
         <div class="container">
-            <form action="teamprocess.php" method="POST" enctype="multipart/form-data">
-                <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">         
+            <form action="" method="POST" enctype="multipart/form-data">        
                 <input type="text" name="staff" class="d-none" value="staff">
                 <div class="single-add-property">
                 <?php
@@ -98,10 +83,4 @@ $prop= new Property;
             </form>
         </div>
     </div>
-
-    <!-- END SECTION USER PROFILE -->
-
-
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

@@ -1,5 +1,4 @@
-
-const form = document.querySelector(".contactus form"),
+const form = document.querySelector("form"),
 statusTxt = form.querySelector(".button-area h6");
 
 form.onsubmit = (e)=>{

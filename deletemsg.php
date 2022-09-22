@@ -1,8 +1,8 @@
 <?php 
 session_start();
-require('property.php');
+require('admin/property.php');
 $id = $_GET['id'];
-$obj = new Property;
+$obj = new admin\Property;
 $output = $obj->delete($id);
 if($output) {
    $_SESSION['message'] = "Sponsorship Message deleted successfully";

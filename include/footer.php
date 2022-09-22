@@ -21,41 +21,41 @@
     <script src="js/main.js"></script> 
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script type="text/javascript">
+  $(document).ready(function () {
+                $('#allstate').change(function () {
+                    var stateid = document.getElementById('allstate').value;
+                    var test = "states_id=" + stateid;
 
-$(document).ready(function(){
-				$('#allstate').change(function(){
-					var stateid = document.getElementById('allstate').value;
-					var test = "states_id=" +stateid;
-				
-					$('#citi').load('getcity.php', test);
-				})
+                    $('#citi').load('getcity.php', test);
+                });
 
-				$('#allstate').change(function(){
-					var pick= $('#allsate').val();
-					var data ="put=" +pick;
-						$.ajax({
-						url: 'getcity.php',
-						data: data,
-						type: 'post',
-						dataType:'json',
-						success: function(msg){
-								setTimeout(function(){
-									$('#chose').html(msg.message);
-									// $('#btn').html('Register');
-					
-								}, 10);
+                if ($('#allstate').val()) {
+                    var city = $('div[city_info]').attr('city_info');
+                    var test = "states_id=" + $('#allstate').val()+"&city="+city;
 
-							},
-						error: function(err){
-								console.log(err);
-						},
-						})
-				})
+                    $('#citi').load('getcity.php', test);
+                }
 
-								$('#btn').click(function(){
-					// $('#note').html('<h2>Button Selected</h2>');
-				})
-		})
+                $('#allstate').change(function () {
+                    var pick = $('#allsate').val();
+                    var data = "put=" + pick;
+                    $.ajax({
+                        url: 'getcity.php',
+                        data: data,
+                        type: 'post', 
+                        dataType: 'json',
+                        success: function (msg) {
+                            setTimeout(function () {
+                                $('#chose').html(msg.message);
+                            }, 10);
+
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        },
+                    })
+                })
+      		})
 
 							
 	</script>

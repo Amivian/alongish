@@ -1,11 +1,10 @@
 <?php 
-session_start();
-require('property.php');
-
 if (isset($_POST['jstatus'])) {
     $iddd = $_POST['idd'];
     $staty = $_POST['staty'];
-$obj = new Property;
+    
+		// echo '<pre>'; var_dump( $_POST); echo '</pre>'; exit();
+$obj = new \admin\Property;
 $output= $obj->statusJointVenture($iddd,$staty);
 
 if($output) {

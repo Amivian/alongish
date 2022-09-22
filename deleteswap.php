@@ -1,8 +1,8 @@
 <?php 
 session_start();
-require('property.php');
+require('admin/property.php');
 $id = $_GET['id'];
-$obj = new Property;
+$obj = new admin\Property;
 $output = $obj->deleteSwap($id);
 if($output){                
     $_SESSION['message']= "Swap deleted Successfully";

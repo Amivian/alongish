@@ -14,7 +14,7 @@ if (empty($_SESSION['id'])) {
       $pix = 'avatar.png';
 }
 require('property.php');
-$prop= new Property;
+$properties= new Property;
 // $property = $prop->getAgentSwaps($agent_id)
 
 }
@@ -134,59 +134,27 @@ $prop= new Property;
             </div>
           </div>
         </div>
+       
         <div class="single-add-property">
-          <h3 class="my-3">Documents</h3>
-          <div class="property-form-group mt-4">
-            <div class="row">
-              <div class="col-md-12">
-                <ul class="pro-feature-add pl-0">
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-a" type="checkbox" name="extra[]" value="Survey">
-                        <label for="check-a">Survey</label>
+            <h3 class="my-3">Documents</h3>
+            <div class="property-form-group mt-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <ul class="pro-feature-add pl-2">
+                    <li class="fl-wrap filter-tags clearfix">
+                      <div class="checkboxes float-left">
+                        <div class="filter-tags-wrap">
+                          <?php $feature=$properties->getSwapDocument();?>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-b" type="checkbox" name="extra[]" value="Purchase Receipt">
-                        <label for="check-b">Purchase Receipt</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-c" type="checkbox" name="extra[]" value="Family Conveyance">
-                        <label for="check-c">Family Conveyance</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-d" type="checkbox" name="extra[]" value="Executed Deed of Assignment">
-                        <label for="check-d">Executed Deed of Assignment</label>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="fl-wrap filter-tags clearfix">
-                    <div class="checkboxes float-left">
-                      <div class="filter-tags-wrap">
-                        <input id="check-e" type="checkbox" name="extra[]" value="Excision">
-                        <label for="check-e">Excision </label>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
+                    </li>
+
+                  </ul>
+                <span class="text-danger"><?php echo isset($form_errors['extra']) ? $form_errors['extra'] : '' ?></span>
+                </div>
               </div>
             </div>
           </div>
-
-        </div>
-
         <div class="single-add-property">
           <h3>Property Media</h3>
             <div class="property-form-group">

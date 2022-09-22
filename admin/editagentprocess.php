@@ -1,6 +1,4 @@
 <?php
-session_start();
-include('admin.php');
 if(isset($_POST['update'])) {
     $id = $_POST['a_id'];
 	$fname = htmlentities(strip_tags($_POST['fname']));
@@ -13,7 +11,7 @@ if(isset($_POST['update'])) {
   $state=$_POST['state'];
   $city = $_POST['city'];
   $pix = $_FILES['pix'];
-$obj = new Admin;
+$obj = new admin\Admin;
 $output=$obj->updateAgent( $id,$fname,$lname,$phone,$state, $city, $business, $pix,$mission, $vision,$about );
 if($output){
 	$_SESSION['message'] = "Profile Updated Successfully";

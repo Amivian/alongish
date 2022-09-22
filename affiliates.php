@@ -1,31 +1,10 @@
 <?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-?>
-<?php 
-  require('property.php');
+  require 'include/active-user.php'; 
   
-$obj = new Property;
-$partner = $obj-> getPartnerImage();
+  $property = new Property;
 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-  $output=$obj->newsLetter( $email);
-}
+  $partner = $property-> getPartnerImage();
+
 
 ?>
 
@@ -37,9 +16,7 @@ if(isset($_POST['btn'])) {
   <meta name="description" content="Find your desired home here">
   <meta name="author" content="">
   <title>Affiliate</title>
-  <?php
-require('include/head.php');
-?>
+  <?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages hd-white about">
@@ -50,9 +27,7 @@ require('include/head.php');
         ================================================== -->
     <header id="header-container">
       <div id="header">
-        <?php
-require('include/header002.php');
-?>
+        <?php require('include/header002.php'); ?>
       </div>
 
 
@@ -104,6 +79,4 @@ require('include/header002.php');
   </div>
   <!-- END SECTION PARTNERS -->
   <?php include "include/foot.php"?>
-  <?php
-  require('include/footer.php');
-?>
+  <?php require('include/footer.php');?>

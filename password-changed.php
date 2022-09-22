@@ -1,41 +1,23 @@
 <?php
-session_start();
-require_once 'users.php';
-if(isset($_SESSION['id'])){
-    $obj = new User;
+    require 'include/active-user.php';
+
     
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
+    $obj = new User;
 
-}else{
+    $props = new \admin\Property;
 
-}
-?>
+    $email = $_SESSION['a_email'];
 
+    if($_SESSION['info'] == false){
+        header('Location: login.php');  
+    }
+?> 
 <?php
-if($_SESSION['info'] == false){
-    header('Location: login.php');  
-}
-?>
-
-<?php 
-require('property.php');
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-
-$obj = new Property;
-$output=$obj->newsLetter( $email);
-}
-?>
-<?php 
-  if(isset($_POST['login-now'])){
+ if(isset($_POST['login-now'])){
     header('Location: login.php');
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -45,9 +27,7 @@ $output=$obj->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Password Changed</title>
-    <?php
-require('include/head.php');
-?>
+    <?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages hd-white about">
@@ -83,11 +63,9 @@ require('include/header002.php');
                             <?php echo $_SESSION['info']; ?>
                         </div>
                         <?php
-                    }
-                    ?>
-
+                          }
+                        ?>
                         <form action="login.php" method="post">
-
                             <button id="login" class="btn_1 rounded full-width" name="login-now">Login</button>
                         </form>
                     </div>
@@ -99,6 +77,4 @@ require('include/header002.php');
     <!-- END SECTION LOGIN -->
     <?php include "include/foot.php"?>
 
-    <?php
-require('include/footer.php');
-?>
+    <?php require('include/footer.php'); ?>

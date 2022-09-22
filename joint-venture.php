@@ -1,31 +1,8 @@
-<?php session_start();
-
-if(isset($_SESSION['id'])) {
-
-    require('users.php');
-    $obj=new User;
-
-    $k=$obj->getUser($_SESSION['id']);
-    $agent_id=$_SESSION['id'];
-    $pix=$k['a_pix'];
-
-    if (empty($pix)) {
-        $pix='avatar.png';
-    }
-
-}
-
-else {}
-
-require('property.php');
-$prop=new Property;
-$output=$prop->showJointVentures();
-if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
-
-?><?php if(isset($_POST['btn'])) {
-    $email=htmlentities(strip_tags($_POST['email']));
-    $mail=$prop->newsLetter($email);
-}
+<?php
+    require 'include/active-user.php';
+    $prop=new admin\Property;
+    $output=$prop->showAllJointVentures();
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 
 ?>
 
@@ -174,7 +151,7 @@ if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
                                                 
             <nav aria-label="..." class="pt-4">
                 <ul class="pagination lis-view">
-                    <?php $get=$prop->pagination_joint('joint-venture.php', $page);?>
+                    <?php $prop->pagination_joint('joint-venture.php', $page);?>
                 </ul>
             </nav>
 

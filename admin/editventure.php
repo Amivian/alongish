@@ -1,6 +1,4 @@
 <?php
-session_start();
-require 'property.php';
 
 if (isset($_POST['btn'])) 
   {
@@ -13,13 +11,14 @@ if (isset($_POST['btn']))
     $state = $_POST['state'];
     $city = $_POST['city'];
 
-    if (isset($_POST['extra'])) {
-        $extra = $_POST['extra'];
+    if (isset($_POST['jointtype'])) {
+        $extra = $_POST['jointtype'];
+    }else{      
+    $extra =array();
     }
-
     $pid = $_POST['p_id'];
 
-    $obj = new Property;
+    $obj = new admin\Property;
     $output = $obj->editJointVenture($title, $prodesc, $offer, $address, $joint, $state, $city, $extra, $images, $pid);
     if ($output) {
        $_SESSION['message']= "Property Edited successfully";
@@ -27,8 +26,6 @@ if (isset($_POST['btn']))
         exit();
     } else {
        $_SESSION['message']= "Failed to edit Property, Try again";
-        header("Location:manage-venture.php");
-        exit();
     }
 
   }

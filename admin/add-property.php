@@ -1,24 +1,14 @@
 <?php 	
-session_start();
-if (empty($_SESSION['uname'])) {
-    header('location:index.php');
-}
-require('admin.php'); 
-$obj = new Admin;
-$k = $obj->getAdmin($_SESSION['id']);
-$agent_id=$_SESSION['id'];
+  require_once ('include/checks.php');
 
-$pix= $k['a_pix'];
-if (empty($pix)) {
-    $pix = 'avatar.png';
-}
-require('property.php');
-$prop= new Property;
+  require('property.php');
 
+  require('propertyprocess.php');
 
- ?>
-
-
+    $prop= new \admin\Property;
+    
+    $obj = new admin\Admin;
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -30,37 +20,32 @@ $prop= new Property;
     <meta name="author" content="">
     <title>Add Listing</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php'); ?>
 
+    <?php require('include/sidebar.php'); ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+        <?php require('include/mobile-dashboard.php'); ?>
+
         <div class="container">
-            <form action="propertyprocess.php" method="POST" enctype="multipart/form-data">
-                <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">                
+            <form action="" method="POST" enctype="multipart/form-data">               
                 <input type="text" name="staff" class="d-none" value="staff">
                 <div class="single-add-property">
                     <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-danger'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+                        if (isset($_SESSION['message'])) {
+                            echo "<p class='alert alert-danger'>". $_SESSION['message']. "</p>";
+                            unset($_SESSION['message']);
+                        }
+                    ?>
                     <h3>Post Property</h3>
                      <div class="property-form-group">
                         <div class="row">
                             <div class="col-md-12">
                                 <p>
                                     <label for="title">Property Title</label>
-                                    <input required type="text" name="title" id="title"
+                                    <input required type="text" name="title" id="title" value="<?php echo isset($_POST['title']) ? $_POST['title'] : '' ?>"
                                         placeholder="Ex: Newly Built Mini Flat">
+                                    <span class="text-danger"><?php echo isset($form_errors['title']) ? $form_errors['title'] : '' ?></span>
                                 </p>
                             </div>
                         </div>
@@ -69,7 +54,8 @@ $prop= new Property;
                                 <p>
                                     <label for="description">Property Description</label>
                                     <textarea id="description" name="pro-desc"
-                                        placeholder="Describe the property"></textarea>
+                                        placeholder="Describe the property"><?php echo isset($_POST['pro-desc']) ? $_POST['pro-desc'] : '' ?></textarea>
+                                    <span class="text-danger"><?php echo isset($form_errors['pro-desc']) ? $form_errors['pro-desc'] : '' ?></span>
                                 </p>
                             </div>
                         </div>
@@ -82,10 +68,9 @@ $prop= new Property;
                         <div class="row">
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
-                                <?php $prop->get_state();?>
+                                <?php $obj->get_state();?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
-
                                 <label for="city">City</label>
                                 <div type="text" name="city" id="citi"></div>
 
@@ -93,8 +78,8 @@ $prop= new Property;
                             <div class="col-lg-4 col-md-4">
                                 <p>
                                     <label for="address">Address</label>
-                                    <input required type="text" name="address" placeholder="Enter property Address"
-                                        id="address">
+                                    <input required type="text" name="address" placeholder="Enter property Address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : '' ?>" id="address">
+                                    <span class="text-danger"><?php echo isset($form_errors['address']) ? $form_errors['address'] : '' ?></span>
                                 </p>
                             </div>
                         </div>
@@ -189,11 +174,10 @@ $prop= new Property;
                                     <li class="fl-wrap filter-tags clearfix">
                                         <div class="checkboxes float-left">
                                             <div class="filter-tags-wrap">
-                                                <?php $feature=$prop->getAllFeatures();?>
+                                                <?php $prop->getAllFeatures();?>
                                             </div>
                                         </div>
                                     </li>
-                                 
                                 </ul>
                             </div>
                         </div>
@@ -205,13 +189,15 @@ $prop= new Property;
                             <div class="col-lg-6 col-md-6 form-group">
                                 <p>
                                     <label for="address">Price</label>
-                                    <input type="text" name="price" placeholder="NGN" id="price" required>
+                                    <input type="text" name="price" placeholder="NGN" id="price" value="<?php echo isset($_POST['price']) ? $_POST['price'] : '' ?>" required>
+                                    <span class="text-danger"><?php echo isset($form_errors['price']) ? $form_errors['price'] : '' ?></span>
                                 </p>
                             </div>
                             <div class="col-lg-6 col-md-6 form-group">
                                 <p class="no-mb last">
                                     <label for="area">Area</label>
-                                    <input type="text" name="area" placeholder="Sqft" id="area" required>
+                                    <input type="text" name="area" placeholder="sqft" id="area" value="<?php echo isset($_POST['area']) ? $_POST['area'] : '' ?>" required>
+                                    <span class="text-danger"><?php echo isset($form_errors['area']) ? $form_errors['area'] : '' ?></span>
                                 </p>
                             </div>
                         </div>
@@ -234,6 +220,5 @@ $prop= new Property;
     <!-- END SECTION USER PROFILE -->
 
 
-    <?php
-				require('include/dashfooter.php');
+    <?php require('include/dashfooter.php');
 				 ?>

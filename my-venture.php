@@ -1,23 +1,13 @@
-<?php 	
-session_start();
-if (empty($_SESSION['id'])) {
-    header('location:login.php');
-}else{
-   require('users.php');
-   $obj = new User;
-   $k = $obj->getUser($_SESSION['id']);
+<?php
+    require 'include/checks.php';
 
-   $agent_id = $_SESSION['id'];
+    require 'admin/property.php';
+
+    $prop= new admin\Property; 
+
+    $property = $prop->getJointVenture($agent_id);
    
-  $pix= $k['a_pix'];
-  if (empty($pix)) {
-      $pix = 'avatar.png';
-}
- require('property.php');
- $prop= new Property;
- $property = $prop->getJointVenture($agent_id);
- if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
-}
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
   ?>
 
   
@@ -64,9 +54,9 @@ if (empty($_SESSION['id'])) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php
+                                <?php if(!empty($property)){
                                         foreach($property as $props) {
-                                            $img = $prop-> getsponsorshipImage($props['jointventure_id']);
+                                            $img = $prop->getsponsorshipImage($props['jointventure_id']);
                                             $type = $prop->getSponsorshipNeed($props['jointventure_id']);
                                             ?>
                                     <tr>
@@ -107,19 +97,18 @@ if (empty($_SESSION['id'])) {
                                 </tbody>
                             </table>
                             <div class="pagination-container">
-                                <nav>
-                                    
-                    <ul class=" pagination">
-                        <?php 
-                         $get = $prop->pagination_four('my-venture.php', $page, $agent_id);?>
-                    </ul>
+                                <nav> 
+                                    <ul class=" pagination">
+                                        <?php  $prop->pagination_four('my-venture.php', $page, $agent_id);?>
+                                    </ul>
                                 </nav>
                             </div>
+                            <?php }else{ ?>
+                                <div>  <h4 class="text-danger text-center">No Record Avaliable </h4>  </div>
+                            <?php }?>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <?php
-				require('include/dashfooter.php');
-				 ?>
+        <?php require('include/dashfooter.php');  ?>

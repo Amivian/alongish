@@ -1,49 +1,29 @@
 <?php
-session_start();
-require_once 'users.php';
-if(isset($_SESSION['id'])){
-    $obj = new User;
+    require 'include/active-user.php';
+
     
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
+    $obj = new User;
 
-}else{
+    $props = new \admin\Property;
 
+    $email = $_SESSION['a_email'];
+
+    if($email == false){
+
+    header('Location: login.php');
 }
 
-?>
-
-<?php
-$email = $_SESSION['a_email'];
-if($email == false){
-  header('Location: login.php');
-}?>
-
-<?php 
-require('property.php');
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-
-$obj = new Property;
-$output=$obj->newsLetter( $email);
-}
-?>
-
+    require "newpasswordprocess.php";
+?> 
 
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
-<meta name="description" content="Find your desired home here">
+    <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Create New Password</title>
-<?php
-require('include/head.php');
-?>
+    <?php require('include/head.php');?>
 </head>
 
 <body class="inner-pages hd-white about">
@@ -54,12 +34,8 @@ require('include/head.php');
         ================================================== -->
         <header id="header-container">
         <div id="header">
-            <?php
-require('include/header002.php');
-?>
-            </div>
-            
-
+            <?php require('include/header002.php');?>
+        </div>
         </header>
         <div class="clearfix"></div>
         <!-- Header Container / End -->
@@ -71,21 +47,17 @@ require('include/header002.php');
             <div class="row">
                 <div class="col-md-6 offset-3">
                     <div id="login"  class="mb-5">
-                    <div  class="login" style="max-width:440px !important">
-                     <?php 
-                    if(isset($_SESSION['info'])){
-                        ?>
-                        <div class="alert alert-success text-center" style="padding: 0.4rem 0.4rem">
-                            <?php echo $_SESSION['info']; ?>
-                        </div>
-                        <?php
-                    }
+                    <div  class="login" style="max-width:440px !important"> 
+                    <h1 class=" user-login__title mb-0 ">Create New Password</h1>      
+                    <?php
+                        if(isset($_SESSION['info'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['info'] ."</h6>";
+                            unset($_SESSION['info']);
+                        }
                     ?>
-                     
-                    <h1 class=" user-login__title mb-0 ">Create New Password</h1>
-                   
-                            <form action="newpasswordprocess.php" method="post">
-                            <div class="form-group">
+                                 
+                <form action="" method="post">
+                    <div class="form-group">
                         <label>New Password</label>
                         <input type="password" class="form-control  form-control-lg" name="pwd"  placeholder="Password" required value=""> 
                         </div>
@@ -104,7 +76,5 @@ require('include/header002.php');
         <!-- END SECTION LOGIN -->
         <?php include "include/foot.php"?>
      
-<?php
-require('include/footer.php');
-?>
+       <?php require('include/footer.php'); ?>
 

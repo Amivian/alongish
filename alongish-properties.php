@@ -1,31 +1,13 @@
 <?php
-session_start();
-if(isset($_SESSION['id'])){
+    require 'include/active-user.php';
     
-    require('users.php');
     $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
 
-}else{
+    $prop = new \admin\Property;
 
-}
-require('property.php');
-$prop = new Property;
-$output= $prop->showAdminProperties();
-if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
-?>
+    $output= $prop->showAdminProperties();
 
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$output=$prop->newsLetter( $email);
-}
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -34,9 +16,7 @@ $output=$prop->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Alongish Listings</title>
-    <?php
-require('include/head.php');
-?>
+    <?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages homepage-4 agents list hp-6 full hd-white">
@@ -48,9 +28,7 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-require('include/header002.php');
-?>
+                <?php require('include/header002.php'); ?>
             </div>
 
 
@@ -85,20 +63,16 @@ require('include/header002.php');
                                             <input type="text" placeholder="Enter Keyword..." name="search">
                                         </div>
                                         <div class="rld-single-select ml-4" style="margin-right:15px">
-                                                                <input name="type" value="property_name" type="hidden"
-                                                                    class="form-control">
-                                                                <?php 
-                                                                                $prop->getPropertytype();
-                                                                                ?>
+                                            <input name="type" value="property_name" type="hidden"
+                                                class="form-control">
+                                            <?php $prop->getPropertytype();?>
 
-                                                            </div>
+                                        </div>
                                         <div class="rld-single-select ml-4" style="margin-right:15px">
-                                                                <input name="state" value="state" type="hidden"
-                                                                    class="form-control">
-                                                                <?php 
-                                                                                $prop->city();
-                                                                                ?>
-                                                            </div>
+                                            <input name="state" value="state" type="hidden"
+                                                class="form-control">
+                                            <?php $prop->city();?>
+                                        </div>
                                             <div class="col-xl-2 col-lg-2 col-md-4 pl-0">
                                             <button name="" class="btn btn-yellow" type="submit">Search Now</button>
                                         </div>
@@ -121,15 +95,10 @@ require('include/header002.php');
                         </div>
                     </div>
                 </section>
-
-
-
                 <?php
-                                            foreach($output as $property){
-                                                        $img = $prop-> getSingleImage($property['property_id']);
-                                                ?>
-
-
+                    foreach($output as $property){
+                      $img = $prop-> getSingleImage($property['property_id']);
+                ?>
                 <div class="row featured portfolio-items">
                     <div class="my-3 row">
                         <div class="item col-lg-4 col-md-12 col-xs-12 landscapes sale pr-0 pb-0 ft aos-init aos-animate"
@@ -220,6 +189,4 @@ require('include/header002.php');
         </section>
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
-        <?php
-      require('include/footer.php');
-      ?>
+        <?php require('include/footer.php'); ?>

@@ -1,8 +1,8 @@
 <?php 
 session_start();
-require('property.php');
+require('admin/property.php');
 $id = $_GET['id'];
-$obj = new Property;
+$obj = new admin\Property;
 $output = $obj->deletesms($id);
 if($output) {
     $_SESSION['message'] = "Message deleted successfully";
@@ -11,7 +11,6 @@ if($output) {
   }else{
     $_SESSION['message'] = "Failed to delete";
     header("Location:dashboard.php");
-      // echo $msg;
     exit();
   }
  ?>

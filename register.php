@@ -57,7 +57,7 @@ $output=$obj->newsLetter( $email);
         <div class="container">
             <div class="row">
                 <div class="col-md-8 offset-2">
-                    <div id="login" class="mb-5">
+                    <div id="login" class="mb-5" style="border:0px">
                         <div class="login" style="border:2px solid grey">
                             <h3 style="font-weight:lighter" class="mb-4">Register</h3>
                               <?php
@@ -69,8 +69,8 @@ $output=$obj->newsLetter( $email);
                                 echo '<div class="alert alert-info text-center">' .base64_decode(urldecode($_GET['verify'])) . '</div>';
                                 }  ?>
                             <?php
-                             if(isset($_GET['res'])) {
-                             echo '<div class="alert alert-danger text-center">' .base64_decode(urldecode($_GET['res'])) . '</div>';
+                             if(isset($_SESSION['message'])) {
+                             echo '<div class="alert alert-success text-center">' . $_SESSION['message'] . '</div>';
                               }?>
                             <?php if( !empty($_SESSION['guest'])) { echo $_SESSION['guest'];session_destroy (); }?>
                             <form action="registerprocess.php" method="POST" id="user_form">

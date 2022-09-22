@@ -13,7 +13,7 @@
         <!-- ARCHIVES JS -->
         <script src="../js/jquery-3.5.1.min.js"></script>
         <script type="text/javascript">
-                     $(document).ready(function () {
+                $(document).ready(function () {
                 $('#allstate').change(function () {
                     var stateid = document.getElementById('allstate').value;
                     var test = "states_id=" + stateid;

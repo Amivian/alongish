@@ -1,22 +1,12 @@
 <?php 	
-session_start();
-if (empty($_SESSION['uname'])) {
-    header('location:index.php');
-}
-require('admin.php'); 
-$obj = new Admin;
-$k = $obj->getAdmin($_SESSION['id']);
-$agent_id=$_SESSION['id'];
+ require_once ('include/checks.php');
 
-$pix= $k['a_pix'];
-if (empty($pix)) {
-    $pix = 'avatar.png';
-}
-require('property.php');
-$prop= new Property;
+ require('property.php');
 
+ require('partnerprocess.php');
 
- ?>
+ $properties= new \admin\Property;
+?>
 
 
 <!DOCTYPE html>
@@ -30,23 +20,18 @@ $prop= new Property;
     <meta name="author" content="">
     <title>Add Partner</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php');  ?>
 
+    <?php require('include/sidebar.php');  ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+
+        <?php require('include/mobile-dashboard.php');  ?>
+
         <div class="container">
-            <form action="partnerprocess.php" method="POST" enctype="multipart/form-data">   
+            <form action="" method="POST" enctype="multipart/form-data">   
                 <div class="single-add-property">
-                <?php
+                   <?php
                         if(isset($_SESSION['message'])) {
                             echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
                             unset($_SESSION['message']);
@@ -78,10 +63,4 @@ $prop= new Property;
             </form>
         </div>
     </div>
-
-    <!-- END SECTION USER PROFILE -->
-
-
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

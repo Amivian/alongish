@@ -1,31 +1,11 @@
 <?php
-session_start();
-// require "contactus.php";
-if(isset($_SESSION['id'])){
+    require 'include/active-user.php';
     
-    require('users.php');
     $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
 
-}else{
-
-}
+    $prop = new \admin\Property;
 ?>
 
-<?php 
-require('property.php');
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$obj = new Property;
-$output=$obj->newsLetter( $email);
-}
-?>
 
 
 

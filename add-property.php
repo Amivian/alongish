@@ -1,25 +1,14 @@
 <?php
-session_start();
- if (empty($_SESSION['id'])) {
-    header('location:login.php');
-}else{
-   require('users.php');
-   $obj = new User;
-   $k = $obj->getUser($_SESSION['id']);
+    require_once('include/checks.php');    
+    
+    require('admin/property.php');
 
-   $agent_id = $_SESSION['id'];
-   
-  $pix= $k['a_pix'];
-  if (empty($pix)) {
-      $pix = 'avatar.png';
-}
-require('property.php');
- 
-$obj1 = new Property;
-}
+    require('propertyprocess.php');
+
+    $obj1 = new admin\Property;
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="zxx">
 
 <head>
@@ -30,33 +19,28 @@ $obj1 = new Property;
     <meta name="author" content="">
     <title>Add Listing</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php');  ?>
 
+    <?php require('include/sidebar.php');  ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+
+        <?php require('include/mobile-dashboard.php');  ?>
+
         <div class="container"> 
-            <form action="propertyprocess.php" method="POST" enctype="multipart/form-data">
-                <input type="text" name="a_id" class="d-none" value="<?php echo $agent_id; ?>">                
+            <form action="" method="POST" enctype="multipart/form-data">               
                 <div class="single-add-property">
                     <?php 
-                                    if (isset($_GET['msg'])) {
-                                        echo "<h4 class='alert alert-info'>". $_GET['msg']. "</h4>";
-                                    }
-                                    ?>
+                        if (isset($_GET['msg'])) {
+                            echo "<h4 class='alert alert-info'>". $_GET['msg']. "</h4>";
+                        }
+                    ?>
                     <h3>Post Property</h3>
                     <?php
-                            if(isset($_GET['msg'])) {
-                                echo "<h2 class='alert alert-danger text-center'>". $_GET['msg'] ."</h2>";
-                            }?>
+                        if(isset($_GET['msg'])) {
+                            echo "<h2 class='alert alert-danger text-center'>". $_GET['msg'] ."</h2>";
+                        }
+                    ?>
                     <div class="property-form-group">
                         <div class="row">
                             <div class="col-md-12">
@@ -84,12 +68,9 @@ $obj1 = new Property;
                         <div class="row">
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
-                                <?php
-                                                    $obj->get_state();
-                                                     ?>
+                                <?php $obj->get_state();  ?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
-
                                 <label for="city">City</label>
                                 <div type="text" name="city" id="citi"></div>
 
@@ -129,15 +110,12 @@ $obj1 = new Property;
                         <div class="row">
                             <div class="col-lg-4 col-md-4 dropdown faq-drop">
                                 <div class="form-group categories">
-                                <?php 
-                                     $obj1->getStatus();
-                                     ?>
+                                <?php $obj1->getStatus(); ?>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 dropdown faq-drop">
                                 <div class="form-group categories">
-                                <?php 
-                                     $obj1->getPropertytype();
+                                <?php $obj1->getPropertytype();
                                      ?>
                                 </div>
                             </div>
@@ -153,9 +131,7 @@ $obj1 = new Property;
                         <div class="row">
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
                                 <div class="form-group categories">
-                                <?php 
-                                     $obj1->getBathroom();
-                                     ?>
+                                <?php  $obj1->getBathroom(); ?>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-12 dropdown faq-drop">
@@ -192,7 +168,7 @@ $obj1 = new Property;
                                     <li class="fl-wrap filter-tags clearfix">
                                         <div class="checkboxes float-left">
                                             <div class="filter-tags-wrap">
-                                                <?php $feature=$obj1->getAllFeatures();?>
+                                                <?php $obj1->getAllFeatures();?>
                                             </div>
                                         </div>
                                     </li>
@@ -230,10 +206,4 @@ $obj1 = new Property;
             </form>
         </div>
     </div>
-
-    <!-- END SECTION USER PROFILE -->
-
-
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

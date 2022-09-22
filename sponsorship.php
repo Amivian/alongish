@@ -1,33 +1,13 @@
 <?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
+  require 'include/active-user.php';
 
-}else{
+  $prop = new admin\Property;
 
-}
-require('property.php');
-$prop = new Property;
-$output= $prop->showAdminProperty();
-$team = $prop->showTeamMembers();
+  $output= $prop->showAdminProperty();
+  
+  $team = $prop->showTeamMembers();
 ?>
 
-<?php 
-
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$mail=$prop->newsLetter( $email);
-}
-?>
 
 
 <!DOCTYPE html>

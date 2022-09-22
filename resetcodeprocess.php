@@ -1,6 +1,4 @@
 <?php
-session_start();
-require 'users.php';
 if(isset($_POST['reset'])) {
     $code = htmlspecialchars(strip_tags($_POST['code']));
     
@@ -11,8 +9,9 @@ if(isset($_POST['reset'])) {
         header('location: new-password.php');
         exit();   
     }else{
-        $errors['otp-error'] = "You've entered incorrect code!";
-    }  header('location: reset-code.php');   
+        $_SESSION['error'] = "You've entered incorrect code!";
+      header('location: reset-code.php');   
+      exit(); 
     } 
-            
+}           
 ?>

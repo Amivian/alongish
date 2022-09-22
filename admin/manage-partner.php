@@ -1,23 +1,16 @@
 <?php 	
-session_start();
-if (empty($_SESSION['uname'])) {
-    header('location:index.php');
-}
-require('admin.php'); 
-$obj = new Admin;
-$k = $obj->getAdmin($_SESSION['id']);
-$agent_id=$_SESSION['id'];
+    require_once ('include/checks.php'); 
 
-$pix= $k['a_pix'];
-if (empty($pix)) {
-    $pix = 'avatar.png';
-}
-require('property.php');
-$prop= new Property;
-if(isset($_GET['edit_id'])) {
-    $id= $_GET['edit_id'];
-    $partner = $prop->showPartnerDetails($id);
-}
+    require('property.php');
+
+    require('edit-partner.php');
+
+    $properties = new \admin\Property;
+
+    if(isset($_GET['edit_id'])) {
+        $id= $_GET['edit_id'];
+        $partner = $properties->showPartnerDetails($id);
+    }
 
  ?>
 
@@ -33,26 +26,21 @@ if(isset($_GET['edit_id'])) {
     <meta name="author" content="">
     <title>Edit Partner</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php'); ?>
 
+    <?php require('include/sidebar.php');  ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+
+        <?php require('include/mobile-dashboard.php');  ?>
+
         <div class="container">
-            <form action="edit-partner.php" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="p_id" class="d-none" value="<?php echo $id; ?>">
                 <div class="single-add-property">
                     <?php
                         if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                            echo "<p class='alert alert-success text-center'>". $_SESSION['message'] ."</p>";
                             unset($_SESSION['message']);
                         }
                     ?>
@@ -67,9 +55,8 @@ if(isset($_GET['edit_id'])) {
                                 </p>
                             </div>
                                 <div class="col-md-6">
-                                    <img src="../images/partner/<?php echo $partner['image_url'] ?>" class="img-fluid"
-                                        alt="<?php echo $partner['image_url'] ?>"
-                                        style="width:200px ! important;height:100px ! important">
+                                    <img src="../images/partner/<?php echo $partner['image_url'] ?>" class="img-fluid" alt="<?php echo $partner['image_url'] ?>"
+                                        style="width:200px !important;height:100px ! important">
                                     <input class="mt-2" type="file" name="image">
                                 </div>
                             </div>
@@ -91,6 +78,4 @@ if(isset($_GET['edit_id'])) {
     <!-- END SECTION USER PROFILE -->
 
 
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

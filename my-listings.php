@@ -1,26 +1,14 @@
 <?php 	
-session_start();
-if (empty($_SESSION['id'])) {
-    header('location:login.php');
-}else{
-   require('users.php');
-   $obj = new User;
-   $k = $obj->getUser($_SESSION['id']);
+    require 'include/checks.php';
+        
+    require('admin/property.php');
+    
+   $prop= new admin\Property;
 
-   $agent_id = $_SESSION['id'];
-   
-  $pix= $k['a_pix'];
-  if (empty($pix)) {
-      $pix = 'avatar.png';
-}
- require('property.php');
- $prop= new Property;
- $output = $prop->getAgentProperties($agent_id);
+    $output = $prop->getAgentProperties($agent_id);
 
- if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
-}
-
-  ?>
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
+?>
 
   
 <!DOCTYPE html>
@@ -39,11 +27,11 @@ if (empty($_SESSION['id'])) {
                     <div class="col-lg-9 col-md-12 col-xs-12 pl-0 user-dash2">
                         <?php require('include/mobile-dashboard.php'); ?>
                         <?php
-                        if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                            unset($_SESSION['message']);
-                        }
-                    ?>
+                            if(isset($_SESSION['message'])) {
+                                echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                                unset($_SESSION['message']);
+                            }
+                        ?>
                        <div class="my-properties">
                             <table class="table-responsive">
                                 <thead>
@@ -59,7 +47,7 @@ if (empty($_SESSION['id'])) {
                                 </thead>
                                 <tbody>
                                 
-                    <?php foreach($output as $props) { ?>
+                    <?php if(!empty($output)){ foreach($output as $props) { ?>
                         <?php $img =$prop-> getSingleImage($props['property_id']); ?>
                         <tr>
                             <td class='image myelist'>
@@ -115,14 +103,15 @@ if (empty($_SESSION['id'])) {
             </div>
 
             <div class='pagination-container'>
-                <nav>
-
+                <nav> 
                     <ul class=" pagination">
-                        <?php 
-                         $get = $prop->pagination_three('my-listings.php', $page, $agent_id);?>
+                        <?php  $prop->pagination_three('my-listings.php', $page, $agent_id);?>
                     </ul>
                 </nav>
-            </div>
+            </div> 
+            <?php }else{ ?>
+                <div>  <h4 class="text-danger text-center">No Record Avaliable </h4>  </div>
+            <?php }?>
         </div>
     </div>
     </div>
