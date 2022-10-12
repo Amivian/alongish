@@ -18,7 +18,7 @@ if (isset($_POST['btn'])) {
 
   $obj = new admin\Property;
   $output= $obj->editSwaps($name,$title,$prodesc,$need,$swapdec,$address,$state,$city, $images,$extra,$id);
-  if($output === TRUE) {    
+  if($output) {    
     $_SESSION['message']= "Swap Item edited Successfully";
     header("Location: my-swaps.php");
     exit();

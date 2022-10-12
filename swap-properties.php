@@ -1,35 +1,15 @@
 <?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
+
+    require 'include/active-user.php';
+        
     $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
 
-}else{
+    $prop = new admin\Property;
 
-}
-require('property.php');
-$prop = new Property;
-$output = $prop->showAllswaps();
-if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
+    $output = $prop->showAllswaps();
 
-// do your query results
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 
-
-?>
-
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$mail=$prop->newsLetter( $email);
-}
 ?>
 
 <!DOCTYPE html>
@@ -53,9 +33,7 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-require('include/header002.php');
-?>
+                <?php require('include/header002.php'); ?>
             </div>
 
 
@@ -142,8 +120,7 @@ require('include/header002.php');
 
                 <nav aria-label="..." class="pt-4">
                     <ul class="pagination lis-view">
-                        <?php 
-                         $get = $prop->pagination_allswap('swap-properties.php',$page);?>
+                        <?php $prop->pagination_allswap('swap-properties.php',$page);?>
                     </ul>
                 </nav>
             </div>
@@ -151,6 +128,4 @@ require('include/header002.php');
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
 
-        <?php
-      require('include/footer.php');
-      ?>
+        <?php require('include/footer.php'); ?>

@@ -1,36 +1,10 @@
-<?php session_start();
-
-if(isset($_SESSION['id'])) {
-
-    require('users.php');
-    $obj=new User;
-
-    $k=$obj->getUser($_SESSION['id']);
-    $agent_id=$_SESSION['id'];
-    $pix=$k['a_pix'];
-
-    if (empty($pix)) {
-        $pix='avatar.png';
-    }
-
-
-}
-
-else {
-    require('users.php');
-    $obj=new User;
-}
-
-?>
-
 <?php 
-require('property.php');
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
+    require 'include/active-user.php';
 
-$obj = new Property;
-$output=$obj->newsLetter( $email);
-}
+    require "registerprocess.php";
+    
+    $obj = new User;
+    
 ?>
 
 <!DOCTYPE html>
@@ -46,14 +20,12 @@ $output=$obj->newsLetter( $email);
 <body class="inner-pages hd-white about">
     <!-- < !-- Wrapper -->
     <div id="wrapper">
-        <!-- < !-- START SECTION HEADINGS -->
-        <!-- < !-- Header Container================================================== -->
         <header id="header-container">
-            <div id="header"><?php require('include/header002.php')?></div>
+            <div id="header">
+              <?php require('include/header002.php')?>
+            </div>
         </header>
         <div class="clearfix"></div>
-        <!-- < !-- END SECTION HEADINGS -->
-        <!-- < !-- START SECTION 404 -->
         <div class="container">
             <div class="row">
                 <div class="col-md-8 offset-2">
@@ -71,55 +43,70 @@ $output=$obj->newsLetter( $email);
                             <?php
                              if(isset($_SESSION['message'])) {
                              echo '<div class="alert alert-success text-center">' . $_SESSION['message'] . '</div>';
+                             unset($_SESSION['info']);
                               }?>
-                            <?php if( !empty($_SESSION['guest'])) { echo $_SESSION['guest'];session_destroy (); }?>
-                            <form action="registerprocess.php" method="POST" id="user_form">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6"><label>First
-                                            Name</label><input class="form-control form-control-lg" type="text"
-                                            placeholder="First Name" id="fname" name="fname" required value=""></div>
-                                    <div class="form-group col-md-6"><label>Last
-                                            Name</label><input class="form-control form-control-lg" type="text"
-                                            placeholder=" Last Name" id="lname" name="lname" required value=""></div>
-                                </div>
+                            <form action="" method="POST" id="user_form">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label>Username</label><input class="form-control form-control-lg" type="text"
-                                            placeholder="" id="uname" name="uname" required value=""></div>
+                                        <label>First Name</label>
+                                        <input class="form-control form-control-lg" type="text" placeholder="First Name" id="fname" name="fname" required value="<?php echo isset($_POST['fname']) ? $_POST['fname'] : '' ?>">
+                                    </div> 
+                                    <span class="text-danger"><?php echo isset($form_errors['fname']) ? $form_errors['fname'] : '' ?></span>
+                                   
+                                    <div class="form-group col-md-6">
+                                        <label>Last Name</label>
+                                        <input class="form-control form-control-lg" type="text" placeholder=" Last Name" id="lname" name="lname" required value="<?php echo isset($_POST['lname']) ? $_POST['lname'] : '' ?>"></div>
+                                </div>
+                                    <span class="text-danger"><?php echo isset($form_errors['lname']) ? $form_errors['lname'] : '' ?></span>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Username</label>
+                                        <input class="form-control form-control-lg" type="text"
+                                            placeholder="" id="uname" name="uname" required value="<?php echo isset($_POST['uname']) ? $_POST['uname'] : '' ?>">
+                                    </div>
+                                    <span class="text-danger"><?php echo isset($form_errors['uname']) ? $form_errors['uname'] : '' ?></span>
                                     <div class="form-group col-md-6"><label>Email</label><input
                                             class="form-control form-control-lg" type="email"
                                             placeholder="Ex:example@domain.com" id="email" name="email" required
-                                            value="">
-                                        <div id="emailStatus"></div>
-                                    </div>
+                                            value="<?php echo isset($_POST['email']) ? $_POST['email'] : '' ?>">
+                                        <div id="emailStatus"></div> 
+                                    </div> <span class="text-danger"><?php echo isset($form_errors['email']) ? $form_errors['email'] : '' ?></span>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label>Password</label><input class="form-control form-control-lg"
+                                        <label>Password</label>
+                                        <input class="form-control form-control-lg"
                                             type="password" name="pwd" id="pwd" placeholder="Password" required
-                                            value=""><i class="fas fa-eye-slash" id="togglePassword"></i></div>
-                                    <div class="form-group col-md-4"><label>Confirm
-                                            password</label><input class="form-control form-control-lg" type="password"
-                                            name="cpwd" id="cpwd" placeholder="Confirm Password" required value="">
-                                        <!-- < !-- <i class="fas fa-eye-slash" id="togglePassword">
-                                                                    </i>-->
+                                            value="<?php echo isset($_POST['pwd']) ? $_POST['pwd'] : '' ?>">
+                                        <i class="fas fa-eye-slash" id="togglePassword"></i>
+                                    </div> <span class="text-danger"><?php echo isset($form_errors['pwd']) ? $form_errors['pwd'] : '' ?></span>
+                                    <div class="form-group col-md-4">
+                                        <label>Confirm Password</label>
+                                        <input class="form-control form-control-lg" type="password"
+                                            name="cpwd" id="cpwd" placeholder="Confirm Password" required value="<?php echo isset($_POST['cpwd']) ? $_POST['cpwd'] : '' ?>">
                                     </div>
-                                    <div class="form-group col-md-4"><label for="input-lg">Phone
-                                            Number</label><input class="form-control form-control-lg input-lg"
+                                    <div class="form-group col-md-4">
+                                        <label for="input-lg">Phone Number</label>
+                                        <input class="form-control form-control-lg input-lg"
                                             type="number" placeholder="+234" id="number" name="phone" required
-                                            value=""><input type="hidden" name="code" value=""><input type="hidden"
-                                            name="status" value=""></div>
+                                            value="<?php echo isset($_POST['phone']) ? $_POST['phone'] : '' ?>">
+                                            <input type="hidden" name="code" value="">
+                                            <input type="hidden" name="status" value="">
+                                    </div> <span class="text-danger"><?php echo isset($form_errors['phone']) ? $form_errors['phone'] : '' ?></span>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-md-6 form-group "><label for="state">States</label><span
                                             class="important">*</span><?php $obj->get_state();?></div>
-                                    <div class="col-md-6  form-group "><label for="city">City</label>
+                                    <div class="col-md-6  form-group ">
+                                        <label for="city">City</label>
                                         <div type="text" name="city" id="citi"></div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <div><label for="agree"><input type="checkbox" name="agree" id="agree"
+                                        <div>
+                                            <label for="agree">
+                                                <input type="checkbox" name="agree" id="agree"
                                                     value="yes" />I
                                                 agree with the <a href="#" title="term of services">term of
                                                     services</a></label></div>

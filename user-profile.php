@@ -1,21 +1,5 @@
-<?php 	
-session_start();
-if (empty($_SESSION['id'])) {
-    header('location:login.php');
-}else{
-   require('users.php');
-   $obj = new User;
-   $k = $obj->getUser($_SESSION['id']);
-
-   $agent_id = $_SESSION['id'];
-   
-  $pix= $k['a_pix'];
-  if (empty($pix)) {
-      $pix = 'avatar.png';
-}
-
-
-}
+<?php
+    require "include/checks.php";
  ?>
 
 
@@ -30,24 +14,21 @@ if (empty($_SESSION['id'])) {
     <meta name="author" content="">
     <title>My Profile</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php');  ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
+    <?php require('include/sidebar.php');  ?>
+    
     <div class="col-lg-9 col-md-9 col-xs-6 widget-boxed mt-33 mt-0 ">
+
         <?php
-                        if(isset($_SESSION['message'])) {
-                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                            unset($_SESSION['message']);
-                        }
-                    ?>
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+            if(isset($_SESSION['message'])) {
+                echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                unset($_SESSION['message']);
+            }
+        ?>
+
+        <?php require('include/mobile-dashboard.php');  ?>
+
         <div class="widget-boxed-header pb-0 mb-0">
             <div class="container pb-0 mb-0">
                 <div class="row">
@@ -56,8 +37,7 @@ if (empty($_SESSION['id'])) {
                         <h4 class='mb-0'>Profile Details</h4>
                     </div>
                     <div class="col-md-6">
-                        <span>Registered: <?php date_default_timezone_set("Africa/Lagos"); 
-                                             echo date('F j, Y', strtotime($k['datereg'])); ?></span>
+                        <span>Registered: <?php date_default_timezone_set("Africa/Lagos"); echo date('F j, Y', strtotime($k['datereg'])); ?></span>
                     </div>
                     <div class="col-md-2">
                         <a href="details.php"><i class="fas fa-edit"></i></a>
@@ -136,6 +116,4 @@ if (empty($_SESSION['id'])) {
     </div>
 
     </section>
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

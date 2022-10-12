@@ -1,49 +1,17 @@
-
-<?php
-session_start();
-require('property.php');
-
-$prop = new Property;
-
-if (empty($_POST) && empty($_GET)) {
-    header("Location: index.php");
-
-    exit;
-}
-// $obj = $prop->showProperties();
-
-if(isset($_SESSION['id'])){
+<?php 
+    require 'include/active-user.php';
     
-    require('users.php');
     $obj = new User;
+
+    $prop = new admin\Property;
     
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
+    if (empty($_POST) && empty($_GET)) {
+        header("Location: index.php");
 
-}else{
-
-}
+        exit;
+    }
+    
 ?>
-
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$output=$prop->newsLetter( $email);
-}
-?>
-
-
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$output=$prop->newsLetter( $email);
-}
-?>
-
 
 <?php
 if(isset($_GET)){
@@ -69,7 +37,7 @@ if(isset($_GET)){
     $search = '';
   
   }
-  $obj1 = $prop->alongishProperties($search,$type,$city);
+  $alongishProperties = $prop->alongishProperties($search,$type,$city);
   if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
   }
   
@@ -124,8 +92,8 @@ require('include/header002.php');
                 <!-- Search Form -->
                 
                 <?php
-                if(!empty($obj1)){
-                    foreach($obj1 as $data){ 
+                if(!empty($alongishProperties)){
+                    foreach($alongishProperties as $data){ 
                         $img = $prop-> getSingleImage($data['property_id']);
                         $p_id=$data['property_id'];
                         

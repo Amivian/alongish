@@ -1,20 +1,14 @@
-<?php 	
-session_start();
-if (empty($_SESSION['id'])) {
-    header('location:login.php');
-}else{
-   require('users.php');
-   $obj = new User;
-   $k = $obj->getUser($_SESSION['id']);
+<?php
+    require_once "include/checks.php";
+    
+    require ('admin/property.php');
+    
+    require ("jointprocess.php");
 
-   $agent_id = $_SESSION['id'];
-   
-  $pix= $k['a_pix'];
-  if (empty($pix)) {
-      $pix = 'avatar.png';
-}
-}
- ?>
+    $prop = new admin\Property;
+
+    $obj = new User;
+?>
 
 
 <!DOCTYPE html>
@@ -28,21 +22,16 @@ if (empty($_SESSION['id'])) {
     <meta name="author" content="">
     <title>Create Joint Venture Property</title>
 
-    <?php
-				require('include/dashheaders.php');
-				 ?>
+    <?php require('include/dashheaders.php');  ?>
 
+    <?php require('include/sidebar.php');  ?>
 
-
-    <?php
-				require('include/sidebar.php');
-				 ?>
     <div class="col-lg-9 col-md-12 col-xs-12 royal-add-property-area section_100 pl-0 user-dash2">
-        <?php
-				require('include/mobile-dashboard.php');
-				 ?>
+
+        <?php require('include/mobile-dashboard.php');  ?>
+
         <div class="container">
-            <form action="jointprocess.php" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <div class="single-add-property">
                     <?php
                         if(isset($_SESSION['message'])) {
@@ -79,9 +68,7 @@ if (empty($_SESSION['id'])) {
                         <div class="row">
                             <div class="col-lg-4 col-md-4 form-group">
                                 <label for="state">State</label>
-                                <?php
-                                                    $obj->get_state();
-                                                     ?>
+                                <?php $obj->get_state();  ?>
                             </div>
                             <div class="col-lg-4 col-md-4 form-group">
 
@@ -103,17 +90,11 @@ if (empty($_SESSION['id'])) {
                     <div class="property-form-group">
                         <i class='fa fa-cloud-upload'></i> Click here to upload Property images <br>
                         <div class="row">
-                            <div class="col-md-3 filediv">
-                                <input class="mt-2" type="file" name="images[]">
-                            </div>
-                            <div class="col-md-3">
-                                <input class="mt-2" type="file" name="images[]"></div>
-                            <div class="col-md-3">
-                                <input class="mt-2" type="file" name="images[]"></div>
-                            <div class="col-md-3">
-                                <input class="mt-2" type="file" name="images[]"></div>
-                            <div class="col-md-3">
-                                <input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3 filediv"><input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3"><input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3"><input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3"><input class="mt-2" type="file" name="images[]"></div>
+                            <div class="col-md-3"><input class="mt-2" type="file" name="images[]"></div>
                         </div>
                     </div>
 
@@ -127,36 +108,7 @@ if (empty($_SESSION['id'])) {
                                         <li class="fl-wrap filter-tags clearfix">
                                             <div class="checkboxes float-left">
                                                 <div class="filter-tags-wrap">
-                                                    <input id="check-a" type="checkbox" name="extra[]"
-                                                        value="Land Clearing">
-                                                    <label for="check-a">Land Clearing</label>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="fl-wrap filter-tags clearfix">
-                                            <div class="checkboxes float-left">
-                                                <div class="filter-tags-wrap">
-                                                    <input id="check-b" type="checkbox" name="extra[]"
-                                                        value="Road Construction">
-                                                    <label for="check-b">Road Construction</label>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="fl-wrap filter-tags clearfix">
-                                            <div class="checkboxes float-left">
-                                                <div class="filter-tags-wrap">
-                                                    <input id="check-c" type="checkbox" name="extra[]"
-                                                        value="Layout/Survey Documentation">
-                                                    <label for="check-c">Layout/Survey Documentation</label>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="fl-wrap filter-tags clearfix">
-                                            <div class="checkboxes float-left">
-                                                <div class="filter-tags-wrap">
-                                                    <input id="check-d" type="checkbox" name="extra[]"
-                                                        value="Land Reclaimation">
-                                                    <label for="check-d">Land Reclaimation</label>
+                                                <?php $prop->getAllJointNeed();?>
                                                 </div>
                                             </div>
                                         </li>
@@ -200,10 +152,4 @@ if (empty($_SESSION['id'])) {
             </form>
         </div>
     </div>
-
-    <!-- END SECTION USER PROFILE -->
-
-
-    <?php
-				require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php');  ?>

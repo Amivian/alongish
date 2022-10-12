@@ -1,39 +1,15 @@
-
-<?php
-session_start();
-require('property.php');
-
-$prop = new Property;
-
-if (empty($_POST) && empty($_GET)) {
-    header("Location: index.php");
-
-    exit;
-}
-// $obj = $prop->showProperties();
-
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-?>
-
 <?php 
-if(isset($_GET['btn'])) {
-	$email = htmlentities(strip_tags($_GET['email']));
-$output=$prop->newsLetter( $email);
-}
+    require 'include/active-user.php';
+    
+    $obj = new User;
+
+    $prop = new admin\Property;
+    
+    if (empty($_POST) && empty($_GET)) {
+        header("Location: index.php");
+        exit;
+    }
+    
 ?>
 
 <?php
@@ -68,7 +44,7 @@ if(isset($_GET)){
     $search = '';
   
   }
-  $obj1 = $prop->shortletProperties($search,$type,$status,$city);
+  $shortletProperties = $prop->shortletProperties($search,$type,$status,$city);
   
 if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
   }
@@ -127,12 +103,12 @@ require('include/header002.php');
                 <!-- Search Form -->
                 
                 <?php
-                if(!empty($obj1)){
-            foreach($obj1 as $data){ 
-                $img = $prop-> getSingleImage($data['property_id']);
-                $p_id=$data['property_id'];
-                
-            ?>
+                    if(!empty($shortletProperties)){
+                    foreach($shortletProperties as $data){ 
+                    $img = $prop-> getSingleImage($data['property_id']);
+                    $p_id=$data['property_id'];
+                    
+                ?>
 
                 <div class="row featured portfolio-items">
                     <div class="my-3 row">

@@ -24,8 +24,9 @@
                 $_SESSION['uname'] = $rows['a_username'];
                 $_SESSION['email'] = $rows['a_email'];
                 $_SESSION['user_type'] = 'admin';
+                header("location:admindashboard.php");
+                exit();
             }
-            return true;
        }
 
         public function getAdmin($id)

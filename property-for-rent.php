@@ -1,41 +1,17 @@
-<?php
-session_start();
-require('property.php');
-
-$prop = new Property;
-
-if (empty($_POST) && empty($_GET)) {
-    header("Location: index.php");
-
-    exit;
-}
-// $obj = $prop->showProperties();
-
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-?>
-
 <?php 
-if(isset($_GET['btn'])) {
-	$email = htmlentities(strip_tags($_GET['email']));
-$output=$prop->newsLetter( $email);
-}
+    require 'include/active-user.php';
+    
+    $obj = new User;
+
+    $prop = new admin\Property;
+    
+    if (empty($_POST) && empty($_GET)) {
+        header("Location: index.php");
+
+        exit;
+    }
+    
 ?>
-
-
 <?php
     if(isset($_GET)){
         if (isset($_GET['city'])) {
@@ -68,8 +44,10 @@ $output=$prop->newsLetter( $email);
         $search = '';
       
       }
-  $obj1 = $prop->rentProperties($search,$type,$status,$city);
-  if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
+    
+      $rentProperty = $prop->rentProperties($search,$type,$status,$city);
+
+      if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
   }
   
 
@@ -83,9 +61,7 @@ $output=$prop->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Property for Rent Search</title>
-    <?php
-require('include/head.php');
-?>
+    <?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages homepage-4 agents list hp-6 full hd-white">
@@ -97,12 +73,8 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-require('include/header002.php');
-?>
+                <?php require('include/header002.php'); ?>
             </div>
-
-
         </header>
         <div class="clearfix"></div>
         <!-- Header ends -->
@@ -114,9 +86,8 @@ require('include/header002.php');
                         <div class="detail-wrapper-body">
                             <div class="listing-title-bar">
                                 <div class="text-heading text-left">
-                                    <p><a href="index.php">Home </a> &nbsp;/&nbsp; <span> <a
-                                                href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=&rent=">
-                                                Rent</a></span></p>
+                                    <p><a href="index.php">Home </a> &nbsp;/&nbsp; 
+                                    <span> <a href="http://localhost/homes/property-for-rent.php?search=&type=property_name&status=&type=&city=city&city=&rent=">  Rent</a></span></p>
                                 </div>
                                 <h3 class="search-title">For Rent Property Listings</h3>
                             </div>
@@ -126,8 +97,8 @@ require('include/header002.php');
                 <!-- Search Form -->
 
                 <?php
-                    if(!empty($obj1)){
-                    foreach($obj1 as $data){ 
+                    if(!empty($rentProperty)){
+                    foreach($rentProperty as $data){ 
                     $img = $prop-> getSingleImage($data['property_id']);
                     $p_id=$data['property_id']; 
                 ?>
@@ -206,25 +177,18 @@ require('include/header002.php');
                     </div>
 
                 </div>
-                <?php } 
-                }
-    else{
-        ?>
-                <h4 class="text-danger text-center">We're sorry, but no property matched your search. </h4>
-                <?php   }       
-            ?>
+               
                 <nav aria-label="..." class="pt-4">
                     <ul class="pagination lis-view">
-                        <?php 
-                 $get = $prop->pagination_rent('property-for-rent.php',$page);?>
+                        <?php  $prop->pagination_rent('property-for-rent.php',$page);?>
                     </ul>
-                </nav>
-
+                </nav> 
+                <?php }  }else{ ?>
+                <h4 class="text-danger text-center">We're sorry, but no property matched your search. </h4>
+                <?php   }  ?>
             </div>
         </section>
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
 
-        <?php
-      require('include/footer.php');
-      ?>
+        <?php require('include/footer.php'); ?>

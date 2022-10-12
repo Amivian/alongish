@@ -1,15 +1,15 @@
 <?php
-require "admin.php";
-$admin = new admin\Admin;
 if (isset($_POST['submit'])) {
     $username = $_POST['email'];
     $password = $_POST['pass'];
 
+    
+    $admin = new admin\Admin;
     $output = $admin->login_admin($username, $password);
     if ($output) {
-        header('location:admindashboard.php');
+        header("Location: admindashboard.php");
+        exit();
     } else {
         $_SESSION['message'] = "Invalid Username or Password";
-        header('location:index.php');
     }
 }

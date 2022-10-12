@@ -1,5 +1,6 @@
 <?php
 session_start();
+require "admin.php";
 require('logincheckadmin.php');
 ?>
 <!DOCTYPE html>
@@ -30,9 +31,6 @@ require('logincheckadmin.php');
 							echo "<p class='alert alert-success text-center' style='font-size:12px'>".  $_SESSION['message'] ."</p>";
 							unset( $_SESSION['message']);
 						}
-						// if(isset($_GET['msg'])){
-						// 	echo "<p class='alert alert-info' style='font-size:12px'>".base64_decode(urldecode($_GET['msg'])) . '</p>';
-						// }
 					?>
 					   <?php
 							if(isset( $_SESSION['change'])) {

@@ -1,37 +1,15 @@
-<?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-require('property.php');
-$prop = new Property;
-$output = $prop->property();
-
-if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
-
-// do your query results
-
-
-?>
-
 <?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$mail=$prop->newsLetter( $email);
-}
+    require 'include/active-user.php';
+    
+    $obj = new User;
+
+    $prop = new admin\Property;
+
+    $output= $prop->property();
+    
+    if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -40,9 +18,7 @@ $mail=$prop->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Property Listings</title>
-    <?php
-require('include/head.php');
-?>
+    <?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages homepage-4 agents list hp-6 full hd-white">
@@ -54,12 +30,8 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-require('include/header002.php');
-?>
+             <?php require('include/header002.php'); ?>
             </div>
-
-
         </header>
         <div class="clearfix"></div>
         <!-- Header ends -->
@@ -93,17 +65,17 @@ require('include/header002.php');
                                         <div class="rld-single-select ml-4" style="margin-right:15px">
                                                                 <input name="type" value="property_name" type="hidden"
                                                                     class="form-control">
-                                                                <?php 
-                                                                                $prop->getPropertytype();
-                                                                                ?>
+                                            <?php 
+                                                $prop->getPropertytype();
+                                           ?>
 
-                                                            </div>
+                                        </div>
                                         <div class="rld-single-select ml-4" style="margin-right:15px">
                                                                 <input name="state" value="state" type="hidden"
                                                                     class="form-control">
                                                                 <?php 
-                                                                                $prop->city();;
-                                                                                ?>
+                                                                    $prop->city();;
+                                                                ?>
                                                             </div>
                                             <div class="col-xl-2 col-lg-2 col-md-4 pl-0">
                                             <button class="btn btn-yellow" type="submit">Search Now</button>
@@ -138,16 +110,8 @@ require('include/header002.php');
 
                         </div>
                     </div>
-                </section>
-
-
-
-                <?php
-                                            foreach($output as $property){
-                                                        $img = $prop-> getSingleImage($property['property_id']);
-                                                ?>
-
-
+                </section> 
+                <?php if(!empty($output)){ foreach($output as $property){  $img = $prop-> getSingleImage($property['property_id']); ?>
                 <div class="row featured portfolio-items">
                     <div class="my-3 row">
                         <div class="item col-lg-4 col-md-12 col-xs-12 landscapes sale pr-0 pb-0 ft aos-init aos-animate"
@@ -215,7 +179,7 @@ require('include/header002.php');
                                 </a>
                                 <span>
                                     <i class="fa fa-calendar" style="color: #696969"></i> <?php date_default_timezone_set("Africa/Lagos"); 
-                                             echo date('F j, Y', strtotime($property['date_posted'])); ?>
+                                    echo date('F j, Y', strtotime($property['date_posted'])); ?>
                                 </span>
                             </div>
                         </div>
@@ -223,13 +187,12 @@ require('include/header002.php');
 
                 </div>
 
-                <?php }?>
-
-
+                <?php }}else{ ?>
+                <h4 class="text-danger text-center">We're sorry, but no property matched your search. </h4>
+                <?php   }  ?>
                 <nav aria-label="..." class="pt-4">
                     <ul class="pagination lis-view">
-                        <?php 
-                         $get = $prop->pagination_one('properties.php',$page);?>
+                        <?php $prop->pagination_one('properties.php',$page);?>
                     </ul>
                 </nav>
             </div>
@@ -237,6 +200,4 @@ require('include/header002.php');
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
 
-        <?php
-      require('include/footer.php');
-      ?>
+        <?php require('include/footer.php'); ?>

@@ -1,9 +1,9 @@
 <?php 	
     require 'include/checks.php';
 
-    require 'editlisting.php';
-
     require 'admin/property.php';
+    
+    require 'editlisting.php';
 
     $prop = new admin\Property;
 
@@ -190,7 +190,7 @@
                                         <?php  
                                         foreach($amenities as $documents)
                                         { ?>
-                                            <input type="checkbox" <?php if (in_array($documents['pfeature_id'], $propertyamenities)) echo 'checked'; ?> id="<?php echo $documents['pfeature_id']?>" name="extra[<?php echo $documents['pfeature_id']?>]"> 
+                                            <input type="checkbox" <?php if (in_array($documents['pfeature_id'], $propertyamenities)) echo 'checked'; ?> id="<?php echo $documents['pfeature_id']?>" name="extra[<?php echo $documents['pfeature_id']?>]" value="<?php echo $documents['pfeature_id']?>"> 
                                             <label for="<?php echo $documents['pfeature_id'] ?>"><?php echo $documents['pfeature_name'] ?></label>
                                         <?php }?>  
                                         </div>

@@ -1,30 +1,12 @@
-<?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-require('property.php');
-$prop = new Property;
-
-?>
-
 <?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$output=$prop->newsLetter( $email);
-}
+    require 'include/active-user.php';
+
+    require "requestprocess.php";
+    
+    $prop= new admin\Property;
+
+    $user= new User;
+
 ?>
 
 <!DOCTYPE html>
@@ -34,9 +16,7 @@ $output=$prop->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Post a Request</title>
-    <?php
-require('include/head.php');
-?>
+    <?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages homepage-4 agents list hp-6 full hd-white">
@@ -48,31 +28,23 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-require('include/header002.php');
-?>
+                <?php require('include/header002.php'); ?>
             </div>
-
-
         </header>
         <div class="clearfix"></div>
-        <!-- Header ends -->
-
-        <!-- START SECTION PROPERTIES LISTING -->
-
         <div class="container my-4">
             <div class="row">
                 <div class="col-lg-10 offset-1 request">
-                    <form action="requestprocess.php" method="POST">
+                    <form action="" method="POST">
                         <div class="single-add-property">
                             <h4> Post a Request</h4>
                             
                             <?php
-                              if(isset($_SESSION['message'])) {
-                                  echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
-                                  unset($_SESSION['message']);
-                              }
-                          ?>
+                                if(isset($_SESSION['message'])) {
+                                    echo "<h6 class='alert alert-success text-center'>". $_SESSION['message'] ."</h6>";
+                                    unset($_SESSION['message']);
+                                }
+                            ?>
                             <div class="property-form-group mt-1">
                                 <div class="row">
                                     <div class="col-md-4 ">
@@ -144,7 +116,7 @@ require('include/header002.php');
                                     </div>
                                     <div class="col-md-6 dropdown faq-drop">
                                         <p class="form-group categories">
-                                            <?php $prop->get_state(); ?>
+                                            <?php $user->get_state(); ?>
                                         </p>
                                     </div>
                                 </div>

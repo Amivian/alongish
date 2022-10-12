@@ -7,7 +7,7 @@
     
     $featured = $prop->showFeaturedProperties();
     
-    $recent = $prop->showRecentProperties();
+    $recent = $prop->showJointProperties();
 ?>
 
 <!DOCTYPE html>
@@ -624,14 +624,15 @@
         <section class="featured portfolio rec-pro disc">
             <div class="container-fluid">
                 <div class="sec-title discover">
-                    <h2><span>Discover </span>Popular Properties</h2>
+                    <h2><span>Discover </span>Joint Venture</h2>
                     <p>We provide full service at every step.</p>
                 </div>
                 <div class="portfolio col-xl-12">
                     <div class="slick-lancers">
                         <?php
-                            foreach ($recent as $new) {
-                                $img = $prop-> getSingleImage($new['property_id']);
+                            foreach ($recent as $list) {
+                                $img = $prop-> getsponsorshipImage($list['jointventure_id']);
+                                $type=$prop->getSponsorshipNeed($list['jointventure_id']);
                         ?>
 
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
@@ -640,61 +641,44 @@
                                     <div class="project-inner project-head">
                                         <div class="homes">
                                             <!-- homes img -->
-                                            <a href="property-details.php?id=<?php echo $new['property_id'] ?>"
-                                                class="homes-img">                                                
-                                               <?php 
-                                                if($new['feature'] == 'featured'){
-                                                    ?>
-                                                    <div class="homes-tag button alt featured">                                             
-                                                    <?php  echo $new['feature'] ?></div>
-                                                    <?php }?>
-                                                <div class="homes-tag button alt sale">
-                                                    <?php echo $new['pstatus_name'] ?></div>
-                                                <img src="images/property/<?php echo $img;?>" alt="home-1"
-                                                    class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="button-effect">
-                                            <a href="property-details.php?id=<?php echo $new['property_id'] ?>"
-                                                class="btn"><i class="fa fa-link"></i></a>
-                                            <!-- <a href="https://www.youtube.com/watch?v=14semTlwyUY"
-                                                class="btn popup-video popup-youtube"><i class="fas fa-video"></i></a> -->
-                                            <a href="property-details.php?id=<?php echo $new['property_id'] ?>"
-                                                class="img-poppu btn"><i class="fa fa-photo"></i></a>
+                                              <a href="sponsorship-details.php?id=<?php echo $list['jointventure_id'] ?>"                   class="homes-img"><img
+                                                    src="images/sponsor/<?php echo $img?>" alt="<?php echo $list['joint_title'] ?>"
+                                                  class="img-responsive">
+                                                </a>
+                                            </div>
+                                            <div class="button-effect">
+                                                <a href="sponsorship-details.php?id=<?php echo $list['jointventure_id'] ?>" class="btn">
+                                                <i class="fa fa-link"></i></a>
+                                                 <a href="sponsorship-details.php?id=<?php echo $list['jointventure_id'] ?>" class="img-poppu btn"><i class="fa fa-photo"></i></a>
                                         </div>
                                     </div>
                                     <!-- homes content -->
                                     <div class="homes-content">
                                         <!-- homes address -->
-                                        <h3><a href="property-details.php?id=<?php echo $new['property_id'] ?>"><?php echo ucwords($new['property_title']) ?>
-                                            </a></h3>
+                                        <h3><a
+                                            href="sponsorship-details.php?id=<?php echo $list['jointventure_id'] ?>"><?php echo $list['joint_title'] ?></a>
+                                        </h3>
+                                        <p class="homes-address mb-3"><a
+                                            href="sponsorship-details.php?id=<?php echo $list['jointventure_id'] ?>"><i
+                                                class="fa fa-map-marker"></i><span><?php echo ucwords($list['address'] )?>,
+                                                <?php echo $list['city_name'] ?>,
+                                                <?php echo $list['states_name'] ?></span></a></p>
+                                        <!-- < !-- property description -->
                                         <p class="homes-address mb-3">
-                                            <a href="property-details.php?id=<?php echo $new['property_id'] ?>">
-                                                <i class="fa fa-map-marker"></i><span><?php echo ucwords($new['property_area']) ?>
-                                                    , <?php echo $new['city_name'] ?> ,
-                                                    <?php echo $new['states_name'] ?></span>
-                                            </a>
-                                        </p>
-                                        <!-- homes List -->
+                                            <?php echo $list['joint_description'] ?></p>
+                                        <!-- < !-- Sponsorship need -->
                                         <ul class="homes-list clearfix pb-3">
-                                            <li class="the-icons">
-                                                <i class="flaticon-bed mr-2" aria-hidden="true"></i>
-                                                <span><?php echo $new['bathroom_no'] ?> Bedrooms</span>
-                                            </li>
-                                            <li class="the-icons">
-                                                <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
-                                                <span><?php echo $new['bathroom_no'] ?> Bathrooms</span>
-                                            </li>
-                                            <li class="the-icons">
-                                                <i class="flaticon-square mr-2" aria-hidden="true"></i>
-                                                <span><?php echo $new['property_area'] ?>sq ft</span>
-                                            </li>
+                                            <li class="the-icons"><span><b>Sponsorship: </b><?php foreach($type as $extras) {
+                                            ?><?php echo $extras['joint_name']?><br><?php } ?></span></li>
                                         </ul>
                                         <div class="price-properties footer pt-3 pb-0">
-                                            <h3 class="title mt-3">
-                                                <a href="property-details.php?id=<?php echo $new['property_id'] ?>">₦
-                                                    <?php echo $new['property_price'] ?></a>
-                                            </h3>
+                                            <h3></h3>
+                                            <div class="compare">
+                                                <a href="agent-details.php">
+                                                    <img style=" height: 40px; border-radius: 50%;" src="images/users/<?php echo $property['a_pix'] ?>"
+                                                    alt="Alongish" class="mr-2"><?php echo ucfirst($property['a_username'])?>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -1,7 +1,7 @@
 <?php
   require 'include/active-user.php'; 
-  
-  $property = new Property;
+
+  $property = new admin\Property;
 
   $partner = $property-> getPartnerImage();
 

@@ -1,63 +1,81 @@
 <?php 
   if (isset($_POST['btn'])) {
-    function validate($field_name = '', $type= '', $min_length = 2, $max_length = 255) {
-		global $form_errors;
+	$form_errors = [];
 
-		$field_value = trim($_POST[$field_name]);
+		function validate($field_name = '', $type= '', $min_length = 1, $max_length = 255) {
+			global $form_errors;
 
-		if ($field_value) {
-			if ($type == 'int') {
-				if (!is_int($field_value)) {
-					$form_errors[$field_value] = 'Must be an integer';
-				}
-			}
-			elseif ($type == 'string') {
-				if (!is_string($field_value)) {
-					$form_errors[$field_value] = 'Must be an string';
-				}
-			}
-			elseif ($type == 'date') {
-				$date_validation_regex = "/^[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4}$/"; 
-				if (!preg_match($date_validation_regex, $field_value)) {
-					$form_errors[$field_value] = 'Must be a valid date';
-				}
-			}
-			elseif ($type == 'phone') {
-				$phone_number_validation_regex = "/^\\+?[1-9][0-9]{7,14}$/"; 
-				if (!preg_match($phone_number_validation_regex, $field_value)) {
-					$form_errors[$field_value] = 'Must be a valid phone number';
-				}
-			}
-			elseif ($type == 'email') {
-				$email_validation_regex = '/^\\S+@\\S+\\.\\S+$/'; 
-				if (!preg_match($email_validation_regex, $field_value)) {
-					$form_errors[$field_value] = 'Must be a valid email address';
-				}
-			}
-			elseif ($type == 'array') {
-				if (!is_array($field_value)) {
-					$form_errors[$field_value] = 'Must be an array';
+			$exists = isset($_POST[$field_name]) ? true : false;
+
+			if ($exists) {
+				if (!is_array($_POST[$field_name])) {
+					$field_value = trim($_POST[$field_name]);
 				}
 				else {
-					if (!count($field_value)) {
-						$form_errors[$field_value] = 'At least one option required';
+					$field_value = $_POST[$field_name];
+				}
+			}
+
+			if (isset($field_value)) {
+				if ($type == 'int') {
+					if (!is_numeric($field_value)) {
+						$form_errors[$field_name] = 'Must be a number';
+					}
+				}
+				elseif ($type == 'string') {
+					if (!is_string($field_value)) {
+						$form_errors[$field_name] = 'Must be a string';
+					}
+				}
+				elseif ($type == 'date') {
+					$date_validation_regex = "/^[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{4}$/"; 
+					if (!preg_match($date_validation_regex, $field_value)) {
+						$form_errors[$field_name] = 'Must be a valid date';
+					}
+				}
+				elseif ($type == 'phone') {
+					$phone_number_validation_regex = "/^\\+?[1-9][0-9]{7,14}$/"; 
+					if (!preg_match($phone_number_validation_regex, $field_value)) {
+						$form_errors[$field_name] = 'Must be a valid phone number';
+					}
+				}
+				elseif ($type == 'email') {
+					$email_validation_regex = '/^\\S+@\\S+\\.\\S+$/'; 
+					if (!preg_match($email_validation_regex, $field_value)) {
+						$form_errors[$field_name] = 'Must be a valid email';
+					}
+				}
+				elseif ($type == 'array') {
+					if (!is_array($field_value)) {
+						$form_errors[$field_name] = 'Must be an array';
+					}
+					else {
+						if (!count($field_value)) {
+							$form_errors[$field_name] = 'At least one option required';
+						}
+					}
+				}
+				elseif ($type == 'file') {
+					if (!$_FILES[$field_name]['tmp_name']) {
+						$form_errors[$field_name] = 'Must be an array';
+					}
+				}
+
+				if ($min_length || $max_length) {
+					if (!is_array($field_value)) {
+						if (mb_strlen($field_value) < $min_length) {
+							$form_errors[$field_name] = 'Must be at least '.$min_length.' characters';
+						}
+						elseif (mb_strlen($field_value) > $max_length) {
+							$form_errors[$field_name] = 'Cannot be more than '.$max_length.' characters';
+						}
 					}
 				}
 			}
-
-			if ($min_length) {
-				if (mb_strlen($field_value) < $min_length) {
-					$form_errors[$field_value] = 'Must be at least '.$min_length.' characters';
-				}
-				elseif (mb_strlen($field_value) > $max_length) {
-					$form_errors[$field_value] = 'Cannot be more than '.$max_length.' characters';
-				}
+			else {
+				$form_errors[$field_name] = 'Required';
 			}
 		}
-		else {
-			$form_errors[$field_value] = 'Required';
-		}
-	}
 	
 	validate('title', 'string');
 	validate('pro-desc', 'string');
@@ -94,7 +112,7 @@
   $state =  $_POST['state'];
   $city =$_POST['city'];
   $bathrooms =$_POST['bath'];
-  
+  $staff="";
   if(isset($_POST['extra'])){
     $extra = $_POST['extra'];
  }

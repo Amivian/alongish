@@ -216,9 +216,4 @@
             </form>
         </div>
     </div>
-
-    <!-- END SECTION USER PROFILE -->
-
-
-    <?php require('include/dashfooter.php');
-				 ?>
+    <?php require('include/dashfooter.php'); ?>

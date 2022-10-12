@@ -17,9 +17,7 @@
   <meta name="description" content="Find your desired home here">
   <meta name="author" content="">
   <title>Sponsorship</title>
-  <?php
-require('include/head.php');
-?>
+  <?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages hd-white about">
@@ -30,9 +28,7 @@ require('include/head.php');
         ================================================== -->
     <header id="header-container">
       <div id="header">
-        <?php
-require('include/header002.php');
-?>
+        <?php require('include/header002.php'); ?>
       </div>
 
 
@@ -138,6 +134,4 @@ require('include/header002.php');
 
   <?php include "include/foot.php"?>
 
-  <?php
-     
-     require('include/footer.php');?>
+  <?php require('include/footer.php');?>

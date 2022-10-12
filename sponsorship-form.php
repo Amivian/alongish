@@ -135,11 +135,13 @@ function legal_input($value) {
       {
      $_SESSION['message']='Your Message was sent Successfully, Will we get back to you.';
       header("Location:joint-venture.php");
+      exit();
       }
       else
       {
       $_SESSION['message']="message failed";
         header("Location:joint-venture.php");
+        exit();
       }
   }
   

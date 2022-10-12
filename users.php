@@ -1,5 +1,4 @@
 <?php
-// require "database.php";
 class User
 {
 
@@ -40,9 +39,9 @@ class User
                 $msg = "Confirm Password does not Match!";
             }
             echo "<script>alert('Data not inserted');</script>";
+            return $msg;
         }
 
-        return $msg;
     }
 
     // email link verification confirmation
@@ -52,20 +51,19 @@ class User
         $result = $this->con->query($sql);
         $num = mysqli_fetch_array($result);
         if ($num > 0) {
-            $st = 'pending';
-            $sql1 = "SELECT agent_id FROM agents WHERE activationcode='$code' and status='$st'";
+            $status = 'pending';
+            $sql1 = "SELECT agent_id FROM agents WHERE activationcode='$code' and status='$status'";
             // die($sql1);
             $result1 = $this->con->query($sql1);
             $result4 = mysqli_fetch_array($result1);
             if ($result4 > 0) {
-                $st = 'verified';
-                $sql2 = "UPDATE agents SET status='$st' WHERE activationcode='$code'";
-                // die($sql2);
-                $result2 = $this->con->query($sql2);
-                return true;
+                $status = 'verified';
+                $sql2 = "UPDATE agents SET status='$status' WHERE activationcode='$code'";
+                $this->con->query($sql2);
             }
-            return 0;
         }
+        
+        return true;
     }
 
 // login verified user

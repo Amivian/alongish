@@ -1,41 +1,16 @@
-
-<?php
-session_start();
-require('property.php');
-
-$prop = new Property;
-
-if (empty($_POST) && empty($_GET)) {
-    header("Location: index.php");
-
-    exit;
-}
-// $obj = $prop->showProperties();
-
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-?>
-
 <?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$output=$prop->newsLetter( $email);
-}
-?>
+    require 'include/active-user.php';
+    
+    $obj = new User;
 
+    $prop = new admin\Property;
+    
+    if (empty($_POST) && empty($_GET)) {
+        header("Location: index.php");
+        exit;
+    }
+    
+?>
 
 <?php
 if(isset($_GET)){
@@ -69,7 +44,7 @@ if(isset($_GET)){
     $search = '';
   
   }
-  $obj1 = $prop->salesProperties($search,$type,$status,$city);
+  $salesProperty = $prop->salesProperties($search,$type,$status,$city);
   if(isset($_GET['page']) ? $page = $_GET['page']:$page = 1);
   }
   
@@ -81,12 +56,10 @@ if(isset($_GET)){
 <html lang="zxx">
 
 <head>
-<meta name="description" content="Find your desired home here">
+    <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Search</title>
-<?php
-require('include/head.php');
-?>
+    <?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages homepage-4 agents list hp-6 full hd-white">
@@ -98,12 +71,8 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-            <?php
-require('include/header002.php');
-?>
-            </div>
-            
-
+              <?php require('include/header002.php'); ?>
+            </div> 
         </header>
     <div class="clearfix"></div>
     <!-- Header ends -->
@@ -125,12 +94,12 @@ require('include/header002.php');
                 <!-- Search Form -->
                 
                 <?php
-                if(!empty($obj1)){
-            foreach($obj1 as $data){ 
-                $img = $prop-> getSingleImage($data['property_id']);
-                $p_id=$data['property_id'];
-                
-            ?>
+                    if(!empty($salesProperty)){
+                    foreach($salesProperty as $data){ 
+                        $img = $prop-> getSingleImage($data['property_id']);
+                        $p_id=$data['property_id'];
+                        
+                ?>
 
                 <div class="row featured portfolio-items">
                     <div class="my-3 row">
@@ -205,26 +174,20 @@ require('include/header002.php');
                     </div>
 
                 </div>
+                <nav aria-label="..." class="pt-4">
+                    <ul class="pagination lis-view">
+                        <?php $prop->pagination_sale('property-for-sale.php',$page);?>
+                    </ul>
+                </nav>             
                 <?php } 
                 }
-    else{
-        ?>
-        <h4 class="text-danger text-center">We're sorry, but no property matched your search.  </h4>
-        <?php   }       
-            ?>
-                <nav aria-label="..." class="pt-4">
-            <ul class="pagination lis-view">
-                <?php 
-                 $get = $prop->pagination_sale('property-for-sale.php',$page);?>
-            </ul>
-             </nav> 
-            
-
+                else{
+                    ?>
+                    <h4 class="text-danger text-center">We're sorry, but no property matched your search.  </h4>
+                    <?php  } ?>
             </div>
         </section>
         <!-- END SECTION PROPERTIES LISTING -->
         <?php include "include/foot.php"?>
 
-    <?php
-      require('include/footer.php');
-      ?>
+    <?php require('include/footer.php'); ?>

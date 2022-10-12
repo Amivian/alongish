@@ -2,6 +2,7 @@
     require_once('include/checks.php');    
 
     require('passwordprocess.php');
+    
 ?>
 <?php  require('include/dashheaders.php');   ?>
 

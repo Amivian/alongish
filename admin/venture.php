@@ -6,6 +6,7 @@
     require('jointprocess.php');
     
     $properties= new admin\Property;
+    
     $obj = new admin\Admin;
 
  ?>

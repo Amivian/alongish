@@ -1,38 +1,25 @@
-<?php
-session_start();
-if(isset($_SESSION['id'])){
-    
-    require('users.php');
-    $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
-
-}else{
-
-}
-
-require('property.php');
-$id = $_GET['id'];
-$prop = new Property;
-$property = $prop->showPropertyDetails($id);
-$extra = $prop->getPropertyAmenities($id);
-$images = $prop->getAllImages($id);
-$recent = $prop->showRecentProperties();
-$swap = $prop->showSwaps();
-
-
-?>
 <?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$mail=$prop->newsLetter( $email);
-}
+    require 'include/active-user.php';
+    
+    $obj = new User;
+
+    $prop = new admin\Property;
+
+    $id = $_GET['id'];
+
+    $property = $prop->showPropertyDetails($id);
+
+    $extra = $prop->getPropertyAmenities($id);
+
+    $images = $prop->getAllImages($id);
+
+    $recent = $prop->showRecentProperties();
+
+    $swap = $prop->showSwaps();
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -41,9 +28,7 @@ $mail=$prop->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Property Details</title>
-    <?php
-    require('include/head.php');
-    ?>
+    <?php require('include/head.php'); ?>
 </head>
 
 <body class="inner-pages sin-1 ">
@@ -55,9 +40,7 @@ $mail=$prop->newsLetter( $email);
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-            require('include/header002.php');
-            ?>
+                <?php require('include/header002.php'); ?>
             </div>
 
 
@@ -126,30 +109,14 @@ $mail=$prop->newsLetter( $email);
                                             <span class="w3-badge demo w3-border w3-transparent w3-hover-white"
                                                 onclick="currentDiv(3)"></span>
                                         </div>
-                                    </div>
-
-
-
-
-
-
-
-                                    <div class="carousel-inner">
-
-
-
-
-
+                                    </div>  
+                                    <div class="carousel-inner"> 
                                         <div class="active item carousel-item" data-slide-number="0">
                                             <img src="images/property/<?php echo $img['image_url'] ?>" class="img-fluid"
                                                 alt="slider-listing" width="683px" height="455px">
                                         </div>
 
-                                        <?php
-                                        foreach($images as $img){
-                                            // $count = 0;
-                                                    
-                                            ?>
+                                        <?php foreach($images as $img){  ?>
 
                                         <div class="item carousel-item" data-slide-number="1">
                                             <img src="images/property/<?php echo $img['image_url'] ?>" class="img-fluid"
@@ -160,8 +127,7 @@ $mail=$prop->newsLetter( $email);
                                             data-slide="prev"><i class="fa fa-angle-left"></i></a>
                                         <a class="carousel-control right" href="#listingDetailsSlider"
                                             data-slide="next"><i class="fa fa-angle-right"></i></a>
-                                        <?php
-                                        }?>
+                                        <?php }?>
 
                                     </div>
 
@@ -221,8 +187,7 @@ $mail=$prop->newsLetter( $email);
                                     <i class="fa fa-check-square" aria-hidden="true"></i>
                                     <span><?php echo $extras['pfeature_name'];?></span>
                                 </li>
-                                <?php
-                            }?>
+                                <?php  }?>
                             </ul>
                         </div>
                          
@@ -280,9 +245,9 @@ $mail=$prop->newsLetter( $email);
 
                                                 <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                             aria-hidden="true"></i><a
-                                                            href="mailto:<?php echo  substr($property['a_email'], 0, -18)?>XXX"
+                                                            href="mailto:<?php echo  substr($property['a_email'], 0, -18)?>***"
                                                             id="email1"
-                                                            style="display:inline"><?php echo  substr($property['a_email'],0,-18) ?>XXX</a>
+                                                            style="display:inline"><?php echo  substr($property['a_email'],0,-18) ?>***</a>
                                                         <a href="mailto:<?php echo $property['a_email']?>" id="email"
                                                             style="display:none"><?php echo $property['a_email'] ?></a></span>
                                                     <!-- Button trigger modal -->
@@ -339,9 +304,9 @@ $mail=$prop->newsLetter( $email);
                                         <div class="recent-post">
 
                                             <?php
-                                                    foreach ($swap as $swaps) {
-                                                        $pix = $prop-> getSwapImage($swaps['swap_id']);
-                                                    ?>
+                                                foreach ($swap as $swaps) {
+                                                    $pix = $prop-> getSwapImage($swaps['swap_id']);
+                                            ?>
                                             <div class="recent-main my-2">
                                                 <div class="recent-img mx-2">
                                                     <a href="swap-details.php?id=<?php echo $swaps['swap_id']?>"><img
@@ -453,9 +418,7 @@ $mail=$prop->newsLetter( $email);
             </div>
         </section>
         <!-- END SECTION PROPERTIES LISTING -->
-        <?php 
-        include "include/foot.php"
-        ?>
+        <?php  include "include/foot.php" ?>
 
         <!-- START FOOTER -->
 

@@ -1,20 +1,27 @@
 <?php 		
-    require_once ('include/checks.php'); 
+  require_once ('include/checks.php'); 
 
-    require('property.php');
+  require('property.php');
 
-    require('editswap.php');
+  require('editswap.php');
 
-    $properties = new \admin\Property;
+  $properties = new \admin\Property;
 
-    $admin= new \admin\Admin;
+  $admin= new admin\Admin;
 
-    if(isset($_GET['edit_id'])) {
+  if(isset($_GET['edit_id'])) 
+  {
+
     $id= $_GET['edit_id'];
+
     $property = $properties->showSwapsDetails($id);
+
     $images=$properties->getSwapImages($id);
+
     $swapdocument= $properties->getAgentSwapDocument($id);
+
     $document=$properties->getDocumentSwap();
+
    }
 
 ?>
@@ -24,12 +31,12 @@
 <html lang="zxx">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="Find your desired home here">
-    <meta name="author" content="">
-    <title>Manage Swap</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="Find your desired home here">
+  <meta name="author" content="">
+  <title>Manage Swap</title>
 
     <?php require('include/dashheaders.php');  ?>
 

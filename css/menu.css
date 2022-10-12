@@ -1549,9 +1549,8 @@ transform: rotate(-90deg);
 @media only screen and (max-width: 575px) {
     #logo img {
         margin-right: 60px;
-    }
-}
+    } #header{
+        padding: 22px 0 0 0 !important;
 
-#signup{
-    
+}
 }

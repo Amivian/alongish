@@ -4,7 +4,7 @@
     
     $obj = new User;
 
-    $props = new \admin\Property;
+    $props = new admin\Property;
 
     $team = $props->showTeamMembers();
 

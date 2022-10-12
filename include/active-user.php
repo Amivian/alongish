@@ -13,6 +13,8 @@ if (isset($_SESSION['id'])) {
 } else {
 
 }
+require 'loginprocess.php';  
+
 require('admin/property.php');
 $properties = new admin\Property;
 

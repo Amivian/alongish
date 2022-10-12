@@ -92,7 +92,7 @@
       validate('city', 'string');
       validate('bath', 'string');
 
-      echo '<pre>'; var_dump($form_errors, $_POST); echo '</pre>'; exit();
+      // echo '<pre>'; var_dump($form_errors, $_POST); echo '</pre>'; exit();
       if (empty($form_errors)) {
         $title = htmlentities(strip_tags($_POST['title']));
         $prodesc = htmlentities(strip_tags($_POST['pro-desc']));

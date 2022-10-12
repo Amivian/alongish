@@ -56,7 +56,7 @@
                     <tr>
                         <td class='image myelist'>
                         <a href="../property-details.php?id=<?php echo $props['property_id'] ?>">
-                                <img alt=<?php echo $props['property_title']?> src='../images/property/<?php echo $img?>'>
+                                <img alt="<?php echo $props['property_title']?>" src='../images/property/<?php echo $img?>'>
                             </a>
                         </td>
                         <td>

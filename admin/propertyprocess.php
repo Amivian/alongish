@@ -3,7 +3,7 @@
 	{
 		$form_errors = [];
 
-		function validate($field_name = '', $type= '', $min_length = 2, $max_length = 255) {
+		function validate($field_name = '', $type= '', $min_length = 1, $max_length = 255) {
 			global $form_errors;
 
 			$exists = isset($_POST[$field_name]) ? true : false;
@@ -94,7 +94,7 @@
 		validate('city', 'string');
 		validate('bath', 'string');
 		validate('extra', 'array');
-		// echo '<pre>'; var_dump($form_errors, $_POST); echo '</pre>'; exit();
+		// echo '<pre>'; var_dump( $_FILES); echo '</pre>'; exit();
 
 		if (empty($form_errors)) {
 			$userid = $_SESSION['id'];
@@ -132,7 +132,7 @@
 			} 
 			else{
 				$_SESSION['message'] = "Failed to add Property, Try again";
-				header("Location: add-property.php");
+				header("Location:add-property.php");
 				exit();
 			}
 		}

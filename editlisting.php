@@ -21,7 +21,10 @@ if (isset($_POST['btn'])) {
     } else {
         $extra = array();
     }
-
+        //  echo "<pre>";
+        //         echo var_dump($extra);
+        //         echo "</pre>";
+        //         exit();
     $pid = $_POST['p_id'];
     $obj = new admin\Property;
     $output = $obj->editProperty($title, $prodesc, $price, $area, $address, $status, $type, $bedrooms, $furnished, $serviced, $shared, $bathrooms, $state, $city, $extra, $images, $pid);

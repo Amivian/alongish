@@ -1,35 +1,19 @@
 <?php
-session_start();
-require('property.php');
-$id = $_GET['id'];
-$prop = new Property;
-$property = $prop->showSwapsDetails($id);
-$images = $prop->getSwapImages($id);
-$swap = $prop->showSwaps();
-$extra = $prop->getAllDocuments($id);
-// $swap = $prop->showSwaps();
-if(isset($_SESSION['id'])){
+    require 'include/active-user.php';
     
-    require('users.php');
     $obj = new User;
-    
-    $k = $obj->getUser($_SESSION['id']);
-    $agent_id = $_SESSION['id'];    
-    $pix= $k['a_pix'];
-    if (empty($pix)) {
-        $pix = 'avatar.png';
-    } 
 
-}else{
+    $prop = new admin\Property;
 
-}
-?>
+    $id = $_GET['id'];
 
-<?php 
-if(isset($_POST['btn'])) {
-	$email = htmlentities(strip_tags($_POST['email']));
-$output=$prop->newsLetter( $email);
-}
+    $property = $prop->showSwapsDetails($id);
+
+    $images = $prop->getSwapImages($id);
+
+    $swap = $prop->showSwaps();
+
+    $extra = $prop->getAllDocuments($id);
 ?>
 
 <!DOCTYPE html>
@@ -39,9 +23,7 @@ $output=$prop->newsLetter( $email);
     <meta name="description" content="Find your desired home here">
     <meta name="author" content="">
     <title>Property Details</title>
-    <?php
-require('include/head.php');
-?>
+    <?php require('include/head.php'); ?>
 
 </head>
 
@@ -54,9 +36,7 @@ require('include/head.php');
         <header id="header-container">
             <!-- Header -->
             <div id="header">
-                <?php
-            require('include/header002.php');
-            ?>
+                <?php require('include/header002.php'); ?>
             </div>
 
 
@@ -95,13 +75,9 @@ require('include/head.php');
                                 <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                     <h5 class="mb-4">Gallery</h5>
                                     <div class="w3-content w3-display-container" style="max-width:800px">
-                                        <?php
-                                                                        foreach($images as $img){
-                                                                            // $count = 0;
-                                                                                    
-                                                                            ?>
+                                        <?php foreach($images as $img){       ?>
                                         <img class="mySlides" src="images/swaps/<?php echo $img['image_url'] ?>"
-                                            style="width:100%">
+                                            style="width:100%" width="683px" height="455px">
 
                                         <?php }?>
 
@@ -118,47 +94,27 @@ require('include/head.php');
                                             <span class="w3-badge demo w3-border w3-transparent w3-hover-white"
                                                 onclick="currentDiv(3)"></span>
                                         </div>
-                                    </div>
-
-
-
-
-
-
-
-                                    <div class="carousel-inner">
-
-
-
-
-
+                                    </div> 
+                                    <div class="carousel-inner"> 
                                         <div class="active item carousel-item" data-slide-number="0">
                                             <img src="images/swaps/<?php echo $img['image_url'] ?>" class="img-fluid"
-                                                alt="<?php echo $property['swap_name'] ?>">
+                                                alt="<?php echo $property['swap_name'] ?>" width="683px" height="455px">
                                         </div>
 
-                                        <?php
-                                        foreach($images as $img){
-                                            // $count = 0;
-                                                    
-                                            ?>
+                                        <?php foreach($images as $img){?>
 
                                         <div class="item carousel-item" data-slide-number="1">
                                             <img src="images/swaps/<?php echo $img['image_url'] ?>" class="img-fluid"
-                                                alt="<?php echo $property['swap_name'] ?>">
+                                                alt="<?php echo $property['swap_name'] ?>" width="683px" height="455px">
                                         </div>
 
                                         <a class="carousel-control left" href="#listingDetailsSlider"
                                             data-slide="prev"><i class="fa fa-angle-left"></i></a>
                                         <a class="carousel-control right" href="#listingDetailsSlider"
                                             data-slide="next"><i class="fa fa-angle-right"></i></a>
-                                        <?php
-                                        }?>
+                                        <?php }?>
 
                                     </div>
-
-
-                                    <!-- main slider carousel items -->
                                 </div>
                                 <div class="blog-info details mb-30">
                                     <h5 class="mb-4">Swap Description</h5>
@@ -239,12 +195,10 @@ require('include/head.php');
                                             </div>
                                             <ul class="author__contact">
                                                 <li><span class="la la-phone"><i class="fa fa-phone"
-                                                            aria-hidden="true"></i><a
-                                                            href="tel:<?php echo substr($property['a_phone'], 0,-6)?>***"
-                                                            id="phone1"
-                                                            style="display:inline"><?php echo substr($property['a_phone'], 0,-6)?>***</a>
-                                                        <a href="tel:<?php echo $property['a_phone'] ?>" id="phone"
-                                                            style="display:none; margin-left:3px">
+                                                            aria-hidden="true"></i>
+                                                            <a href="tel:<?php echo substr($property['a_phone'], 0,-6)?>***"
+                                                            id="phone1" style="display:inline"><?php echo substr($property['a_phone'], 0,-6)?>***</a>
+                                                        <a href="tel:<?php echo $property['a_phone'] ?>" id="phone" style="display:none; margin-left:3px">
                                                             <?php echo $property['a_phone'] ?> </a></span>
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-sm btn-primary ml-3"
@@ -256,9 +210,9 @@ require('include/head.php');
 
                                                 <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                             aria-hidden="true"></i><a
-                                                            href="mailto:<?php echo  substr($property['a_email'], 0, -18)?>XXX"
+                                                            href="mailto:<?php echo  substr($property['a_email'], 0, -10)?>XXX"
                                                             id="email1"
-                                                            style="display:inline"><?php echo  substr($property['a_email'],0,-18) ?>***</a>
+                                                            style="display:inline"><?php echo  substr($property['a_email'],0,-10) ?>***</a>
                                                         <a href="mailto:<?php echo $property['a_email']?>" id="email"
                                                             style="display:none"><?php echo $property['a_email'] ?></a></span>
                                                     <!-- Button trigger modal -->
@@ -381,9 +335,7 @@ require('include/head.php');
         <!-- END SECTION PROPERTIES LISTING -->
 
         <!-- START FOOTER -->
-        <?php 
-include "include/foot.php"
-?>
+        <?php  include "include/foot.php" ?>
 
 
         <!-- ARCHIVES JS -->

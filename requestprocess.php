@@ -1,6 +1,4 @@
 <?php 
-session_start();
-require("property.php");
 	if (isset($_POST['btn']))
 	{
 		function validate($field_name = '', $type= '', $min_length = 2, $max_length = 255) {
@@ -91,7 +89,7 @@ require("property.php");
 		$phone = htmlentities(strip_tags($_POST['phone']));
 		$email = htmlentities(strip_tags($_POST['email']));
 		
-		$property = new Property;
+		$property = new admin\Property;
 		$output= $property->propertyRequest($other,$address,$status,$type,$bed,$furnished,$serviced,$shared,$state,$city,$fname, $phone,$email);
 
 		if($output)
