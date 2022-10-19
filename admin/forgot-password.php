@@ -1,6 +1,9 @@
 <?php
 session_start();
+require('admin.php');
 require('forgotpasswordprocess.php');
+
+$admin =new admin\Admin;
 
 ?>
 <!DOCTYPE html>

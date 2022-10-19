@@ -95,7 +95,7 @@
                         </div>
                     </div>
                 </section>
-                <?php
+                <?php if(!empty($output)){
                     foreach($output as $property){
                       $img = $prop-> getSingleImage($property['property_id']);
                 ?>
@@ -185,6 +185,9 @@
                  $get = $prop->pagination_alongishListing('alongish-properties.php',$page);?>
             </ul>
                 </nav>
+                <?php }else{ ?>
+                <div>  <h4 class="text-danger text-center">No Record Avaliable </h4>  </div>
+            <?php }?>
             </div>
         </section>
         <!-- END SECTION PROPERTIES LISTING -->

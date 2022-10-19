@@ -13,5 +13,4 @@ if(isset($_POST['reset'])) {
       header('location: reset-code.php');   
       exit(); 
     } 
-}           
-?>
+}     

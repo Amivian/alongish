@@ -216,5 +216,45 @@
             </form>
         </div>
     </div>
+    
+        <!-- terms and conditions modals -->
+           
+            
+            <!-- Modal -->
+            <div class="modal fade hide Mymodal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+             <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Terms & Conditions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p> As they pertain to your use of alongish.com (the "Website") and any services offered or provided by BAUGLOBAL RESOURCES LTD through the Website, please read these terms and conditions ("Terms") carefully. We reserve the right, in our sole discretion, to periodically amend or modify these Terms. Following any modifications to these Terms, your continued access or use of the Website or any Services will be deemed your acceptance of those modifications.</p> 
+                
+                    <p>BAUGLOBAL RESOURCES LTD. is the owner and operator of the Website. Unless otherwise noted, all content on this site is owned by Alongish.com. No content from these pages may be downloaded more than once for personal, non-commercial use, provided that all copyright and other proprietary notices are preserved. No content from these pages may be copied, reproduced, republished, uploaded, posted, communicated, or distributed in any way. Use of such material on any other website or networked computer environment is prohibited for the purposes of this agreement.</p>
+
+                    <p> As they pertain to your use of alongish.com (the "Website") and any services offered or provided by BAUGLOBAL RESOURCES LTD through the Website, please read these terms and conditions ("Terms") carefully. We reserve the right, in our sole discretion, to periodically amend or modify these Terms. Following any modifications to these Terms, your continued access or use of the Website or any Services will be deemed your acceptance of those modifications.</p> 
+                
+                    <p>BAUGLOBAL RESOURCES LTD. is the owner and operator of the Website. Unless otherwise noted, all content on this site is owned by Alongish.com. No content from these pages may be downloaded more than once for personal, non-commercial use, provided that all copyright and other proprietary notices are preserved. No content from these pages may be copied, reproduced, republished, uploaded, posted, communicated, or distributed in any way. Use of such material on any other website or networked computer environment is prohibited for the purposes of this agreement.</p>
+                    
+                    <p> As they pertain to your use of alongish.com (the "Website") and any services offered or provided by BAUGLOBAL RESOURCES LTD through the Website, please read these terms and conditions ("Terms") carefully. We reserve the right, in our sole discretion, to periodically amend or modify these Terms. Following any modifications to these Terms, your continued access or use of the Website or any Services will be deemed your acceptance of those modifications.</p> 
+                
+                    <p>BAUGLOBAL RESOURCES LTD. is the owner and operator of the Website. Unless otherwise noted, all content on this site is owned by Alongish.com. No content from these pages may be downloaded more than once for personal, non-commercial use, provided that all copyright and other proprietary notices are preserved. No content from these pages may be copied, reproduced, republished, uploaded, posted, communicated, or distributed in any way. Use of such material on any other website or networked computer environment is prohibited for the purposes of this agreement.</p>
+                    
+                    
+                    <p> As they pertain to your use of alongish.com (the "Website") and any services offered or provided by BAUGLOBAL RESOURCES LTD through the Website, please read these terms and conditions ("Terms") carefully. We reserve the right, in our sole discretion, to periodically amend or modify these Terms. Following any modifications to these Terms, your continued access or use of the Website or any Services will be deemed your acceptance of those modifications.</p> 
+                
+                    <p>BAUGLOBAL RESOURCES LTD. is the owner and operator of the Website. Unless otherwise noted, all content on this site is owned by Alongish.com. No content from these pages may be downloaded more than once for personal, non-commercial use, provided that all copyright and other proprietary notices are preserved. No content from these pages may be copied, reproduced, republished, uploaded, posted, communicated, or distributed in any way. Use of such material on any other website or networked computer environment is prohibited for the purposes of this agreement.</p>
+
+                 </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">I Agree</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        <!-- /terms and conditions modals -->
     <?php require('include/dashfooter.php');  ?>
     

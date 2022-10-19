@@ -27,6 +27,9 @@
                 header("location:admindashboard.php");
                 exit();
             }
+            else {
+                $_SESSION['message'] = "Invalid Username or Password";
+            }
        }
 
         public function getAdmin($id)
@@ -240,70 +243,88 @@
             return true;
         }
 
-         //if user click continue button in forgot password form
+        //if user click continue button in forgot password form
         public function forgotPassword($email)
         {
-            $sql = "SELECT * FROM agents WHERE agents.a_email='$email' AND agents.deleted='0'";        
-            $result= $this->con->query($sql); 
-            if(mysqli_num_rows($result) > 0)
-            {
+            $sql = "SELECT * FROM agents WHERE a_email='$email' AND deleted='0' AND role='admin'";
+            $result = $this->con->query($sql);
+            if (mysqli_num_rows($result) > 0) {
                 $code = rand(999999, 111111);
                 $insert_code = "UPDATE agents SET activationcode = '$code' WHERE a_email = '$email' AND deleted='0'";
-                $run_query =  $this->con->query($insert_code);
-                if($run_query){
+                $run_query = $this->con->query($insert_code);
+                if ($run_query) {
                     $subject = "Password Reset Code";
-                    $message = "Your password reset code is $code";
+                    $message = "Your password reset code is '$code'";
                     $sender = "From: vivian.akpoke@trostechnologies.com";
-                    if(mail($email, $subject, $message, $sender)){
+                    if (mail($email, $subject, $message, $sender)) {
                         $info = "We've sent a password reset otp to your email - $email";
                         $_SESSION['info'] = $info;
-                        $_SESSION['a_email'] = $email;
+                        $_SESSION['a_email'] = $email;                     
                         header('location: reset-code.php');
                         exit();
-                    }else{
+                    } else {
                         $_SESSION['message'] = "Failed while sending code!";
+                        header('location: forgot-password.php');
+                        exit();
                     }
-                }else{
+                } else {
                     $_SESSION['message'] = "Something went wrong!";
+                    header('location: forgot-password.php');
+                    exit();
                 }
-            }else{
+            } else {
                 $_SESSION['message'] = "This email address does not exist!";
+                header('location: forgot-password.php');
+                exit();
             }
+            // return true;
+        }
+
+       public function resetCode($code)
+       {   $_SESSION['INFO']='';
+           $sql = "SELECT * FROM agents WHERE activationcode = '$code'";
+           $result = $this->con->query($sql);
+           if(mysqli_num_rows($result) > 0){
+               $fetch_data = mysqli_fetch_assoc($result);
+               $email = $fetch_data['a_email'];
+               $_SESSION['a_email'] = $email;
+               $info = "Please create a new password.";
+               $_SESSION['info'] = $info;
+               header('location: new-password.php');
+               exit();               
+           }else {
+               $_SESSION['error']= "You've entered incorrect code!";
+           }
        }
 
-        public function resetCode($code)
-        {
-            $sql = "SELECT * FROM agents WHERE activationcode = '$code'";
-            // die($sql);
-            $result= $this->con->query($sql) ;
-            if(mysqli_num_rows($result) > 0){
-                $fetch_data = mysqli_fetch_assoc($result);
-                $email = $fetch_data['a_email'];
-                $_SESSION['a_email'] = $email;
-                $info = "Please create a new password.";
-                $_SESSION['info'] = $info;
-            }else{
-                $info= "You've entered incorrect code!";     
+       public function createNewPassword($pwd, $cpwd)
+    {
+        if ($pwd === $cpwd) {
+            $email = $_SESSION['a_email']; //getting this email using session
+            $encpass = md5($pwd);
+            $code = md5($email . time());
+            $sql = "UPDATE agents SET activationcode = '$code', a_pwd = '$encpass' WHERE a_email = '$email'";
+            $result = $this->con->query($sql);
+            if ($result) {
+                $info = "Password changed Successfully. Kindly proceed to login with the new password.";
+            } else {
+                $info = "Failed to change your password!";
             }
-            return $info;
         }
-
-        public function createNewPassword($pwd, $cpwd)
-        {
-            if($pwd === $cpwd){
-                $email = $_SESSION['a_email']; //getting this email using session
-                $encpass = md5($pwd);
-                $code=md5($email.time());
-                $sql = "UPDATE agents SET activationcode = '$code', a_pwd = '$encpass' WHERE a_email = '$email'";
-                $result = $this->con->query($sql);
-                if($result){
-                    $info = "Password changed Successfully. Kindly proceed to login with the new password.";
-                }else{
-                    $info = "Failed to change your password!";
-                }
-            }
-            return $info;
-        }
+        return $info;
     }
-?>
+
+    public function setSuspendedUser($id, $featured)
+    {
+        if ($featured == 'active') {
+            $featured = 'suspend';
+        } elseif ($featured == 'suspend') {
+            $featured = 'active';
+        }
+        $sql = "UPDATE agents SET handle='$featured' WHERE agent_id='$id'";
+        $result = $this->con->query($sql);
+        return true;
+
+    }
+}
 

@@ -538,6 +538,15 @@ class Property
         return $row[0];
     }
 
+    public function agentApprovedPropertyCount($id)
+    {
+        $sql = "SELECT COUNT(property_id) FROM property WHERE property.agent_id ='$id' AND property.deleted='0' AND property.pstatus='approved'";
+        $result = $this->con->query($sql);
+        //  die($sql);
+        $row = mysqli_fetch_row($result);
+        return $row[0];
+    }
+
     public function agentMessageCount($id)
     {
         $sql = "SELECT COUNT(message_id) FROM jointventure_message WHERE jointventure_message.agent_id ='$id'  AND jointventure_message.deleted='0' AND jmstatus='approved'";
@@ -584,7 +593,7 @@ class Property
         LEFT JOIN property_type ON property.ptype_id=property_type.ptype_id
         LEFT JOIN bedroom ON property.bedroom_id =bedroom.bedroom_id
         WHERE  property.deleted = '0'
-        AND property.
+        AND property.pstatus='approved'
         order by date_posted desc limit 3";
         $result = $this->con->query($sql);
         $data = [];

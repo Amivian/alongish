@@ -81,7 +81,7 @@ if (isset($_POST['regbtn'])) {
     $output = $user->registerUser($fname, $lname, $uname, $pwd, $cpwd, $email, $phone, $tstate, $tcity, $activationcode, $status);
     if ($output) {
         $_SESSION['message'] = 'Registration successful, kindly verify using the link sent to your email - ' . $email;
-        header("location:register.php");
+        header("location:welcome.php");
         exit();
     } else if($output) {
         $_SESSION['message'] = "Confirm Password does not Match!";

@@ -13,7 +13,7 @@
 
     $property = $prop->showAgentDetails($id);
 
-    $count = $prop->agentPropertyCount($id);
+    $count = $prop->agentApprovedPropertyCount($id);
 
     $listing = $prop->showAgentProperties($id);
 
@@ -71,11 +71,15 @@
                                     </div>
                                 </section>
                                 <div class="news-item news-item-sm">
-                                    <a href="#agent" class="news-img-link">
+                                    <a href="#agent" class="news-img-link" style="margin: 15px 30px 15px;">
                                         <div class="news-item-img homes">
                                             <div class="homes-tag button alt featured"> <small style="font-color:white;font-weight:bold"><?php echo $count;?> Listings</small>
                                            </div>
-                                            <img class="resp-img" src="images/users/<?php echo $property['a_pix'] ?>" alt="<?php echo ucwords($property['a_fname']) ?> <?php echo ucwords($property['a_lname']) ?>">
+                                            <img class="resp-img" src="images/users/<?php if(!empty( $property['a_pix'] ))
+                                    { echo  $property['a_pix'] ;
+                                    } else {
+                                        echo "avatar.png";
+                                    } ?>" alt="<?php echo ucwords($property['a_fname']) ?> <?php echo ucwords($property['a_lname']) ?>" style="width:auto">
                                         </div>
                                     </a>
                                     <div class="news-item-text">
@@ -137,9 +141,13 @@
                             <!-- START SIMILAR PROPERTIES -->
                             <section class="similar-property featured portfolio bshd p-3 bg-white" id="agent">
                                 <div class="container" id="properties">
-                                    <h5>Listing by <?php echo $property['businessname']?></h5>
+                                     <h5>Listing by <?php if(!empty ($property['businessname']))
+                                                { echo  ucfirst($property['businessname']);
+                                                } else {
+                                                    echo  ucfirst($property['a_fname'] ) . ' '. ucfirst($property ['a_lname'] );
+                                                }?></h5>
                                     <div class="row">
-                                        <?php 
+                                       <?php if(!empty($listing)){
                                          foreach($listing as $list) {
                                             $img = $prop-> getSingleImage($list['property_id']);
                                             ?>
@@ -191,20 +199,64 @@
                                         </div>
 
                                         <?php }?>
+                                                
+                             <nav aria-label="..." class="pt-4">
+                                <ul class="pagination lis-view">
+                                        <?php  $prop->pagination_agentproperties('agent-details.php', $page, $id);?>
+                                </ul>
+                              </nav>
+                                
+                                <?php }else{ ?>
+                                <div>  <h4 class="text-danger text-center">No Listing Avaliable </h4>  </div>
+                            <?php }?>
                                     </div>
                                 </div>
                             </section>
                             <!-- END SIMILAR PROPERTIES -->
                     </div>
                 </div>
-                
-                <nav aria-label="..." class="pt-4">
-                <ul class="pagination lis-view">
-                <?php  $prop->pagination_agentproperties('agent-details.php', $page, $id);?>
-            </ul>
-                </nav>
             </div>
         </section>
         <!-- END SECTION AGENTS DETAILS -->
         <?php include "include/foot.php"?>
+        
+        <!-- terms and conditions modals -->
+           
+            
+            <!-- Modal -->
+            <!-- <div class="modal fade hide Mymodal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+             <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Terms & Conditions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p> As they pertain to your use of alongish.com (the "Website") and any services offered or provided by BAUGLOBAL RESOURCES LTD through the Website, please read these terms and conditions ("Terms") carefully. We reserve the right, in our sole discretion, to periodically amend or modify these Terms. Following any modifications to these Terms, your continued access or use of the Website or any Services will be deemed your acceptance of those modifications.</p> 
+                
+                    <p>BAUGLOBAL RESOURCES LTD. is the owner and operator of the Website. Unless otherwise noted, all content on this site is owned by Alongish.com. No content from these pages may be downloaded more than once for personal, non-commercial use, provided that all copyright and other proprietary notices are preserved. No content from these pages may be copied, reproduced, republished, uploaded, posted, communicated, or distributed in any way. Use of such material on any other website or networked computer environment is prohibited for the purposes of this agreement.</p>
+
+                    <p> As they pertain to your use of alongish.com (the "Website") and any services offered or provided by BAUGLOBAL RESOURCES LTD through the Website, please read these terms and conditions ("Terms") carefully. We reserve the right, in our sole discretion, to periodically amend or modify these Terms. Following any modifications to these Terms, your continued access or use of the Website or any Services will be deemed your acceptance of those modifications.</p> 
+                
+                    <p>BAUGLOBAL RESOURCES LTD. is the owner and operator of the Website. Unless otherwise noted, all content on this site is owned by Alongish.com. No content from these pages may be downloaded more than once for personal, non-commercial use, provided that all copyright and other proprietary notices are preserved. No content from these pages may be copied, reproduced, republished, uploaded, posted, communicated, or distributed in any way. Use of such material on any other website or networked computer environment is prohibited for the purposes of this agreement.</p>
+                    
+                    <p> As they pertain to your use of alongish.com (the "Website") and any services offered or provided by BAUGLOBAL RESOURCES LTD through the Website, please read these terms and conditions ("Terms") carefully. We reserve the right, in our sole discretion, to periodically amend or modify these Terms. Following any modifications to these Terms, your continued access or use of the Website or any Services will be deemed your acceptance of those modifications.</p> 
+                
+                    <p>BAUGLOBAL RESOURCES LTD. is the owner and operator of the Website. Unless otherwise noted, all content on this site is owned by Alongish.com. No content from these pages may be downloaded more than once for personal, non-commercial use, provided that all copyright and other proprietary notices are preserved. No content from these pages may be copied, reproduced, republished, uploaded, posted, communicated, or distributed in any way. Use of such material on any other website or networked computer environment is prohibited for the purposes of this agreement.</p>
+                    
+                    
+                    <p> As they pertain to your use of alongish.com (the "Website") and any services offered or provided by BAUGLOBAL RESOURCES LTD through the Website, please read these terms and conditions ("Terms") carefully. We reserve the right, in our sole discretion, to periodically amend or modify these Terms. Following any modifications to these Terms, your continued access or use of the Website or any Services will be deemed your acceptance of those modifications.</p> 
+                
+                    <p>BAUGLOBAL RESOURCES LTD. is the owner and operator of the Website. Unless otherwise noted, all content on this site is owned by Alongish.com. No content from these pages may be downloaded more than once for personal, non-commercial use, provided that all copyright and other proprietary notices are preserved. No content from these pages may be copied, reproduced, republished, uploaded, posted, communicated, or distributed in any way. Use of such material on any other website or networked computer environment is prohibited for the purposes of this agreement.</p>
+
+                 </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">I Agree</button>
+                </div>
+                </div>
+            </div>
+            </div> -->
+        <!-- /terms and conditions modals -->
         <?php   require('include/footer.php');?>

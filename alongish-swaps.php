@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </section>
-                <?php foreach($output as $property){ $img = $prop->getSwapImage($property['swap_id']);?>
+                <?php if(!empty($output)){ foreach($output as $property){ $img = $prop->getSwapImage($property['swap_id']);?>
                 <div class="row featured portfolio-items">
                     <div class="my-3 row">
                         <div class="item col-lg-4 col-md-12 col-xs-12 landscapes sale pr-0 pb-0 ft aos-init aos-animate"
@@ -115,6 +115,9 @@
                          $get = $prop->pagination_swap('alongish-swaps.php',$page);?>
                     </ul>
                 </nav>
+                <?php }else{ ?>
+                <div>  <h4 class="text-danger text-center">No Record Avaliable </h4>  </div>
+            <?php }?>
             </div>
         </section>
         <!-- END SECTION PROPERTIES LISTING -->

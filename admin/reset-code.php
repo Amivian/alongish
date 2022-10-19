@@ -1,8 +1,10 @@
 <?php
-    require_once 'admin.php';
-    require_once 'resetcodeprocess.php';
-?>
-<?php
+session_start();
+    require('admin.php');
+    require 'resetcodeprocess.php';
+
+    $admin =new admin\Admin;
+
     $email = $_SESSION['a_email'];
     if($email == false)
     {
@@ -29,22 +31,19 @@
                 <div id="login" class="mb-3">
                     <div class="login" style="max-width:440px !important">
                         <h4 class=" user-login__title mb-0 ">Code Verification</h4>
-                        <?php if(isset($_SESSION['info'])){ ?>
-                        <div class="alert alert-success text-center" style="padding: 0.4rem 0.4rem">
-                            <?php echo $_SESSION['info']; ?>
-                        </div>
-                        <?php } ?>
-                        <?php 
-                         if(count($errors) > 0){
-                        ?>
-                        <div class="alert alert-danger text-center">
-                            <?php 
-                                foreach($errors as $showerror)
-                                { echo $showerror;  
-                                }   
-                            ?>
-                        </div>
-                        <?php  }  ?>
+                        <?php
+                        if(isset($_SESSION['info'])) {
+                            echo "<h6 class='alert alert-success text-center'>". $_SESSION['info'] ."</h6>";
+                            unset($_SESSION['info']);
+                        }
+                    ?>
+                    
+                    <?php
+                        if(isset($_SESSION['error'])) {
+                        echo '<div class="alert alert-danger text-center">' . $_SESSION['error'] . '</div>';
+                        unset($_SESSION['error']);
+                        }
+                    ?>
                         <form action="" method="post">
                             <div class="form-group text-center mt-2">
                                 <input type="number" class="form-control  form-control-lg" name="code"  placeholder="Enter Code" required value="">

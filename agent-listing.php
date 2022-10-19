@@ -73,21 +73,25 @@
                     ?>
                         <div class="row">
                            
-                        <?php 
+                        <?php if(!empty($output)){ 
                                 foreach($output as $agent){
-                                    $count = $prop->agentPropertyCount($agent['agent_id']);
+                                    $count = $prop->agentApprovedPropertyCount($agent['agent_id']);
                                
                             ?>
                             <div class="col-md-12 col-xs-12 mb-5">
                    
-                                <div class="news-item news-item-sm">
-                                    <a href="agent-details.php?id=<?php echo $agent['agent_id']?>"  class="news-img-link">
+                                <div class="news-item news-item-sm ">
+                                    <a href="agent-details.php?id=<?php echo $agent['agent_id']?>"  class="news-img-link ml-5">
                                         <div class="news-item-img homes">
                                             <div class="homes-tag button alt featured"><?php echo $count;?> Listings</div>
-                                            <img class="resp-img" src="images/users/<?php echo $agent['a_pix']?>" alt="blog image">
+                                            <img class="resp-img" src="images/users/<?php if(!empty( $agent['a_pix'] ))
+                                    { echo  $agent['a_pix'] ;
+                                    } else {
+                                        echo "avatar.png";
+                                    }?>" alt="$agent['a_username']" style="width:auto">
                                         </div>
                                     </a>
-                                    <div class="news-item-text">
+                                    <div class="news-item-text mr-5">
                                         <a href="agent-details.php?id=<?php echo $agent['agent_id']?>"><h3><?php  echo ucwords($agent['a_fname'] );?>  <?php  echo ucfirst($agent['a_lname']) ;?></h3></a>
                                         <p class="my-0"><i class="fa fa-map-marker x2" aria-hidden="true" style="color: #ff385c;"></i>  <?php  echo $agent['city_name'] ;?> , <?php  echo $agent['states_name'] ;?></p>
                                         <p><i class="fa fa-phone" aria-hidden="true" style="color: #ff385c;"></i>  <a href="tel:<?php  echo $agent['a_phone'] ;?> " style="color:#666666"> &nbsp; <?php  echo $agent['a_phone'] ;?> &nbsp; | &nbsp; <i class="fa fa-envelope" aria-hidden="true" style="color: #ff385c;"></i> &nbsp; <a href="mailto:<?php  echo $agent['a_email'] ;?>" style="color:#666666">  &nbsp;<?php  echo $agent['a_email'] ;?></a></p>
@@ -111,6 +115,9 @@
                  $get = $prop->pagination_agents('agent-listing.php', $page);?>
             </ul>
                 </nav>
+                <?php }else{ ?>
+                <div>  <h4 class="text-danger text-center">No Record Found </h4>  </div>
+            <?php }?>
             </div>
         </section>
         <!-- END SECTION AGENTS -->

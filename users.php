@@ -11,7 +11,6 @@ class User
     // create user and send verification link to email
     public function registerUser($fname, $lname, $uname, $pwd, $cpwd, $email, $phone, $tstate, $tcity, $activationcode, $status)
     {
-
         if ($pwd === $cpwd) {
             $headers = "";
             $ms = "";
@@ -34,6 +33,7 @@ class User
                             <div style='padding-top:4px;'>Powered by <a href='alongish.com'>alongish.com</a></div></div>
                             </body></html>";
                 mail($to, $subject, $ms, $headers);
+                    $_SESSION['a_email']=$email;
                 $msg = 'Registration successful, please verify in the registered Email-Id';
             } else {
                 $msg = "Confirm Password does not Match!";

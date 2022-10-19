@@ -9,14 +9,14 @@
             </div>
         </div>
         <!-- END PRELOADER -->
-
+    
         <!-- ARCHIVES JS -->
         <script src="js/jquery-3.5.1.min.js"></script>        
+        <script src="js/bootstrap.min.js"></script>
         <script src="js/popper.min.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/tether.min.js"></script>
         <script src="js/moment.js"></script>
-        <script src="js/bootstrap.min.js"></script>
         <script src="js/mmenu.min.js"></script>
         <script src="js/mmenu.js"></script>
         <script src="js/swiper.min.js"></script>
@@ -46,6 +46,15 @@
 
         <!-- MAIN JS -->
         <script src="js/script.js"></script>
+        <script src="js/t&cpopup.js"></script>
+        <script type="text/javascript"></script>
+        <script>
+             $(function() {
+                    $(".terms").click(function(){
+                        $('.conditions').attr('disabled', !this.checked);
+                    });
+                });
+        </script>
 
     </div>
     <!-- Wrapper / End -->

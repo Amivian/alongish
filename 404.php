@@ -21,7 +21,7 @@ if(isset($_SESSION['id'])){
 if(isset($_POST['btn'])) {
 	$email = htmlentities(strip_tags($_POST['email']));
 
-$obj = new Property;
+$obj = new admin\Property;
 $output=$obj->newsLetter( $email);
 }
 ?>

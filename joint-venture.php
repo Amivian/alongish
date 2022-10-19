@@ -80,7 +80,7 @@
                         }
                     ?>
 
-                    <?php foreach($output as $list) {
+                    <?php if(!empty($output)){  foreach($output as $list) {
                                 $img=$prop->getsponsorshipImage($list['jointventure_id']);
                                 $type=$prop->getSponsorshipNeed($list['jointventure_id']);
                                 ?>
@@ -144,22 +144,19 @@
                             </div>
                         </div>
                     </div>
-                    <?php
-                                                }
-
-                                                ?>
-                                                
+                    <?php } ?>                                                
             <nav aria-label="..." class="pt-4">
                 <ul class="pagination lis-view">
                     <?php $prop->pagination_joint('joint-venture.php', $page);?>
                 </ul>
             </nav>
-
+            <?php }else{ ?>
+                <div>  <h4 class="text-danger text-center">No Record Found </h4>  </div>
+            <?php }?>
             </div>
             
     </div>
     </div>
     </section>
     <!-- < !-- END SECTION PROPERTIES LISTING -->
-    <?php include "include/foot.php"?><?php require('include/footer.php');
-?>
+    <?php include "include/foot.php"?><?php require('include/footer.php'); ?>

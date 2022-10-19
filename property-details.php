@@ -59,9 +59,10 @@
                                     <div class="pro-wrapper" style="justify-content: space-between;">
                                         <div class="detail-wrapper-body">
                                             <div class="listing-title-bar">
-                                                <h3><?php echo $property['property_title'] ?><span
-                                                        class="mrg-l-5 category-tag"
-                                                        style="top:-15px"><?php echo $property['pstatus_name'] ?></span>
+                                                <h3><?php echo $property['property_title'] ?>
+                                                <?php if(!empty ($property['pstatus_name']))
+                                                { echo "<span class='mrg-l-5 category-tag' style='top:-15px'> " . $property['pstatus_name']. "</span>";
+                                                }?>
                                                 </h3>
                                                 <div class="mt-0">
                                                     <a href="#listing-location" class="listing-address">
@@ -192,21 +193,11 @@
                         </div>
                          
                         <!-- Disclaimer -->
-
+                        <?php if($property['businessname'] != 'Behomes'){ ?>
                         <div class="single homes-content details mb-30">
-                            <h5 class="mb-4">Disclaimer</h5>
-                            <b><?php echo ucfirst($property['businessname']) ?></b> own this Property. Alongish will
-                            under no circumstances take liability for their inaccuracy; it simply acts as a channel for
-                            the advertisement of this property and is only communicating this property in good faith.
-                            Alongish.com does not guarantee the availability of any properties or deals advertised on
-                            the website, nor does it make any such statements.
-                            Property particulars should be accessible directly from the agent marketing the property on
-                            Alongish.com; they are not included in the real estate advertisements and listings on our
-                            website. Prospective buyers and tenants must ascertain for themselves whether any property
-                            descriptions published are accurate, and agents must guarantee the integrity and accuracy of
-                            any property descriptions provided on our website.
+                            <h5 class="mb-4">Disclaimer</h5> The information displayed about this property consist a property advertisement. ALONGISH makes no warranty as to the accuracy or completeness of the advertisement or any linked or associated information, and ALONGISH has no control over the content. This property listing does not constitute property particulars. ALONGISH shall not in any way be held liable for the actions of any agent and/or property owner/landlord on or off this website.
                         </div>
-
+                            <?php }?>
                         <!-- End Add Review -->
                     </div>
                     <aside class="col-lg-4 col-md-12 car">
@@ -263,6 +254,7 @@
                                 </div>
 
                                 <!-- Modal -->
+                                <?php if($property['businessname'] != 'Behomes'){ ?>
                                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -275,19 +267,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <b><?php echo ucfirst($property['businessname']) ?></b> own this
-                                                Property. Alongish will under no circumstances take liability for their
-                                                inaccuracy; it simply acts as a channel for the advertisement of this
-                                                property and is only communicating this property in good faith.
-                                                Alongish.com does not guarantee the availability of any properties or
-                                                deals advertised on the website, nor does it make any such statements.
-                                                Property particulars should be accessible directly from the agent
-                                                marketing the property on Alongish.com; they are not included in the
-                                                real estate advertisements and listings on our website. Prospective
-                                                buyers and tenants must ascertain for themselves whether any property
-                                                descriptions published are accurate, and agents must guarantee the
-                                                integrity and accuracy of any property descriptions provided on our
-                                                website.
+                                            The information displayed about this property consist a property advertisement. ALONGISH makes no warranty as to the accuracy or completeness of the advertisement or any linked or associated information, and ALONGISH has no control over the content. This property listing does not constitute property particulars. ALONGISH shall not in any way be held liable for the actions of any agent and/or property owner/landlord on or off this website.
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
@@ -296,6 +276,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <?php }?>
                                 <div class="widget-boxed mt-5">
                                     <div class="widget-boxed-header" style="margin-bottom: 0px; padding-bottom: 0px">
                                         <h4 style="margin-bottom: 0px; padding-bottom: 25px">Swap Properties</h4>

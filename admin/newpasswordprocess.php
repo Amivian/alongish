@@ -1,5 +1,4 @@
 <?php
-include('admin.php');
 if(isset($_POST['new-password'])) 
 {
     $pwd = strtolower(htmlspecialchars(strip_tags($_POST['pwd'])));

@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/slick.css">
     <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/colors/pink.css"> 
+    <link rel="stylesheet" href="css/colors/pink.css"> 
     <link rel="stylesheet" id="color" href="css/default.css">
-    <link rel="stylesheet" href="css/main.css?version=<?php echo time(); ?>"
+    <link rel="stylesheet" href="css/main.css?version=<?php echo time(); ?>">
+   

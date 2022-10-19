@@ -5,7 +5,7 @@
 
     require('approvepropprocess.php');
 
-    require('featuredproperty.php');;
+    require('featuredproperty.php');
 
     $prop= new admin\Property;
 

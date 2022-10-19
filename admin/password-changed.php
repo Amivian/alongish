@@ -30,11 +30,6 @@
                 <?php  } ?>
                 <div id="login" class="mb-3">
                     <div class="login" style="max-width:440px !important">
-                        <?php   if(isset($_SESSION['info'])){      ?>
-                        <div class="alert alert-success text-center" style="padding: 0.4rem 0.4rem">
-                            <?php echo $_SESSION['info']; ?>
-                        </div>
-                        <?php  }  ?>
                         <form action="" method="post">                          
                             <div class="form-group">
                                 <input  type="submit" id="login" class="button form-control" name="login-now" value="Login">

@@ -1,9 +1,8 @@
 <?php
 session_start();
+require('admin.php');
 require('newpasswordprocess.php');
-?>
 
-<?php
 $email = $_SESSION['a_email'];
 if($email == false){
   header('Location: index.php');

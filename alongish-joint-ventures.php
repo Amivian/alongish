@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </section>
-                <?php foreach($output as $list){ $img = $prop->getsponsorshipImage($list['jointventure_id']) ;
+                <?php if(!empty($output)){  foreach($output as $list){ $img = $prop->getsponsorshipImage($list['jointventure_id']) ;
                                 $type=$prop->getSponsorshipNeed($list['jointventure_id']);?>
                 <div class="row featured portfolio-items">
                     <div class="my-3 row">
@@ -121,6 +121,9 @@
                         <?php $prop->pagination_adminjoint('showAdminJointVentures',$page);?>
                     </ul>
                 </nav>
+                <?php }else{ ?>
+                <div>  <h4 class="text-danger text-center">No Record Avaliable </h4>  </div>
+            <?php }?>
             </div>
         </section>
         <!-- END SECTION PROPERTIES LISTING -->

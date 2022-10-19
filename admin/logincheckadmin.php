@@ -5,11 +5,5 @@ if (isset($_POST['submit'])) {
 
     
     $admin = new admin\Admin;
-    $output = $admin->login_admin($username, $password);
-    if ($output) {
-        header("Location: admindashboard.php");
-        exit();
-    } else {
-        $_SESSION['message'] = "Invalid Username or Password";
-    }
+    $admin->login_admin($username, $password);
 }

@@ -47,7 +47,7 @@
                                 </thead>
                                 <tbody>
                                 
-                    <?php if(!empty($output)){ foreach($output as $props) { ?>
+                    <?php if(!empty($output)){ foreach($output as $props) { ?> 
                         <?php $img =$prop-> getSingleImage($props['property_id']); ?>
                         <tr>
                             <td class='image myelist'>

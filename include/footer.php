@@ -1,10 +1,9 @@
     <!-- ARCHIVES JS -->
-    <script src="js/jquery-3.5.1.min.js"></script>    
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>        
     <script src="js/tether.min.js"></script>
     <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script src="js/mmenu.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/ajax-script.js"></script>
     <script src="js/mmenu.js"></script>
     <script src="js/smooth-scroll.min.js"></script>
@@ -18,7 +17,9 @@
     <script src="js/newsletter.js"></script>
     <script src="js/color-switcher.js"></script>
     <script src="js/inner.js"></script>    
+    <script src="js/t&cpopup.js"></script>    
     <script src="js/main.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.4.1/glide.js" integrity="sha512-isL0X0NIGuM6rzb9zZ0J18tMNlRCDaLew8hfE85AtQUWuM675YRoFovkbUeKssvgQMGg8YQMZ/eJMm8C/bH9HA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script type="text/javascript">
   $(document).ready(function () {

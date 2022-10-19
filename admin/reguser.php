@@ -3,6 +3,8 @@
 
     include('property.php');
 
+    require('suspend_user.php');
+
     $properties = new admin\Property;    
 
     $admin = new admin\Admin;
@@ -40,6 +42,7 @@
                             <th class="pl-2">#</th>
                             <th class="pl-1">Agents</th>
                             <th class="p-0"></th>                                        
+                            <th>Verified</th>                                     
                             <th>Status</th>
                             <th>Properties</th>
                             <th>Registered</th> 
@@ -57,12 +60,14 @@
                         <tr>
                         <td><?php echo $count?></td>
                             <td class="image myelist">
+                                <div>
                                 <a href="../agent-details.php?id=<?php echo $user['agent_id'] ?>">
                                 <img  alt="<?php echo ucfirst($user['a_username']) ?>" src="../images/users/<?php echo $user['a_pix'] ?>" alt="property" class="img-fluid"></a>
+                                </div>
                             </td>
                             <td>
                                 <div class="inner">
-                                    <a href="../agent-details.php?id=<?php echo $user['agent_id'] ?>">
+                                    <div><a href="../agent-details.php?id=<?php echo $user['agent_id'] ?>">
                                         <h2><?php echo ucfirst($user['businessname']) ?></h2>
                                     </a>
                                     <figure class="mb-1"> <b><?php echo ucwords($user['a_fname']); ?>  <?php echo ucwords($user['a_lname']); ?></b></figure>
@@ -70,12 +75,36 @@
                                     </figure>
                                     <figure class="mb-1">
                                             City : <?php echo $user['city_name'] ?> </br>  State : <?php echo $user['states_name'] ?>
-                                    </figure>
+                                    </figure></div>
                                 </div>
                             </td>
-                            <td><?php echo $user['status']?></td>
-                            <td><?php echo $propcount; ?></td>
-                            <td><?php echo date('F j, Y', strtotime($user['datereg']));?></td>
+                            <td><div><?php echo $user['status']?></div></td>
+                            <td>
+                            <div class="row">
+                                <div class="col-12">                                    
+                                    <?php 
+                                        $idd = $user["agent_id"];
+                                    
+                                        $feature = $user["handle"]; 
+                                        if($user['handle'] == "active"){?>
+                                    <form  action='' method='POST'>
+                                        <input value='<?php echo $idd?>' name='idd' hidden>
+                                        <input value='<?php echo $feature?>' name='handle' hidden>
+                                        <button type='submit' style='background: green; color: white; border: green !important; font-size: 12px;border-radius:5px;  padding: 10px;' class='btn btn-sm' name='featurebtn'>Active </button>
+                                    </form>
+                                    
+                                    <?php }elseif(($user['handle'] == "suspend")){?>
+                                    <form  action='' method='POST'>
+                                    <input value='<?php echo $idd?>' name='idd' hidden>
+                                    <input value='<?php echo $feature?>' name='handle' hidden>
+                                    <button type='submit' style='background: green; color: white; border: green !important; font-size: 12px;border-radius:5px;  padding: 10px;' class='btn btn-sm' name='featurebtn'>Suspended</button>
+                                    </form>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            </td>
+                            <td><div><?php echo $propcount; ?></div></td>
+                            <td><div><?php echo date('F j, Y', strtotime($user['datereg']));?></div></td>
                             <td class="actions">
                             <div class='row'>
                                 <div class='col-7'>  
